@@ -9,6 +9,7 @@ public class Ecosystem
 
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }
+    
     private int _iteration;
     public int Iteration { get => _iteration; }
 
