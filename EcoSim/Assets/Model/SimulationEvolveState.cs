@@ -6,8 +6,7 @@ public class SimulationEvolveState : SimulationState
     public override void Update()
     {
         _eco.Iteration++;
-        _eco.Preys.Evolve();
-        _eco.Predators.Evolve();
+        _eco..Evolve();
         _eco.TransitionTo(new SimulationSurviveState());
     }
     //END: Constructor and main methods

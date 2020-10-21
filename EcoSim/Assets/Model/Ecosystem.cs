@@ -41,4 +41,18 @@ public class Ecosystem
         this._state.Eco = this;
     }
     //END: Constructor and main methods
+
+
+    //SECTION: Secondary Methods
+    public void Evolve() {
+        this._preys.Evolve();
+        this._predators.Evolve();
+    }
+
+    public void Survive()
+    {
+        this._preys.Survive();
+        this._predators.Survive();
+    }
+    //END: Secondary Methods
 }
