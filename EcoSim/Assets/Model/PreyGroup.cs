@@ -2,6 +2,7 @@
 
 public class PreyGroup : AnimalGroup
 {
+    //SECTION: Constructor and main methods
     public PreyGroup(int size)
     {
         this._size = size;
@@ -13,4 +14,12 @@ public class PreyGroup : AnimalGroup
         }
     }
 
+    public override void Survive()
+    {
+        for (Animal prey in this._animals)
+        {
+            prey.Update(this._animals);
+        }
+    }
+    //END: Constructor and main methods
 }
