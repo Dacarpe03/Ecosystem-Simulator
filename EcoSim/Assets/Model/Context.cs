@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-public class Context
+public class Ecosystem
 {
     //SECTION: Attributes and properties
     private const int PREY_GROUP_SIZE = 40;
     private const int PREDATOR_GROUP_SIZE = 6;
 
+    private SimulationState _state;
+    public SimulationState State { get => _state; set => _state = value; }
     private int _iteration;
     public int Iteration { get => _iteration; }
 
@@ -19,18 +21,17 @@ public class Context
 
 
     //SECTION: Constructor and main methods
-    public Context()
+    public Ecosystem()
     {
+        State = new SimulationHuntState(this);
         _iteration = 0;
         _preys = new PreyGroup(PREY_GROUP_SIZE);
         _predators = new PredatorGroup(PREDATOR_GROUP_SIZE);
     }
 
-    public void nextIteration()
+    public void Update()
     {
-        _iteration++;
-        _preys.update();
-        _predators.update();
+        State.Update();
     }
     //END: Constructor and main methods
 }
