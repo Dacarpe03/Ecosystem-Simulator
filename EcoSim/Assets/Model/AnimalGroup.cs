@@ -20,7 +20,7 @@ public class AnimalGroup
 
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal();
+            Animal a = new Animal(Animal State);
             this._animals.Add(a);
         }
     }
@@ -43,7 +43,7 @@ public class AnimalGroup
             if (r < REPRODUCTIONPROB)
             {
                 Animal a = new Animal();
-                this.animal
+                this._animals.Add(a);
             }
         }
 
