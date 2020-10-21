@@ -32,7 +32,7 @@ public class Vec3
         var rand = new Random();
         this._xCoord = (float) rand.NextDouble() * 100;
         this._yCoord = (float)rand.NextDouble() * 100;
-        this._zCoord = (float)rand.NextDouble() * 100;
+        this._zCoord = 0f;
     }
     //END: Constructor and main methods
 

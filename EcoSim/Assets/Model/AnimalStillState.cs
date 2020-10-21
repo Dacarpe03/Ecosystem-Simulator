@@ -8,6 +8,6 @@ public class AnimalStillState : AnimalState
     //END: Constructor and main methods
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
-        Console.Write("I am still");
+        Console.WriteLine("Estoy quieto");
     }
 }
