@@ -5,14 +5,14 @@ public class SimulationSurviveState : SimulationState
     //SECTION: Constructor and main methods
     public override void Update()
     {
-        if (Eco.Preys.AreSafe())
+        if (_eco.Preys.AreSafe())
         {
-            Eco.TransitionTo(new SimulationEvolveState());
+            _eco.TransitionTo(new SimulationEvolveState());
         }
         else
         {
-            Eco.Preys.Update();
-            Eco.Predators.Update();
+            _eco.Preys.Update();
+            _eco.Predators.Update();
         }
     }
     //END: Constructor and main methods
