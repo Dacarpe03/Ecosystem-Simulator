@@ -2,9 +2,9 @@
 
 public abstract class SimulationState
 {
-    protected Ecosystem _ecosystem;
+    protected Ecosystem _eco;
 
-    public Ecosystem Ecosystem { set => _ecosystem = value; }
+    public Ecosystem Eco { get => _eco;  set => _eco = value; }
 
     public abstract void Update();
 }
