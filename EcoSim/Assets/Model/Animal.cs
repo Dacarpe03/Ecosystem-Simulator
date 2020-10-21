@@ -4,6 +4,9 @@ using System.Numerics;
 public class Animal
 {
     //SECTION: Attributes and properties
+    private int _id;
+    public int ID { get => _id; }
+
     private AnimalState _state;
     public AnimalState State { get => _state; set => _state = value; }
 
@@ -19,11 +22,12 @@ public class Animal
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state, float maxSpeed)
+    public Animal(AnimalState state, float maxSpeed, int id)
     {
         this.TransitionTo(state);
         this._maxSpeed = maxSpeed;
         this._maxSquareSpeed = maxSpeed * maxSpeed;
+        this._id = id;
     }
 
     public void TransitionTo(AnimalState newState)
