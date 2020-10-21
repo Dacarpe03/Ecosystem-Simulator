@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Console.WriteLine("Estoy funcionando");
         this.ecosystem.Update();
     }
 }
