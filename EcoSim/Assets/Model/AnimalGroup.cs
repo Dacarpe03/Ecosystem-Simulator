@@ -4,10 +4,10 @@ using System.Collections.Generic;
 public abstract class AnimalGroup
 {
     //SECTION: Attributes and properties
-    private int _size;
+    protected int _size;
 
-    private List<Animal> _animals;
-    private List<Animal> Animals { get => _animals; }
+    protected List<Animal> _animals;
+    protected List<Animal> Animals { get => _animals; }
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
