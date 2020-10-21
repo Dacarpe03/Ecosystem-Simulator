@@ -26,5 +26,11 @@ public class Context
         _predators = new PredatorGroup(PREDATOR_GROUP_SIZE);
     }
 
+    public void nextIteration()
+    {
+        _iteration++;
+        _preys.update();
+        _predators.update();
+    }
     //END: Constructor and main methods
 }
