@@ -11,7 +11,7 @@ public abstract class AnimalGroup
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public abstract void Update();
+    public abstract void Survive();
     public abstract void Evolve();
 
     public List<Vector3> GetPositions()
