@@ -55,7 +55,7 @@ public class AnimalGroup
     {
         foreach(Animal a in this._animals)
         {
-            a.TransitionTo(new AnimalStillState);
+            a.TransitionTo(new AnimalStillState());
             a.ResetPosition();
         }
     }

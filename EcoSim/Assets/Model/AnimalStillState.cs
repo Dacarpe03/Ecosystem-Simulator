@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class AnimalStillState
+public class AnimalStillState: AnimalState
 {
 
 }
