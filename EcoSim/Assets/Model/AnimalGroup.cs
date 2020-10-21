@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public abstract class AnimalGroup
+public class AnimalGroup
 {
     //SECTION: Attributes and properties
-    protected const double REPRODUCTIONPROB = 0.1;
+    private const double REPRODUCTIONPROB = 0.1;
 
-    protected int _size;
+    private int _size;
 
-    protected List<Animal> _animals;
-    protected List<Animal> Animals { get => _animals; }
+    private List<Animal> _animals;
     //END: Attributes and properties
 
+
     //SECTION: Constructor and main methods
-    public abstract void Survive();
+    public void Survive()
+    {
+        for (Animal a in this._animals)
+        {
+            a.Update(this._animals);
+        }
+    }
+
     public void Evolve()
     {
         int possibleBreedingCount = this._size / 2;
@@ -28,6 +35,15 @@ public abstract class AnimalGroup
             }
         }
 
+        this.ResetPositions();
+    }
+
+    public void ResetPositions()
+    {
+        for(Animal a in this._animals)
+        {
+            a.resetPosition();
+        }
     }
 
     public List<Vector3> GetPositions()
@@ -37,6 +53,11 @@ public abstract class AnimalGroup
         {
             positions.Add(a.Position);
         }
+    }
+
+    public Boolean AreSafe()
+    {
+
     }
     //END: Constructor and main methods
 }

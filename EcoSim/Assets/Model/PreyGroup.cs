@@ -13,13 +13,5 @@ public class PreyGroup : AnimalGroup
             this._animals.Add(a);
         }
     }
-
-    public override void Survive()
-    {
-        for (Animal prey in this._animals)
-        {
-            prey.Update(this._animals);
-        }
-    }
     //END: Constructor and main methods
 }
