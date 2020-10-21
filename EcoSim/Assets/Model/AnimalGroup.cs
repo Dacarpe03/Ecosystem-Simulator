@@ -20,6 +20,7 @@ public class AnimalGroup
     {
         this._size = size;
         this._maxSpeed = maxSpeed;
+        this._animals = new List<Animal>();
 
         for (int i = 0; i < size; i++)
         {
