@@ -14,6 +14,7 @@ public class Animal
     
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
+
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
 
@@ -26,6 +27,7 @@ public class Animal
     public Animal(AnimalState state, float maxSpeed, int id)
     {
         this.TransitionTo(state);
+        this._isSafe = false;
         this._maxSpeed = maxSpeed;
         this._maxSquareSpeed = maxSpeed * maxSpeed;
         this._position = new Vec3();

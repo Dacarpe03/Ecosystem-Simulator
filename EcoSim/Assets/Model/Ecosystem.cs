@@ -7,6 +7,9 @@ public class Ecosystem
     private const int PREY_GROUP_SIZE = 40;
     private const int PREDATOR_GROUP_SIZE = 6;
 
+    private const float PREY_MAX_SPEED = 5f;
+    private const float PREDATOR_MAX_SPEED = 7f;
+
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }
     
@@ -26,8 +29,8 @@ public class Ecosystem
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new PreyGroup(PREY_GROUP_SIZE);
-        this._predators = new PredatorGroup(PREDATOR_GROUP_SIZE);
+        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED);
+        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED);
     }
 
     public void Update()
@@ -51,8 +54,8 @@ public class Ecosystem
 
     public void Survive()
     {
-        this._preys.Survive();
-        this._predators.Survive();
+        this._preys.Survive(this._predators.Animals);
+        this._predators.Survive(this._preys.Animals);
     }
     //END: Secondary Methods
 }

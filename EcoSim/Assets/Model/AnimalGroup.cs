@@ -9,6 +9,7 @@ public class AnimalGroup
     private int _size;
 
     private List<Animal> _animals;
+    public List<Animal> Animals { get => _animals;}
     //END: Attributes and properties
 
 
@@ -25,11 +26,11 @@ public class AnimalGroup
         }
     }
 
-    public void Survive()
+    public void Survive(List<Animal> foes)
     {
         foreach(Animal a in this._animals)
         {
-            a.Update(this._animals);
+            a.State.Update(this._animals, foes);
         }
     }
 
@@ -62,18 +63,20 @@ public class AnimalGroup
 
     public List<Vec3> GetPositions()
     {
-        List<Vector3> positions = new List<Vector3>();
+        List<Vec3> positions = new List<Vec3>();
         foreach(Animal a in _animals)
         {
             positions.Add(a.Position);
         }
+
+        return positions;
     }
 
     public Boolean AreSafe()
     {
         foreach(Animal a in this._animals)
         {
-            if (!a.isSafe())
+            if (!a.IsSafe)
             {
                 return false;
             }

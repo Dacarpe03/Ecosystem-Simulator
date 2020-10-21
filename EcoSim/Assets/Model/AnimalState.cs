@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public abstract class AnimalState
 {
@@ -11,6 +12,6 @@ public abstract class AnimalState
 
 
     //SECTION: Constructor and main methods
-    public abstract void Update();
+    public abstract void Update(List<Animal> friendly, List<Animal> foes);
     //END: Constructor and main methods
 }
