@@ -7,8 +7,8 @@ public class Animal
     private AnimalState _state;
     public AnimalState State { get => _state; set => _state = value; }
 
-    private float maxSpeed;
-    private float maxSquareSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
+    private float _maxSpeed;
+    private float _maxSquareSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
 
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value }
@@ -19,10 +19,11 @@ public class Animal
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state)
+    public Animal(AnimalState state, float maxSpeed)
     {
         this.TransitionTo(state);
-
+        this._maxSpeed = maxSpeed;
+        this._maxSquareSpeed = maxSpeed * maxSpeed;
     }
 
     public void TransitionTo(AnimalState newState)

@@ -44,6 +44,7 @@ public class AnimalGroup
             {
                 Animal a = new Animal();
                 this._animals.Add(a);
+                this._size += 1;
             }
         }
 
