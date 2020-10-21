@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 
 public class Animal
 {
@@ -34,7 +33,7 @@ public class Animal
     public void TransitionTo(AnimalState newState)
     {
         this._state = newState;
-        this._state.Eco = this;
+        this._state.Agent = this;
     }
     //END: Constructor and main methods
 }
