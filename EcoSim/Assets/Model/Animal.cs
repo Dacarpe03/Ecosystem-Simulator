@@ -27,6 +27,7 @@ public class Animal
         this.TransitionTo(state);
         this._maxSpeed = maxSpeed;
         this._maxSquareSpeed = maxSpeed * maxSpeed;
+        this._position = new Vec3();
         this._id = id;
     }
 
