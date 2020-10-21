@@ -24,7 +24,7 @@ public class Ecosystem
     //SECTION: Constructor and main methods
     public Ecosystem()
     {
-        this.State = this.TransitionTo(new SimulationSurviveState());
+        this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
         this._preys = new PreyGroup(PREY_GROUP_SIZE);
         this._predators = new PredatorGroup(PREDATOR_GROUP_SIZE);
