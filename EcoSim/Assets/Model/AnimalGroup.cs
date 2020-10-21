@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public abstract class AnimalGroup
 {
     //SECTION: Attributes and properties
+    protected const double REPRODUCTIONPROB = 0.1;
+
     protected int _size;
 
     protected List<Animal> _animals;
@@ -12,7 +14,21 @@ public abstract class AnimalGroup
 
     //SECTION: Constructor and main methods
     public abstract void Survive();
-    public abstract void Evolve();
+    public void Evolve()
+    {
+        int possibleBreedingCount = this._size / 2;
+        var rand = new Random();
+        for (int i = 0; i < possibleBreedingCount; i++)
+        {
+            double r = rand.NextDouble();
+            if (r < REPRODUCTIONPROB)
+            {
+                Animal a = new Animal();
+                this.animal
+            }
+        }
+
+    }
 
     public List<Vector3> GetPositions()
     {
