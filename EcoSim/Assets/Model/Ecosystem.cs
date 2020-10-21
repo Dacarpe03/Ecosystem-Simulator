@@ -11,7 +11,7 @@ public class Ecosystem
     public SimulationState State { get => _state; set => _state = value; }
     
     private int _iteration;
-    public int Iteration { get => _iteration; }
+    public int Iteration { get => _iteration; set => _iteration = value; }
 
     private AnimalGroup _preys;
     public AnimalGroup Preys { get => _preys; }
@@ -24,7 +24,7 @@ public class Ecosystem
     //SECTION: Constructor and main methods
     public Ecosystem()
     {
-        this.State = new SimulationSurviveState(this);
+        this.State = this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
         this._preys = new PreyGroup(PREY_GROUP_SIZE);
         this._predators = new PredatorGroup(PREDATOR_GROUP_SIZE);
@@ -35,9 +35,10 @@ public class Ecosystem
         this.State.Update();
     }
 
-    public void TransitionState(SimulationState newState)
+    public void TransitionTo(SimulationState newState)
     {
         this.State = newState;
+        this.State.Eco = this;
     }
     //END: Constructor and main methods
 }
