@@ -32,13 +32,13 @@ public class Ecosystem
 
     public void Update()
     {
-        this.State.Update();
+        this._state.Update();
     }
 
     public void TransitionTo(SimulationState newState)
     {
-        this.State = newState;
-        this.State.Eco = this;
+        this._state = newState;
+        this._state.Eco = this;
     }
     //END: Constructor and main methods
 }
