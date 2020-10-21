@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class View : MonoBehaviour
 {
-    public AnimalGroupView _group1;
-    public AnimalGroupView _group2;
+    private int num;
+
+    void Start()
+    {
+        
+    }
+
+    private void Initialize(int num)
+    {
+        this.num = num;
+        Debug.Log("Este es el num: " + num);
+    }
 }

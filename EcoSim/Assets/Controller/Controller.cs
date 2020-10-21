@@ -6,12 +6,13 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     private Ecosystem _ecosystem;
-    private View _myView;
+
+    public View _myView;
     // Start is called before the first frame update
     void Start()
     {
         this._ecosystem = new Ecosystem();
-        this._myView = Instantiate(_myView);
+        _myView = Instantiate(_myView);
     }
 
     // Update is called once per frame
