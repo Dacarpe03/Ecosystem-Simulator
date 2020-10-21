@@ -13,6 +13,18 @@ public class AnimalGroup
 
 
     //SECTION: Constructor and main methods
+
+    public AnimalGroup(int size)
+    {
+        this._size = size;
+
+        for (int i = 0; i < size; i++)
+        {
+            Animal a = new Animal();
+            this._animals.Add(a);
+        }
+    }
+
     public void Survive()
     {
         for (Animal a in this._animals)
@@ -40,7 +52,7 @@ public class AnimalGroup
 
     public void ResetPositions()
     {
-        for(Animal a in this._animals)
+        foreach(Animal a in this._animals)
         {
             a.resetPosition();
         }
@@ -57,7 +69,15 @@ public class AnimalGroup
 
     public Boolean AreSafe()
     {
+        foreach(Animal a in this._animals)
+        {
+            if (!a.isSafe())
+            {
+                return false;
+            }
+        }
 
+        return true;
     }
     //END: Constructor and main methods
 }
