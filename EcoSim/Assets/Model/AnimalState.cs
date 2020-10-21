@@ -5,7 +5,7 @@ public abstract class AnimalState
     //SECTION: Attributes and properties
     protected Animal _agent;
 
-    public Ecosystem Agent { get => _agent; set => _agent = value; }
+    public Animal Agent { get => _agent; set => _agent = value; }
 
     //END: Attributes and properties
 

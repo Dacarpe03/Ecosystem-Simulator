@@ -11,12 +11,14 @@ public class Animal
 
     private float _maxSpeed;
     private float _maxSquareSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
-
+    
+    private Boolean _isSafe;
+    public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
     private Vec3 _position;
-    public Vec3 Position { get => _position; set => _position = value }
+    public Vec3 Position { get => _position; set => _position = value; }
 
     private Vec3 _speed;
-    public Vec3 Speed { get => _speed; set => _speed = value }
+    public Vec3 Speed { get => _speed; set => _speed = value; }
 
     //END: Attributes and properties
 
@@ -34,6 +36,11 @@ public class Animal
     {
         this._state = newState;
         this._state.Agent = this;
+    }
+
+    public void ResetPosition()
+    {
+        this._position.RandomizeCoords();
     }
     //END: Constructor and main methods
 }

@@ -14,20 +14,20 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
 
-    public AnimalGroup(int size)
+    public AnimalGroup(int size, float maxSpeed)
     {
         this._size = size;
 
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal(Animal State);
+            Animal a = new Animal(new AnimalStillState(), maxSpeed, i);
             this._animals.Add(a);
         }
     }
 
     public void Survive()
     {
-        for (Animal a in this._animals)
+        foreach(Animal a in this._animals)
         {
             a.Update(this._animals);
         }
@@ -55,11 +55,12 @@ public class AnimalGroup
     {
         foreach(Animal a in this._animals)
         {
-            a.resetPosition();
+            a.TransitionTo(new AnimalStillState);
+            a.ResetPosition();
         }
     }
 
-    public List<Vector3> GetPositions()
+    public List<Vec3> GetPositions()
     {
         List<Vector3> positions = new List<Vector3>();
         foreach(Animal a in _animals)
