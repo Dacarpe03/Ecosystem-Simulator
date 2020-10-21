@@ -7,6 +7,7 @@ public class AnimalGroup
     private const double REPRODUCTIONPROB = 0.1;
 
     private int _size;
+    private float _maxSpeed;
 
     private List<Animal> _animals;
     public List<Animal> Animals { get => _animals;}
@@ -18,6 +19,7 @@ public class AnimalGroup
     public AnimalGroup(int size, float maxSpeed)
     {
         this._size = size;
+        this._maxSpeed = maxSpeed;
 
         for (int i = 0; i < size; i++)
         {
@@ -43,7 +45,7 @@ public class AnimalGroup
             double r = rand.NextDouble();
             if (r < REPRODUCTIONPROB)
             {
-                Animal a = new Animal();
+                Animal a = new Animal(new AnimalStillState(), this._maxSpeed, i);
                 this._animals.Add(a);
                 this._size += 1;
             }
