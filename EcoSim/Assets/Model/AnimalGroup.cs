@@ -1,16 +1,13 @@
 ﻿using System;
 
-public abstract class SimulationState
+public abstract class AnimalGroup
 {
     //SECTION: Attributes and properties
-    protected Ecosystem _eco;
-
-    public Ecosystem Eco { get => _eco;  set => _eco = value; }
-
+    private int _size;
     //END: Attributes and properties
-
 
     //SECTION: Constructor and main methods
     public abstract void Update();
+    public abstract void Evolve();
     //END: Constructor and main methods
 }

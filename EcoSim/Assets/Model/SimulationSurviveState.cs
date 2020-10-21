@@ -2,6 +2,7 @@
 
 public class SimulationSurviveState : SimulationState
 {
+    //SECTION: Constructor and main methods
     public override void Update()
     {
         if (Eco.Preys.AreSafe())
@@ -14,4 +15,5 @@ public class SimulationSurviveState : SimulationState
             Eco.Predators.Update();
         }
     }
+    //END: Constructor and main methods
 }
