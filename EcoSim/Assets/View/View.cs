@@ -5,7 +5,7 @@ using UnityEngine;
 public class View : MonoBehaviour
 {
     private int _sizeGroupOne;
-    private int _sizeGroupTwo
+    private int _sizeGroupTwo;
 
     void Start()
     {
@@ -16,5 +16,6 @@ public class View : MonoBehaviour
     {
         _sizeGroupOne = sizeOne;
         _sizeGroupTwo = sizeTwo;
+
     }
 }
