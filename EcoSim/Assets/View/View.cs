@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class View : MonoBehaviour
 {
-    private int num;
+    private int _sizeGroupOne;
+    private int _sizeGroupTwo
 
     void Start()
     {
         
     }
 
-    private void Initialize(int num)
+    private void Initialize(int sizeOne, int sizeTwo)
     {
-        this.num = num;
-        Debug.Log("Este es el num: " + num);
+        _sizeGroupOne = sizeOne;
+        _sizeGroupTwo = sizeTwo;
     }
 }
