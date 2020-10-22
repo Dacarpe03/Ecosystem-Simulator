@@ -22,9 +22,10 @@ public class AnimalGroup
         this._maxSpeed = maxSpeed;
         this._animals = new List<Animal>();
 
+        Random rand = new Random();
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal(new AnimalStillState(), maxSpeed, i);
+            Animal a = new Animal(new AnimalStillState(), maxSpeed, i, rand);
             this._animals.Add(a);
         }
     }
@@ -46,7 +47,7 @@ public class AnimalGroup
             double r = rand.NextDouble();
             if (r < REPRODUCTIONPROB)
             {
-                Animal a = new Animal(new AnimalStillState(), this._maxSpeed, i);
+                Animal a = new Animal(new AnimalStillState(), this._maxSpeed, i, rand);
                 this._animals.Add(a);
                 this._size += 1;
             }
@@ -57,10 +58,11 @@ public class AnimalGroup
 
     public void ResetPositions()
     {
+        Random rand = new Random();
         foreach(Animal a in this._animals)
         {
             a.TransitionTo(new AnimalStillState());
-            a.ResetPosition();
+            a.ResetPosition(rand);
         }
     }
 

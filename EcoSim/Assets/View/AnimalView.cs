@@ -13,6 +13,7 @@ public class AnimalView : MonoBehaviour
     public void UpdatePosition(Vector3 newPosition)
     {
         this.transform.position = newPosition;
+        Debug.Log("Coord x: " + newPosition.x + "Coord y: " + newPosition.y + "Coord z" + newPosition.z);
     }
 
     

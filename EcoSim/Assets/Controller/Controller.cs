@@ -14,6 +14,7 @@ public class Controller : MonoBehaviour
     {
         this._ecosystem = new Ecosystem();
         _myView = Instantiate(_myView);
+        _myView.Initialize(40, 6);
     }
 
     // Update is called once per frame

@@ -24,13 +24,13 @@ public class Animal
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state, float maxSpeed, int id)
+    public Animal(AnimalState state, float maxSpeed, int id, Random rand)
     {
         this.TransitionTo(state);
         this._isSafe = false;
         this._maxSpeed = maxSpeed;
         this._maxSquareSpeed = maxSpeed * maxSpeed;
-        this._position = new Vec3();
+        this._position = new Vec3(rand);
         this._id = id;
     }
 
@@ -40,9 +40,9 @@ public class Animal
         this._state.Agent = this;
     }
 
-    public void ResetPosition()
+    public void ResetPosition(Random rand)
     {
-        this._position.RandomizeCoords();
+        this._position.RandomizeCoords(rand);
     }
     //END: Constructor and main methods
 }

@@ -10,7 +10,7 @@ public class Vec3
     public float YCoord { get => _yCoord; }
 
     private float _zCoord;
-    public float ZCoord { get => _yCoord; }
+    public float ZCoord { get => _zCoord; }
     //END: Attributes and properties
 
 
@@ -22,17 +22,17 @@ public class Vec3
         this._zCoord = z;
     }
 
-    public Vec3()
+    public Vec3(System.Random rand)
     {
-        this.RandomizeCoords();
+        this.RandomizeCoords(rand);
+        this.RandomizeCoords(rand);
     }
 
-    public void RandomizeCoords()
+    public void RandomizeCoords(System.Random rand)
     {
-        var rand = new Random();
         this._xCoord = (float) rand.NextDouble() * 100;
-        this._yCoord = (float)rand.NextDouble() * 100;
-        this._zCoord = 0f;
+        this._yCoord = 0f;
+        this._zCoord = (float)rand.NextDouble() * 100;
     }
     //END: Constructor and main methods
 
