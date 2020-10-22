@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 public class Ecosystem
@@ -58,4 +59,14 @@ public class Ecosystem
         this._predators.Survive(this._preys.Animals);
     }
     //END: Secondary Methods
+
+    public List<Vec3> GetPreyPositions()
+    {
+        return this._preys.GetPositions();
+    }
+
+    public List<Vec3> GetPredatorPositions()
+    {
+        return this._preys.GetPositions();
+    }
 }
