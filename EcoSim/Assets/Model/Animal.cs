@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class Animal
 {
@@ -12,6 +13,9 @@ public class Animal
     private float _maxSpeed;
     private float _maxSquareSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
     
+    private float _visionRadius;
+    private float _squarevisionRadius;
+
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
 
@@ -27,7 +31,7 @@ public class Animal
     public Animal(AnimalState state, float maxSpeed, int id, Random rand)
     {
         this.TransitionTo(state);
-        this._isSafe = false;
+        this._isSafe = true;
         this._maxSpeed = maxSpeed;
         this._maxSquareSpeed = maxSpeed * maxSpeed;
         this._position = new Vec3(rand);
@@ -45,4 +49,17 @@ public class Animal
         this._position.RandomizeCoords(rand);
     }
     //END: Constructor and main methods
+
+    //SECTION: Secondary methods
+    public void checkSafe(List<Animal> foes)
+    {
+        foreach(Animal a in foes)
+        {
+            if(this.DistanceTo(a) < _visionRadius)
+            {
+                this._isSafe = false;
+            }
+        }
+    }
+    //END: Secondary methods
 }
