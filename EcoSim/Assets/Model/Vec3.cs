@@ -47,4 +47,15 @@ public class Vec3
     }
     //END: Secondary methods
 
+
+    //SECTION: Static methods
+    public static Vec3 CalculateVectorsBetweenPoints(Vec3 pointA, Vec3 pointB)
+    {
+        double xCoord = pointB.XCoord - pointA.XCoord;
+        double yCoord = pointB.YCoord - pointB.YCoord;
+        double zCoord = pointB.ZCoord - pointB.ZCoord;
+
+        return new Vec3(xCoord, yCoord, zCoord);
+    }
+    //END: Static methods
 }
