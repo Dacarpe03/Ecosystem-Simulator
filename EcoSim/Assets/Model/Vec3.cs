@@ -36,4 +36,11 @@ public class Vec3
     }
     //END: Constructor and main methods
 
+    //SECTION:Secondary methods
+    public float SquareDistanceTo(Vec3 other)
+    {
+        v = CalculateVectorBetweenPoints(this, other);
+        v = 
+    }
+    //END: Secondary methods
 }
