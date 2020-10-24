@@ -51,15 +51,21 @@ public class Animal
     //END: Constructor and main methods
 
     //SECTION: Secondary methods
-    public void checkSafe(List<Animal> foes)
+    public Boolean inDanger(List<Animal> foes)
     {
         foreach(Animal a in foes)
         {
             if(this.DistanceTo(a) < _visionRadius)
             {
-                this._isSafe = false;
+                return true;
             }
         }
+        return false;
+    }
+
+    public float DistanceTo(Animal other)
+    {
+        return this._position.DistanceTo(other.Position)
     }
     //END: Secondary methods
 }
