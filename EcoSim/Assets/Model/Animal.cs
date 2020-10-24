@@ -31,7 +31,7 @@ public class Animal
     public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand)
     {
         this.TransitionTo(state);
-        this._isSafe = true;
+        this._isSafe = false;
         this._maxSpeed = maxSpeed;
         this._maxSquaredSpeed = maxSpeed * maxSpeed;
         this._visionRadius = visionRadius;
