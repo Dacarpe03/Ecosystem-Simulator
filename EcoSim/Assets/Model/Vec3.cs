@@ -11,6 +11,9 @@ public class Vec3
 
     private float _zCoord;
     public float ZCoord { get => _zCoord; }
+
+    public float SquaredModule => this._xCoord * this._xCoord + this._yCoord * this._yCoord + this._zCoord * this._zCoord;
+    public float Module => Math.Sqrt(this.SquaredModule);
     //END: Attributes and properties
 
 
@@ -40,7 +43,7 @@ public class Vec3
     public float SquareDistanceTo(Vec3 other)
     {
         v = CalculateVectorBetweenPoints(this, other);
-        v = 
+        return v.SquaredModule();
     }
     //END: Secondary methods
 }
