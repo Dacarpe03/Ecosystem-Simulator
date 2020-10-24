@@ -53,6 +53,20 @@ public class Vec3
         this._yCoord /= vecModule;
         this._zCoord /= vecModule;
     }
+
+    public void Add(Vec3 other)
+    {
+        this._xCoord += other.XCoord;
+        this._yCoord += other.XCoord;
+        this._zCoord += other.XCoord;
+    }
+
+    public void Substract(Vec3 other)
+    {
+        this._xCoord -= other.XCoord;
+        this._yCoord -= other.XCoord;
+        this._zCoord -= other.XCoord;
+    }
     //END: Secondary methods
 
 
