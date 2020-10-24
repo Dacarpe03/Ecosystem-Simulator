@@ -7,7 +7,7 @@ public class AnimalGroup
     private const double REPRODUCTIONPROB = 0.1;
 
     private int _size;
-    private float _maxSpeed;
+    private double _maxSpeed;
 
     private List<Animal> _animals;
     public List<Animal> Animals { get => _animals;}
@@ -16,7 +16,7 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
 
-    public AnimalGroup(int size, float maxSpeed)
+    public AnimalGroup(int size, double maxSpeed)
     {
         this._size = size;
         this._maxSpeed = maxSpeed;

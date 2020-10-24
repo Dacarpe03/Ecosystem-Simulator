@@ -45,7 +45,7 @@ public class Controller : MonoBehaviour
         List<Vector3> newVectors = new List<Vector3>();
         foreach(Vec3 v in vectors)
         {
-            Vector3 vNew = new Vector3(v.XCoord, v.YCoord, v.ZCoord);
+            Vector3 vNew = new Vector3((float)v.XCoord, (float)v.YCoord, (float)v.ZCoord);
             newVectors.Add(vNew);
         }
 
