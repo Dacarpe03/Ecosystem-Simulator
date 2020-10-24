@@ -45,6 +45,14 @@ public class Vec3
         Vec3 v = Vec3.CalculateVectorsBetweenPoints(this, other);
         return v.SquaredModule;
     }
+
+    public void Normalize()
+    {
+        double vecModule = this.Module;
+        this._xCoord /= vecModule;
+        this._yCoord /= vecModule;
+        this._zCoord /= vecModule;
+    }
     //END: Secondary methods
 
 

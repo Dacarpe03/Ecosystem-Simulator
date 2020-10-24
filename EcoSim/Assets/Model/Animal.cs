@@ -67,7 +67,7 @@ public class Animal
 
     public double SquareDistanceTo(Animal other)
     {
-        return this._position.SquaredDistanceTo(other.Position)
+        return this._position.SquaredDistanceTo(other.Position);
     }
     //END: Secondary methods
 }
