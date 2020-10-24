@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 public class Ecosystem
 {
     //SECTION: Attributes and properties
-    private const int PREY_GROUP_SIZE = 40;
+    private const int PREY_GROUP_SIZE = 100;
     private const int PREDATOR_GROUP_SIZE = 6;
 
     private const float PREY_MAX_SPEED = 5f;
