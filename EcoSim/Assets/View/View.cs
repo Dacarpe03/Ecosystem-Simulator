@@ -23,8 +23,8 @@ public class View : MonoBehaviour
         GroupOne = Instantiate(GroupOne);
         GroupTwo = Instantiate(GroupTwo);
 
-        GroupOne.Initialize(_sizeGroupOne);
-        GroupTwo.Initialize(_sizeGroupTwo);
+        GroupOne.Initialize(_sizeGroupOne, Color.blue);
+        GroupTwo.Initialize(_sizeGroupTwo, Color.green);
     }
 
     public void UpdatePositions(List<Vector3> positionsGrOne, List<Vector3> positionsGrTwo)
