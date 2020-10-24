@@ -46,14 +46,6 @@ public class Vec3
         return v.SquaredModule;
     }
 
-    public void Normalize()
-    {
-        double vecModule = this.Module;
-        this._xCoord /= vecModule;
-        this._yCoord /= vecModule;
-        this._zCoord /= vecModule;
-    }
-
     public void Add(Vec3 other)
     {
         this._xCoord += other.XCoord;
@@ -67,6 +59,27 @@ public class Vec3
         this._yCoord -= other.XCoord;
         this._zCoord -= other.XCoord;
     }
+
+    public void Multiply(double number)
+    {
+        this._xCoord *= number;
+        this._yCoord *= number;
+        this._zCoord *= number;
+    }
+
+    public void Divide(double number)
+    {
+        this._xCoord /= number;
+        this._yCoord /= number;
+        this._zCoord /= number;
+    }
+
+    public void Normalize() 
+    {
+        double vecModule = this.Module;
+        this.Divide(vecModule);
+    }
+
     //END: Secondary methods
 
 
