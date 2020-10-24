@@ -13,13 +13,14 @@ public class AnimalGroupView : MonoBehaviour
 
     }
 
-    public void Initialize(int size)
+    public void Initialize(int size, Color color)
     {
         this._size = size;
 
         for (int i=0; i<this._size; i++) 
         {
             Agent = Instantiate(Agent);
+            Agent.GetComponentInChildren<Renderer>().material.color = color;
             Animals.Add(Agent);
         }
 
