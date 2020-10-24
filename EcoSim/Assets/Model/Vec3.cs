@@ -42,7 +42,7 @@ public class Vec3
     //SECTION:Secondary methods
     public double SquaredDistanceTo(Vec3 other)
     {
-        Vec3 v = Vec3.CalculateVectorBetweenPoints(this, other);
+        Vec3 v = Vec3.CalculateVectorsBetweenPoints(this, other);
         return v.SquaredModule;
     }
     //END: Secondary methods

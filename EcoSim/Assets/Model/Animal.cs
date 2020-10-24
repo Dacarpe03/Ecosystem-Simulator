@@ -11,10 +11,10 @@ public class Animal
     public AnimalState State { get => _state; set => _state = value; }
 
     private double _maxSpeed;
-    private double _maxSquareSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
+    private double _maxSquaredSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
     
     private double _visionRadius;
-    private double _squarevisionRadius;
+    private double _squaredVisionRadius;
 
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
@@ -28,12 +28,14 @@ public class Animal
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state, double maxSpeed, int id, Random rand)
+    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand)
     {
         this.TransitionTo(state);
         this._isSafe = true;
         this._maxSpeed = maxSpeed;
-        this._maxSquareSpeed = maxSpeed * maxSpeed;
+        this._maxSquaredSpeed = maxSpeed * maxSpeed;
+        this._visionRadius = visionRadius;
+        this._squaredVisionRadius = visionRadius * visionRadius;
         this._position = new Vec3(rand);
         this._id = id;
     }
@@ -55,7 +57,7 @@ public class Animal
     {
         foreach(Animal a in foes)
         {
-            if(this.DistanceTo(a) < _visionRadius)
+            if(this.SquareDistanceTo(a) < this._squaredVisionRadius)
             {
                 return true;
             }
@@ -63,7 +65,7 @@ public class Animal
         return false;
     }
 
-    public double DistanceTo(Animal other)
+    public double SquareDistanceTo(Animal other)
     {
         return this._position.SquaredDistanceTo(other.Position)
     }
