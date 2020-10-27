@@ -76,7 +76,7 @@ public class Animal
     //END: Constructor and main methods
 
     //SECTION: Secondary methods
-    public Boolean inDanger(List<Animal> foes)
+    public Boolean InDanger(List<Animal> foes)
     {
         foreach(Animal a in foes)
         {
