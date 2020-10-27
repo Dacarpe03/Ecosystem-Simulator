@@ -80,6 +80,16 @@ public class Vec3
         this.Divide(vecModule);
     }
 
+    //This method sets a maximum magnitude to the vector
+    public void Trim(double squaredMagnitude)
+    {
+        if(this.SquaredModule > squaredMagnitude)
+        {
+            this.Normalize();
+            this.Multiply(squaredMagnitude);
+        }
+    }
+
     //END: Secondary methods
 
 
