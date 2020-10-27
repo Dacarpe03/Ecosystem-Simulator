@@ -36,5 +36,25 @@ public class AnimalFleeState : AnimalState
         }
     }
 
-    public Vec3 
+    public Vec3 Cohesion(List<Animal> nearbyAnimals)
+    {
+        int animalCount = nearbyAnimals.Count;
+        if(animalCount > 0)
+        {
+            Vec3 centerPosition = Vec3.Zero();
+            foreach(Animal a in nearbyAnimals)
+            {
+                centerPosition.Add(a.Position);
+            }
+
+            centerPosition.Divide(animalCount);
+            centerPosition.Trim(this._agent.MaxSquaredSpeed);
+
+            return centerPosition;
+        }
+        else
+        {
+            return Vec3.Zero();
+        }
+    }
 }
