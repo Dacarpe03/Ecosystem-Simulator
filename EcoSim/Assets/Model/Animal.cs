@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public class Animal
 {
     //SECTION: Attributes and properties
+    private const double STEER_FORCE = 0.3;
+
     private int _id;
     public int Id { get => _id; }
 
@@ -52,10 +54,25 @@ public class Animal
         this._state.Agent = this;
     }
 
-    public void ResetPosition(Random rand)
+    public void Move()
     {
-        this._position.RandomizeCoords(rand);
+        this._position.Add(Speed);
     }
+
+    public void UpdateSpeed(Vec3 acceleration)
+    {
+        Vec3 newSpeed = Vec3.Zero();
+
+        this._speed.Multiply(STEER_FORCE);
+        newSpeed.Add(this._speed);
+
+        acceleration.Multiply(1 - STEER_FORCE);
+        newSpeed.Add(acceleration);
+
+        newSpeed.Trim(MaxSquaredSpeed);
+        this._speed = newSpeed;
+    }
+
     //END: Constructor and main methods
 
     //SECTION: Secondary methods
@@ -74,6 +91,11 @@ public class Animal
     public double SquareDistanceTo(Animal other)
     {
         return this._position.SquaredDistanceTo(other.Position);
+    }
+
+    public void ResetPosition(Random rand)
+    {
+        this._position.RandomizeCoords(rand);
     }
     //END: Secondary methods
 }
