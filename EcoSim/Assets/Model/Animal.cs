@@ -12,6 +12,7 @@ public class Animal
 
     private double _maxSpeed;
     private double _maxSquaredSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
+    private double MaxSquaredSpeed { get => _maxSquaredSpeed; }
     
     private double _visionRadius;
     private double _squaredVisionRadius;
