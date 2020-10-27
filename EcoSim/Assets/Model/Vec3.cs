@@ -86,7 +86,8 @@ public class Vec3
         if(this.SquaredModule > squaredMagnitude)
         {
             this.Normalize();
-            this.Multiply(squaredMagnitude);
+            double magnitude = Math.Sqrt(squaredMagnitude);
+            this.Multiply(magnitude);
         }
     }
 
