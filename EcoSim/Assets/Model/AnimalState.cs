@@ -19,7 +19,7 @@ public abstract class AnimalState
         List<Animal> nearbyAnimals = new List<Animal>();
         foreach(Animal a in animals)
         {
-            if(a.Id != this._agent.Id & this._agent.SquareDistanceTo(a) <= squareRadius{
+            if(a.Id != this._agent.Id & this._agent.SquareDistanceTo(a) <= squareRadius){
                 nearbyAnimals.Add(a);
             }
         }
