@@ -57,4 +57,27 @@ public class AnimalFleeState : AnimalState
             return Vec3.Zero();
         }
     }
+
+    public Vec3 Follow(List<Animal> nearbyAnimals)
+    {
+        int animalCount = nearbyAnimals.Count;
+        if (animalCount > 0)
+        {
+            Vec3 meanSpeed = Vec3.Zero();
+            foreach(Animal a in nearbyAnimals)
+            {
+                meanSpeed.Add(a.Speed);
+            }
+
+            meanSpeed.Divide(animalCount);
+            meanSpeed.Trim(this._agent.MaxSquaredSpeed);
+
+            return meanSpeed;
+        }
+        else
+        {
+            return Vec3.Zero();
+        }
+
+    }
 }
