@@ -9,5 +9,9 @@ public class AnimalStillState : AnimalState
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
         Console.WriteLine("Estoy quieto");
+        if (this._agent.InDanger(foes))
+        {
+            this._agent.TransitionTo(new AnimalFleeState());
+        }
     }
 }

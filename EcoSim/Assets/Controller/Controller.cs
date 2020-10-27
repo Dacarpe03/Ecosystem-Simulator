@@ -10,6 +10,13 @@ public class Controller : MonoBehaviour
 
     public View _myView;
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 30;
+    }
+
     void Start()
     {
         this._ecosystem = new Ecosystem();
@@ -45,7 +52,7 @@ public class Controller : MonoBehaviour
         List<Vector3> newVectors = new List<Vector3>();
         foreach(Vec3 v in vectors)
         {
-            Vector3 vNew = new Vector3(v.XCoord, v.YCoord, v.ZCoord);
+            Vector3 vNew = new Vector3((float)v.XCoord, (float)v.YCoord, (float)v.ZCoord);
             newVectors.Add(vNew);
         }
 
