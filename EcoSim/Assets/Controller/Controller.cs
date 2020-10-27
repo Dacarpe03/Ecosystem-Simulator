@@ -10,6 +10,13 @@ public class Controller : MonoBehaviour
 
     public View _myView;
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 30;
+    }
+
     void Start()
     {
         this._ecosystem = new Ecosystem();
