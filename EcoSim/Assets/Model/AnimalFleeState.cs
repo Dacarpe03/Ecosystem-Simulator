@@ -4,12 +4,12 @@ using System.Collections.Generic;
 public class AnimalFleeState : AnimalState
 {
     private const double WEIGHT_AVOID = 0.3;
-    private const double WEIGHT_FOLLOW = 0.6;
-    private const double WEIGHT_CENTER = 0.1;
+    private const double WEIGHT_COHESION = 0.6;
+    private const double WEIGHT_FOLLOW = 0.1;
 
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
-        Vec3 acceleration = this.Boids(friendly);
+        Vec3 acceleration = this.BoidBehavior(friendly);
         this._agent.UpdateSpeed(acceleration);
         this._agent.Move();
 
@@ -19,11 +19,39 @@ public class AnimalFleeState : AnimalState
         }
     }
 
-    public Vec3 Boids()
+    public Vec3 BoidBehavior(List<Animal> friendly)
+    {
+
+        List<Animal> nearbyAnimals = this.GetNearbyAnimals(friendly, this._agent.SquaredVisionRadius);
+        Vec3 avoidanceVector = this.Avoidance(nearbyAnimals);
+        Vec3 cohesionVector = this.Cohesion(nearbyAnimals);
+        Vec3 followVector = this.Follow(nearbyAnimals);
+
+
+        if (avoidanceVector.IsZero())
+        {
+            cohesionVector.Multiply(WEIGHT_COHESION + WEIGHT_AVOID / 2);
+            followVector.Multiply(WEIGHT_FOLLOW + WEIGHT_AVOID / 2);
+        }
+        else
+        {
+            avoidanceVector.Multiply(WEIGHT_AVOID);
+            cohesionVector.Multiply(WEIGHT_COHESION);
+            followVector.Multiply(WEIGHT_FOLLOW);
+        }
+
+        Vec3 acceleration = Vec3.Zero();
+        acceleration.Add(avoidanceVector);
+        acceleration.Add(cohesionVector);
+        acceleration.Add(followVector);
+
+        return acceleration;
+    }
+
     public Vec3 Avoidance(List<Animal> nearbyAnimals)
     {
         Vec3 avoidanceVector = Vec3.Zero();
-        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius);
+        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/2);
         int animalCount = closeAnimals.Count;
 
         if (animalCount > 0) {
