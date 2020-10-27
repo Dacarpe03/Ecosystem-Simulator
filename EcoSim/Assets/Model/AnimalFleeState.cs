@@ -44,6 +44,7 @@ public class AnimalFleeState : AnimalState
         acceleration.Add(avoidanceVector);
         acceleration.Add(cohesionVector);
         acceleration.Add(followVector);
+        acceleration.Trim(this._agent.MaxSquaredSpeed);
 
         return acceleration;
     }
