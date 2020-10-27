@@ -3,14 +3,23 @@ using System.Collections.Generic;
 
 public class AnimalFleeState : AnimalState
 {
+    private const double WEIGHT_AVOID = 0.3;
+    private const double WEIGHT_FOLLOW = 0.6;
+    private const double WEIGHT_CENTER = 0.1;
+
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
+        Vec3 acceleration = this.Boids(friendly);
+        this._agent.UpdateSpeed(acceleration);
+        this._agent.Move();
+
         if (this._agent.IsSafe)
         {
             this._agent.TransitionTo(new AnimalStillState());
         }
     }
 
+    public Vec3 Boids()
     public Vec3 Avoidance(List<Animal> nearbyAnimals)
     {
         Vec3 avoidanceVector = Vec3.Zero();
