@@ -49,15 +49,15 @@ public class Vec3
     public void Add(Vec3 other)
     {
         this._xCoord += other.XCoord;
-        this._yCoord += other.XCoord;
-        this._zCoord += other.XCoord;
+        this._yCoord += other.YCoord;
+        this._zCoord += other.ZCoord;
     }
 
     public void Substract(Vec3 other)
     {
         this._xCoord -= other.XCoord;
-        this._yCoord -= other.XCoord;
-        this._zCoord -= other.XCoord;
+        this._yCoord -= other.YCoord;
+        this._zCoord -= other.ZCoord;
     }
 
     public void Multiply(double number)

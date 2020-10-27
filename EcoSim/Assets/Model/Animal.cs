@@ -45,6 +45,8 @@ public class Animal
         this._squaredVisionRadius = visionRadius * visionRadius;
 
         this._position = new Vec3(rand);
+        this._speed = Vec3.Zero();
+
         this._id = id;
     }
 
