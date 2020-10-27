@@ -91,6 +91,10 @@ public class Vec3
         }
     }
 
+    public Boolean IsZero()
+    {
+        return (this._xCoord == 0 & this._yCoord == 0 & this._zCoord == 0);
+    }
     //END: Secondary methods
 
 
