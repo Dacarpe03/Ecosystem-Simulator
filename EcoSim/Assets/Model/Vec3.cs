@@ -92,5 +92,10 @@ public class Vec3
 
         return new Vec3(xCoord, yCoord, zCoord);
     }
+
+    public static Vec3 Zero()
+    {
+        return new Vec3(0, 0, 0);
+    }
     //END: Static methods
 }

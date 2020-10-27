@@ -14,7 +14,7 @@ public abstract class AnimalState
     //SECTION: Constructor and main methods
     public abstract void Update(List<Animal> friendly, List<Animal> foes);
 
-    private List<Animal> GetNearbyAnimals(List<Animal> animals, double squareRadius)
+    protected List<Animal> GetNearbyAnimals(List<Animal> animals, double squareRadius)
     {
         List<Animal> nearbyAnimals = new List<Animal>();
         foreach(Animal a in animals)

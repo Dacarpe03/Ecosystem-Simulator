@@ -15,6 +15,7 @@ public class Animal
     
     private double _visionRadius;
     private double _squaredVisionRadius;
+    public double SquaredVisionRadius { get => _squaredVisionRadius; }
 
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
@@ -31,11 +32,15 @@ public class Animal
     public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand)
     {
         this.TransitionTo(state);
+
         this._isSafe = false;
+
         this._maxSpeed = maxSpeed;
         this._maxSquaredSpeed = maxSpeed * maxSpeed;
+
         this._visionRadius = visionRadius;
         this._squaredVisionRadius = visionRadius * visionRadius;
+
         this._position = new Vec3(rand);
         this._id = id;
     }
