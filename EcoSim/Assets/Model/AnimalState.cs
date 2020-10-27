@@ -13,5 +13,18 @@ public abstract class AnimalState
 
     //SECTION: Constructor and main methods
     public abstract void Update(List<Animal> friendly, List<Animal> foes);
+
+    private List<Animal> GetNearbyAnimals(List<Animal> animals, double squareRadius)
+    {
+        List<Animal> nearbyAnimals = new List<Animal>();
+        foreach(Animal a in animals)
+        {
+            if(a.Id != this._agent.Id & this._agent.SquareDistanceTo(a) <= squareRadius{
+                nearbyAnimals.Add(a);
+            }
+        }
+
+        return nearbyAnimals;
+    }
     //END: Constructor and main methods
 }

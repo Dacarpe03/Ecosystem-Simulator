@@ -5,7 +5,7 @@ public class Animal
 {
     //SECTION: Attributes and properties
     private int _id;
-    public int ID { get => _id; }
+    public int Id { get => _id; }
 
     private AnimalState _state;
     public AnimalState State { get => _state; set => _state = value; }
