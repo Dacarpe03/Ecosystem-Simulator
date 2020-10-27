@@ -27,7 +27,7 @@ public class AnimalGroup
         Random rand = new Random();
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal(new AnimalStillState(), maxSpeed, visionRadius i, rand); ;
+            Animal a = new Animal(new AnimalStillState(), maxSpeed, visionRadius , i, rand); ;
             this._animals.Add(a);
         }
     }
@@ -49,7 +49,7 @@ public class AnimalGroup
             double r = rand.NextDouble();
             if (r < REPRODUCTIONPROB)
             {
-                Animal a = new Animal(new AnimalStillState(), this._maxSpeed, i, rand);
+                Animal a = new Animal(new AnimalStillState(), this._maxSpeed, this._visionRadius, i, rand);
                 this._animals.Add(a);
                 this._size += 1;
             }
