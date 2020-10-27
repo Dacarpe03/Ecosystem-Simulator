@@ -8,6 +8,7 @@ public class AnimalGroup
 
     private int _size;
     private double _maxSpeed;
+    private double _visionRadius;
 
     private List<Animal> _animals;
     public List<Animal> Animals { get => _animals;}
@@ -16,16 +17,17 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
 
-    public AnimalGroup(int size, double maxSpeed)
+    public AnimalGroup(int size, double maxSpeed, double visionRadius)
     {
         this._size = size;
         this._maxSpeed = maxSpeed;
+        this._visionRadius = visionRadius;
         this._animals = new List<Animal>();
 
         Random rand = new Random();
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal(new AnimalStillState(), maxSpeed, i, rand);
+            Animal a = new Animal(new AnimalStillState(), maxSpeed, visionRadius i, rand); ;
             this._animals.Add(a);
         }
     }

@@ -8,8 +8,11 @@ public class Ecosystem
     private const int PREY_GROUP_SIZE = 100;
     private const int PREDATOR_GROUP_SIZE = 6;
 
-    private const float PREY_MAX_SPEED = 5f;
-    private const float PREDATOR_MAX_SPEED = 7f;
+    private const double PREY_MAX_SPEED = 5;
+    private const double PREDATOR_MAX_SPEED = 7;
+
+    private const double PREY_VISION_RADIUS = 15;
+    private const double PREDATOR_VISION_RADIUS = 80;
 
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }
@@ -30,8 +33,8 @@ public class Ecosystem
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED);
-        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED);
+        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS);
+        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS);
     }
 
     public void Update()
