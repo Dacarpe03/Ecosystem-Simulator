@@ -11,11 +11,11 @@ public class AnimalHuntState : AnimalState
         if (!preyFixed) 
         {
             List<Animal> nearbyPreys = this.GetNearbyAnimals(foes, this._agent.SquaredVisionRadius);
-            preyFixedId = getSlowestAnimal(nearbyPreys);
+            preyFixedId = this.GetSlowestAnimal(nearbyPreys);
         }
     }
     
-    private int getSlowestAnimal(List<Animal> nearbyPreys)
+    private int GetSlowestAnimal(List<Animal> nearbyPreys)
     {
         double maxSpeed = Double.MaxValue;
         int idFixed = -1;
