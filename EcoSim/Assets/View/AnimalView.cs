@@ -15,5 +15,9 @@ public class AnimalView : MonoBehaviour
         this.transform.position = newPosition;
     }
 
+    public void Initialize(Color color)
+    {
+        this.GetComponentInChildren<Renderer>().material.color = color;
+    }
     
 }
