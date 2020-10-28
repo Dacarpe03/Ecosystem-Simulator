@@ -16,8 +16,7 @@ public class AnimalHuntState : AnimalState
             preyFixed = true; 
         }
 
-        List<Vec3> preyPositions = foes.Where(a => a.Id == fixedPreyId).Select(a => a.Position).ToList();
-        Vec3 fixedPreyPosition = preyPositions.First();
+        Vec3 fixedPreyPosition  = (Vec3) foes.Where(a => a.Id == fixedPreyId).Select(a => a.Position).ToList().First();
 
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPreyPosition);
         acceleration.Expand(this._agent.MaxSpeed);

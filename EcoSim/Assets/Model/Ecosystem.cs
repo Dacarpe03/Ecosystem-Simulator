@@ -9,7 +9,7 @@ public class Ecosystem
     private const int PREDATOR_GROUP_SIZE = 6;
 
     private const double PREY_MAX_SPEED = 0.5;
-    private const double PREDATOR_MAX_SPEED = 1;
+    private const double PREDATOR_MAX_SPEED = 2;
 
     private const double PREY_VISION_RADIUS = 10;
     private const double PREDATOR_VISION_RADIUS = 80;

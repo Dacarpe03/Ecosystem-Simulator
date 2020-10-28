@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Animal
 {
     //SECTION: Attributes and properties
-    private const double STEER_FORCE = 0.8;
+    private const double STEER_FORCE = 0.7;
 
     private int _id;
     public int Id { get => _id; }
