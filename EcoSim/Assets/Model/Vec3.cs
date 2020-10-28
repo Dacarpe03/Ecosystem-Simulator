@@ -33,9 +33,9 @@ public class Vec3
 
     public void RandomizeCoords(Random rand)
     {
-        this._xCoord = rand.NextDouble() * 100;
+        this._xCoord = rand.NextDouble() * 200;
         this._yCoord = 0f;
-        this._zCoord = rand.NextDouble() * 100;
+        this._zCoord = rand.NextDouble() * 200;
     }
     //END: Constructor and main methods
 
@@ -102,8 +102,8 @@ public class Vec3
     public static Vec3 CalculateVectorsBetweenPoints(Vec3 pointA, Vec3 pointB)
     {
         double xCoord = pointB.XCoord - pointA.XCoord;
-        double yCoord = pointB.YCoord - pointB.YCoord;
-        double zCoord = pointB.ZCoord - pointB.ZCoord;
+        double yCoord = pointB.YCoord - pointA.YCoord;
+        double zCoord = pointB.ZCoord - pointA.ZCoord;
 
         return new Vec3(xCoord, yCoord, zCoord);
     }

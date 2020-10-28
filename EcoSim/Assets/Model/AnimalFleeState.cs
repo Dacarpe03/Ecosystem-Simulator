@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class AnimalFleeState : AnimalState
 {
 
 
-    private const double WEIGHT_AVOID = 0.15;
-    private const double WEIGHT_COHESION = 0.4;
-    private const double WEIGHT_FOLLOW = 0.05;
-    private const double WEIGHT_CENTER = 0.4;
+    private const double WEIGHT_AVOID = 2;
+    private const double WEIGHT_COHESION = 1;
+    private const double WEIGHT_FOLLOW = 4;
+    private const double WEIGHT_CENTER = 1;
 
 
     private Vec3 CENTER = new Vec3(50, 0, 50);
@@ -65,7 +64,7 @@ public class AnimalFleeState : AnimalState
     public Vec3 Avoidance(List<Animal> nearbyAnimals)
     {
         Vec3 avoidanceVector = Vec3.Zero();
-        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/5);
+        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/12);
         int animalCount = closeAnimals.Count;
 
         if (animalCount > 0) {
@@ -99,9 +98,10 @@ public class AnimalFleeState : AnimalState
             }
 
             centerPosition.Divide(animalCount);
-            centerPosition.Trim(this._agent.MaxSquaredSpeed);
+            Vec3 cohesionForce = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, centerPosition);
+            cohesionForce.Trim(this._agent.MaxSquaredSpeed);
 
-            return centerPosition;
+            return cohesionForce;
         }
         else
         {
@@ -135,7 +135,14 @@ public class AnimalFleeState : AnimalState
     public Vec3 Center()
     {
         Vec3 goToCenterVector = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, CENTER);
-        goToCenterVector.Trim(this._agent.MaxSquaredSpeed);
-        return goToCenterVector;
+        if (goToCenterVector.SquaredModule > 2500)
+        {
+            goToCenterVector.Trim(this._agent.MaxSquaredSpeed);
+            return goToCenterVector;
+        }
+        else
+        {
+            return Vec3.Zero();
+        }
     }
 }
