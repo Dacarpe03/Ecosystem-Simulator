@@ -99,7 +99,7 @@ public class Vec3
 
 
     //SECTION: Static methods
-    public static Vec3 CalculateVectorsBetweenPoints(Vec3 pointA, Vec3 pointB)
+    public static Vec3 CalculateVectorsBetweenPoints(Vec3 pointA, Vec3 pointB) //Returns AB Vector
     {
         double xCoord = pointB.XCoord - pointA.XCoord;
         double yCoord = pointB.YCoord - pointA.YCoord;
