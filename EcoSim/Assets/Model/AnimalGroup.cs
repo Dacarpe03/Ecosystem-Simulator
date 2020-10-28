@@ -17,7 +17,7 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
 
-    public AnimalGroup(int size, double maxSpeed, double visionRadius)
+    public AnimalGroup(int size, double maxSpeed, double visionRadius, Boolean prey)
     {
         this._size = size;
         this._maxSpeed = maxSpeed;
@@ -27,7 +27,12 @@ public class AnimalGroup
         Random rand = new Random();
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal(new AnimalStillState(), maxSpeed, visionRadius , i, rand); ;
+            AnimalState initialState = new AnimalHuntState();
+            if (prey)
+            {
+                initialState = new AnimalStillState();
+            }
+            Animal a = new Animal(initialState, maxSpeed, visionRadius , i, rand); ;
             this._animals.Add(a);
         }
     }

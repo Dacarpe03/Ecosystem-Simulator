@@ -33,8 +33,8 @@ public class Ecosystem
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS);
-        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS);
+        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, true);
+        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, false);
     }
 
     public void Update()
