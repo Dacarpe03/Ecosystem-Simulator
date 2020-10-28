@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AnimalFleeState : AnimalState
 {
 
-    private const double X_LIMIT = 200;
-    private const double Y_LIMIT = 200;
-    private const double Z_LIMIT = 200;
 
-    private const double WEIGHT_AVOID = 0.3;
-    private const double WEIGHT_COHESION = 0.6;
-    private const double WEIGHT_FOLLOW = 0.1;
+    private const double WEIGHT_AVOID = 0.15;
+    private const double WEIGHT_COHESION = 0.4;
+    private const double WEIGHT_FOLLOW = 0.05;
+    private const double WEIGHT_CENTER = 0.4;
+
+
+    private Vec3 CENTER = new Vec3(50, 0, 50);
 
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
         Vec3 acceleration = this.BoidBehavior(friendly);
-        Vec3 awayFromBorderForce = this.AwayFromBorders();
-        acceleration.Add(awayFromBorderForce);
-        acceleration.Trim(this._agent.MaxSquaredSpeed);
 
         this._agent.UpdateSpeed(acceleration);
         this._agent.Move();
+        
 
         if (this._agent.IsSafe)
         {
@@ -35,6 +35,7 @@ public class AnimalFleeState : AnimalState
         Vec3 avoidanceVector = this.Avoidance(nearbyAnimals);
         Vec3 cohesionVector = this.Cohesion(nearbyAnimals);
         Vec3 followVector = this.Follow(nearbyAnimals);
+        Vec3 goToCenterVector = this.Center();
 
 
         if (avoidanceVector.IsZero())
@@ -49,10 +50,13 @@ public class AnimalFleeState : AnimalState
             followVector.Multiply(WEIGHT_FOLLOW);
         }
 
+        goToCenterVector.Multiply(WEIGHT_CENTER);
+
         Vec3 acceleration = Vec3.Zero();
         acceleration.Add(avoidanceVector);
         acceleration.Add(cohesionVector);
         acceleration.Add(followVector);
+        acceleration.Add(goToCenterVector);
         acceleration.Trim(this._agent.MaxSquaredSpeed);
 
         return acceleration;
@@ -128,32 +132,10 @@ public class AnimalFleeState : AnimalState
 
     }
 
-    public Vec3 AwayFromBorders()
+    public Vec3 Center()
     {
-        Vec3 agentPosition = this._agent.Position;
-        double xCoord = agentPosition.XCoord;
-        double yCoord = agentPosition.YCoord;
-        double zCoord = agentPosition.ZCoord;
-
-        Vec3  agentSpeed = this._agent.Speed;
-        double xSpeed = agentSpeed.XCoord;
-        double ySpeed = agentSpeed.YCoord;
-        double zSpeed = agentSpeed.ZCoord;
-
-        Vec3 forceFromBorder = Vec3.Zero();
-        if (xCoord > X_LIMIT | xCoord < 0)
-        {
-            forceFromBorder = new Vec3(-xSpeed, ySpeed, zSpeed);
-        }
-        else if(yCoord > Y_LIMIT | yCoord < 0)
-        {
-            forceFromBorder = new Vec3(xSpeed, -ySpeed, zSpeed);
-        }
-        else if(zCoord > Z_LIMIT | zCoord < 0)
-        {
-            forceFromBorder = new Vec3(xSpeed, ySpeed, -zSpeed);
-        }
-
-        return forceFromBorder;
+        Vec3 goToCenterVector = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, CENTER);
+        goToCenterVector.Trim(this._agent.MaxSquaredSpeed);
+        return goToCenterVector;
     }
 }
