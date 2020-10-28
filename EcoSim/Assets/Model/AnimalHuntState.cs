@@ -9,5 +9,4 @@ public class AnimalHuntState : AnimalState
         List<Animal> nearbyPreys = this.GetNearbyAnimals(foes, this._agent.SquaredVisionRadius);
     }
 
-    private 
 }

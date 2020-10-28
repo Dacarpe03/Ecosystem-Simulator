@@ -27,7 +27,7 @@ public class AnimalFleeState : AnimalState
         }
     }
 
-    public Vec3 BoidBehavior(List<Animal> friendly)
+    private Vec3 BoidBehavior(List<Animal> friendly)
     {
 
         List<Animal> nearbyAnimals = this.GetNearbyAnimals(friendly, this._agent.SquaredVisionRadius);
@@ -61,7 +61,7 @@ public class AnimalFleeState : AnimalState
         return acceleration;
     }
 
-    public Vec3 Avoidance(List<Animal> nearbyAnimals)
+    private Vec3 Avoidance(List<Animal> nearbyAnimals)
     {
         Vec3 avoidanceVector = Vec3.Zero();
         List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/12);
@@ -86,7 +86,7 @@ public class AnimalFleeState : AnimalState
         }
     }
 
-    public Vec3 Cohesion(List<Animal> nearbyAnimals)
+    private Vec3 Cohesion(List<Animal> nearbyAnimals)
     {
         int animalCount = nearbyAnimals.Count;
         if(animalCount > 0)
@@ -109,7 +109,7 @@ public class AnimalFleeState : AnimalState
         }
     }
 
-    public Vec3 Follow(List<Animal> nearbyAnimals)
+    private Vec3 Follow(List<Animal> nearbyAnimals)
     {
         int animalCount = nearbyAnimals.Count;
         if (animalCount > 0)
@@ -132,7 +132,7 @@ public class AnimalFleeState : AnimalState
 
     }
 
-    public Vec3 Center()
+    private Vec3 Center()
     {
         Vec3 goToCenterVector = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, CENTER);
         if (goToCenterVector.SquaredModule > 2500)
