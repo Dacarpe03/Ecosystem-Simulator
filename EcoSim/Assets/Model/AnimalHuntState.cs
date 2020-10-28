@@ -19,10 +19,10 @@ public class AnimalHuntState : AnimalState
         List<Vec3> preyPositions = foes.Where(a => a.Id == fixedPreyId).Select(a => a.Position).ToList();
         Vec3 fixedPreyPosition = preyPositions.First();
 
-        Vec3 force = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPreyPosition);
-        force.Trim(this._agent.MaxSquaredSpeed);
+        Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPreyPosition);
+        acceleration.Expand(this._agent.MaxSpeed);
 
-        this._agent.UpdateSpeed(force);
+        this._agent.UpdateSpeed(acceleration);
         this._agent.Move();
     }
     

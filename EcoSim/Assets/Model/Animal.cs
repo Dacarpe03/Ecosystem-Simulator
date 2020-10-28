@@ -13,6 +13,7 @@ public class Animal
     public AnimalState State { get => _state; set => _state = value; }
 
     private double _maxSpeed;
+    public double MaxSpeed { get => _maxSpeed; }
     private double _maxSquaredSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
     public double MaxSquaredSpeed { get => _maxSquaredSpeed; }
     
