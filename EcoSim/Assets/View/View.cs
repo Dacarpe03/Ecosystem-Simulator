@@ -24,7 +24,7 @@ public class View : MonoBehaviour
         GroupTwo = Instantiate(GroupTwo);
 
         GroupOne.Initialize(_sizeGroupOne, Color.blue);
-        GroupTwo.Initialize(_sizeGroupTwo, Color.green);
+        GroupTwo.Initialize(_sizeGroupTwo, Color.red);
     }
 
     public void UpdatePositions(List<Vector3> positionsGrOne, List<Vector3> positionsGrTwo)

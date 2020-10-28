@@ -20,7 +20,7 @@ public class AnimalGroupView : MonoBehaviour
         for (int i=0; i<this._size; i++) 
         {
             Agent = Instantiate(Agent);
-            Agent.GetComponentInChildren<Renderer>().material.color = color;
+            Agent.Initialize(color);
             Animals.Add(Agent);
         }
 
