@@ -11,12 +11,6 @@ public class Controller : MonoBehaviour
     public View _myView;
     // Start is called before the first frame update
 
-    void Awake()
-    {
-        QualitySettings.vSyncCount = 0;  // VSync must be disabled
-        Application.targetFrameRate = 30;
-    }
-
     void Start()
     {
         this._ecosystem = new Ecosystem();
@@ -28,23 +22,17 @@ public class Controller : MonoBehaviour
     void Update()
     {
         this._ecosystem.Update();
-        List<List<Vector3>> positions = this.GetModelPositions();
-        this._myView.UpdatePositions(positions.ElementAt(0), positions.ElementAt(1));
+        List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
+        List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
+        this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
     }
 
-    public List<List<Vector3>> GetModelPositions()
+    public List<Vector3> GetModelPositions(AnimalGroup modelGroup)
     {
-        List<List<Vector3>> positions = new List<List<Vector3>>();
-        List<Vec3> preys = this._ecosystem.GetPreyPositions();
-        List<Vec3> predators = this._ecosystem.GetPredatorPositions();
+        List<Vec3> modelPositions = modelGroup.GetPositions();
+        List<Vector3> viewPositions = this.TransformToVector3(modelPositions);
 
-        List<Vector3> preyPositions = this.TransformToVector3(preys);
-        List<Vector3> predatorPositions = this.TransformToVector3(predators);
-
-        positions.Add(preyPositions);
-        positions.Add(predatorPositions);
-
-        return positions;
+        return viewPositions;
     }
 
     public List<Vector3> TransformToVector3(List<Vec3> vectors)

@@ -52,7 +52,7 @@ public class AnimalFleeState : AnimalState
     public Vec3 Avoidance(List<Animal> nearbyAnimals)
     {
         Vec3 avoidanceVector = Vec3.Zero();
-        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/2);
+        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/5);
         int animalCount = closeAnimals.Count;
 
         if (animalCount > 0) {
