@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 public class Ecosystem
 {
     //SECTION: Attributes and properties
-    private const int PREY_GROUP_SIZE = 500;
-    private const int PREDATOR_GROUP_SIZE = 6;
 
     private const double PREY_MAX_SPEED = 0.5;
-    private const double PREDATOR_MAX_SPEED = 2;
+    private const double PREDATOR_MAX_SPEED = 0.8;
 
     private const double PREY_VISION_RADIUS = 10;
-    private const double PREDATOR_VISION_RADIUS = 80;
+    private const double PREDATOR_VISION_RADIUS = 1000;
 
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }
@@ -29,12 +26,12 @@ public class Ecosystem
 
 
     //SECTION: Constructor and main methods
-    public Ecosystem()
+    public Ecosystem(int preyGroupSize, int predatorGroupSize)
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, true);
-        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, false);
+        this._preys = new AnimalGroup(preyGroupSize, PREY_MAX_SPEED, PREY_VISION_RADIUS, true);
+        this._predators = new AnimalGroup(predatorGroupSize, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, false);
     }
 
     public void Update()

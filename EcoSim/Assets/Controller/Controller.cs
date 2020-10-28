@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+
+    private const int PREY_GROUP_SIZE = 2;
+    private const int PREDATOR_GROUP_SIZE = 6;
+
     private Ecosystem _ecosystem;
 
     public View _myView;
@@ -13,9 +17,9 @@ public class Controller : MonoBehaviour
 
     void Start()
     {
-        this._ecosystem = new Ecosystem();
+        this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
         _myView = Instantiate(_myView);
-        _myView.Initialize(100, 6);
+        _myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
     }
 
     // Update is called once per frame
