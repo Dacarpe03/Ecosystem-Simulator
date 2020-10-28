@@ -4,19 +4,22 @@ using System.Linq;
 
 public class AnimalHuntState : AnimalState
 {
-    private Boolean preyFixed;
-    private int preyFixedId;
+    private Boolean preyFixed = false;
+    private int fixedPreyId = -1;
 
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
         if (!preyFixed) 
         {
             List<Animal> nearbyPreys = this.GetNearbyAnimals(foes, this._agent.SquaredVisionRadius);
-            preyFixedId = this.GetSlowestAnimal(nearbyPreys);
+            fixedPreyId = this.GetSlowestAnimal(nearbyPreys);
+            preyFixed = true; 
         }
 
-        Vec3 preyPosition = (Vec3) friendly.Where(a => a.Id == preyFixedId);
-        Vec3 force = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, preyPosition);
+        List<Vec3> preyPositions = foes.Where(a => a.Id == fixedPreyId).Select(a => a.Position).ToList();
+        Vec3 fixedPreyPosition = preyPositions.First();
+
+        Vec3 force = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPreyPosition);
         force.Trim(this._agent.MaxSquaredSpeed);
 
         this._agent.UpdateSpeed(force);
