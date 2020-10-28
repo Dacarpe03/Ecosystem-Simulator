@@ -9,7 +9,7 @@ public class Ecosystem
     private const double PREDATOR_MAX_SPEED = 0.8;
 
     private const double PREY_VISION_RADIUS = 10;
-    private const double PREDATOR_VISION_RADIUS = 1000;
+    private const double PREDATOR_VISION_RADIUS = 40;
 
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }

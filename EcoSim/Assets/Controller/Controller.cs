@@ -7,7 +7,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
 
-    private const int PREY_GROUP_SIZE = 2;
+    private const int PREY_GROUP_SIZE = 500;
     private const int PREDATOR_GROUP_SIZE = 6;
 
     private Ecosystem _ecosystem;
