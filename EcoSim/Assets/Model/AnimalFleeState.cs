@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 public class AnimalFleeState : AnimalState
 {
+
+    private const double X_LIMIT = 200;
+    private const double Y_LIMIT = 200;
+    private const double Z_LIMIT = 200;
+
     private const double WEIGHT_AVOID = 0.3;
     private const double WEIGHT_COHESION = 0.6;
     private const double WEIGHT_FOLLOW = 0.1;
@@ -10,6 +15,10 @@ public class AnimalFleeState : AnimalState
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
         Vec3 acceleration = this.BoidBehavior(friendly);
+        Vec3 awayFromBorderForce = this.AwayFromBorders();
+        acceleration.Add(awayFromBorderForce);
+        acceleration.Trim(this._agent.MaxSquaredSpeed);
+
         this._agent.UpdateSpeed(acceleration);
         this._agent.Move();
 
@@ -117,5 +126,34 @@ public class AnimalFleeState : AnimalState
             return Vec3.Zero();
         }
 
+    }
+
+    public Vec3 AwayFromBorders()
+    {
+        Vec3 agentPosition = this._agent.Position;
+        double xCoord = agentPosition.XCoord;
+        double yCoord = agentPosition.YCoord;
+        double zCoord = agentPosition.ZCoord;
+
+        Vec3  agentSpeed = this._agent.Speed;
+        double xSpeed = agentSpeed.XCoord;
+        double ySpeed = agentSpeed.YCoord;
+        double zSpeed = agentSpeed.ZCoord;
+
+        Vec3 forceFromBorder = Vec3.Zero();
+        if (xCoord > X_LIMIT | xCoord < 0)
+        {
+            forceFromBorder = new Vec3(-xSpeed, ySpeed, zSpeed);
+        }
+        else if(yCoord > Y_LIMIT | yCoord < 0)
+        {
+            forceFromBorder = new Vec3(xSpeed, -ySpeed, zSpeed);
+        }
+        else if(zCoord > Z_LIMIT | zCoord < 0)
+        {
+            forceFromBorder = new Vec3(xSpeed, ySpeed, -zSpeed);
+        }
+
+        return forceFromBorder;
     }
 }
