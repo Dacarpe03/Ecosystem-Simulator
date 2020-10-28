@@ -91,6 +91,12 @@ public class Vec3
         }
     }
 
+    public void Expand(double magnitude)
+    {
+        this.Normalize();
+        this.Multiply(magnitude);
+    }
+
     public Boolean IsZero()
     {
         return (this._xCoord == 0 & this._yCoord == 0 & this._zCoord == 0);
