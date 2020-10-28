@@ -5,13 +5,13 @@ using System.Text.RegularExpressions;
 public class Ecosystem
 {
     //SECTION: Attributes and properties
-    private const int PREY_GROUP_SIZE = 100;
+    private const int PREY_GROUP_SIZE = 500;
     private const int PREDATOR_GROUP_SIZE = 6;
 
     private const double PREY_MAX_SPEED = 0.5;
     private const double PREDATOR_MAX_SPEED = 2;
 
-    private const double PREY_VISION_RADIUS = 15;
+    private const double PREY_VISION_RADIUS = 10;
     private const double PREDATOR_VISION_RADIUS = 80;
 
     private SimulationState _state;

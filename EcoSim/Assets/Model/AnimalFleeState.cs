@@ -3,15 +3,23 @@ using System.Collections.Generic;
 
 public class AnimalFleeState : AnimalState
 {
-    private const double WEIGHT_AVOID = 0.3;
-    private const double WEIGHT_COHESION = 0.6;
-    private const double WEIGHT_FOLLOW = 0.1;
+
+
+    private const double WEIGHT_AVOID = 2;
+    private const double WEIGHT_COHESION = 1;
+    private const double WEIGHT_FOLLOW = 4;
+    private const double WEIGHT_CENTER = 1;
+
+
+    private Vec3 CENTER = new Vec3(50, 0, 50);
 
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
         Vec3 acceleration = this.BoidBehavior(friendly);
+
         this._agent.UpdateSpeed(acceleration);
         this._agent.Move();
+        
 
         if (this._agent.IsSafe)
         {
@@ -26,6 +34,7 @@ public class AnimalFleeState : AnimalState
         Vec3 avoidanceVector = this.Avoidance(nearbyAnimals);
         Vec3 cohesionVector = this.Cohesion(nearbyAnimals);
         Vec3 followVector = this.Follow(nearbyAnimals);
+        Vec3 goToCenterVector = this.Center();
 
 
         if (avoidanceVector.IsZero())
@@ -40,10 +49,13 @@ public class AnimalFleeState : AnimalState
             followVector.Multiply(WEIGHT_FOLLOW);
         }
 
+        goToCenterVector.Multiply(WEIGHT_CENTER);
+
         Vec3 acceleration = Vec3.Zero();
         acceleration.Add(avoidanceVector);
         acceleration.Add(cohesionVector);
         acceleration.Add(followVector);
+        acceleration.Add(goToCenterVector);
         acceleration.Trim(this._agent.MaxSquaredSpeed);
 
         return acceleration;
@@ -52,7 +64,7 @@ public class AnimalFleeState : AnimalState
     public Vec3 Avoidance(List<Animal> nearbyAnimals)
     {
         Vec3 avoidanceVector = Vec3.Zero();
-        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/5);
+        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/12);
         int animalCount = closeAnimals.Count;
 
         if (animalCount > 0) {
@@ -86,9 +98,10 @@ public class AnimalFleeState : AnimalState
             }
 
             centerPosition.Divide(animalCount);
-            centerPosition.Trim(this._agent.MaxSquaredSpeed);
+            Vec3 cohesionForce = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, centerPosition);
+            cohesionForce.Trim(this._agent.MaxSquaredSpeed);
 
-            return centerPosition;
+            return cohesionForce;
         }
         else
         {
@@ -117,5 +130,19 @@ public class AnimalFleeState : AnimalState
             return Vec3.Zero();
         }
 
+    }
+
+    public Vec3 Center()
+    {
+        Vec3 goToCenterVector = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, CENTER);
+        if (goToCenterVector.SquaredModule > 2500)
+        {
+            goToCenterVector.Trim(this._agent.MaxSquaredSpeed);
+            return goToCenterVector;
+        }
+        else
+        {
+            return Vec3.Zero();
+        }
     }
 }

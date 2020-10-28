@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Animal
 {
     //SECTION: Attributes and properties
-    private const double STEER_FORCE = 0.3;
+    private const double STEER_FORCE = 0.8;
 
     private int _id;
     public int Id { get => _id; }
@@ -45,7 +45,8 @@ public class Animal
         this._squaredVisionRadius = visionRadius * visionRadius;
 
         this._position = new Vec3(rand);
-        this._speed = Vec3.Zero();
+        this._speed = new Vec3(rand);
+        this._speed.Trim(this._maxSquaredSpeed);
 
         this._id = id;
     }
@@ -63,16 +64,19 @@ public class Animal
 
     public void UpdateSpeed(Vec3 acceleration)
     {
-        Vec3 newSpeed = Vec3.Zero();
+        if (!acceleration.IsZero())
+        {
+            Vec3 newSpeed = Vec3.Zero();
 
-        this._speed.Multiply(STEER_FORCE);
-        newSpeed.Add(this._speed);
+            this._speed.Multiply(STEER_FORCE);
+            newSpeed.Add(this._speed);
 
-        acceleration.Multiply(1 - STEER_FORCE);
-        newSpeed.Add(acceleration);
+            acceleration.Multiply(1 - STEER_FORCE);
+            newSpeed.Add(acceleration);
 
-        newSpeed.Trim(MaxSquaredSpeed);
-        this._speed = newSpeed;
+            newSpeed.Trim(MaxSquaredSpeed);
+            this._speed = newSpeed;
+        }
     }
 
     //END: Constructor and main methods
