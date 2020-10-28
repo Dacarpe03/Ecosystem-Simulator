@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AnimalHuntState : AnimalState
 {
@@ -13,6 +14,13 @@ public class AnimalHuntState : AnimalState
             List<Animal> nearbyPreys = this.GetNearbyAnimals(foes, this._agent.SquaredVisionRadius);
             preyFixedId = this.GetSlowestAnimal(nearbyPreys);
         }
+
+        Vec3 preyPosition = (Vec3) friendly.Where(a => a.Id == preyFixedId);
+        Vec3 force = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, preyPosition);
+        force.Trim(this._agent.MaxSquaredSpeed);
+
+        this._agent.UpdateSpeed(force);
+        this._agent.Move();
     }
     
     private int GetSlowestAnimal(List<Animal> nearbyPreys)
