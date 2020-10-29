@@ -143,7 +143,7 @@ public class AnimalFleeState : AnimalState
 
             if(squaredDistanceToPredator < 2)
             {
-                //this._agent.IsDead = true;
+                this._agent.IsDead = true;
             }
         }
 

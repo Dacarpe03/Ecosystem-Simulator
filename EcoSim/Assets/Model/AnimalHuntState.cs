@@ -15,7 +15,14 @@ public class AnimalHuntState : AnimalState
             if (nearbyPreys.Count > 0)
             {
                 fixedPreyId = this.GetSlowestAnimal(nearbyPreys);
-                preyFixed = true;
+                if(fixedPreyId == -1)
+                {
+                    this._agent.Move();
+                }
+                else
+                {
+                    preyFixed = true;
+                }
             }
             else
             {
@@ -26,6 +33,7 @@ public class AnimalHuntState : AnimalState
         {
 
             Animal fixedPrey = (Animal)foes.Where(a => a.Id == fixedPreyId).Select(a => a).ToList().First();
+            if (fixedPrey.IsDead) { preyFixed = false; }
 
             Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPrey.Position);
             acceleration.Expand(this._agent.MaxSpeed);
