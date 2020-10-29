@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AnimalGroup
 {
@@ -47,6 +48,9 @@ public class AnimalGroup
 
     public void Evolve()
     {
+        List<Animal> survivors = this._animals.Where(a => a.IsDead = false).Select(a => a).ToList();
+        this._size = survivors.Count;
+
         int possibleBreedingCount = this._size / 2;
         var rand = new Random();
         for (int i = 0; i < possibleBreedingCount; i++)
@@ -55,11 +59,12 @@ public class AnimalGroup
             if (r < REPRODUCTIONPROB)
             {
                 Animal a = new Animal(new AnimalStillState(), this._maxSpeed, this._visionRadius, i, rand);
-                this._animals.Add(a);
+                survivors.Add(a);
                 this._size += 1;
             }
         }
 
+        this._animals = survivors;
         this.ResetPositions();
     }
 
