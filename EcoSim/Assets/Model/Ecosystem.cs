@@ -22,6 +22,9 @@ public class Ecosystem
 
     private AnimalGroup _predators;
     public AnimalGroup Predators { get => _predators; }
+
+    public Boolean _reset = false;
+    public Boolean Reset { get => _reset; set => _reset = value; }
     //END: Attributes and properties
 
 

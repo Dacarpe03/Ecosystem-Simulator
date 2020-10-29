@@ -7,10 +7,12 @@ public class SimulationSurviveState : SimulationState
     {
         if (_eco.Preys.AreSafe())
         {
+            _eco.Reset = true;
             _eco.TransitionTo(new SimulationEvolveState());
         }
         else
         {
+            _eco.Reset = false;
             _eco.Survive();
         }
     }
