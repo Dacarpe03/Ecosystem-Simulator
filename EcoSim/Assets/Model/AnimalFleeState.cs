@@ -5,11 +5,11 @@ public class AnimalFleeState : AnimalState
 {
 
 
-    private const double WEIGHT_AVOID = 3;
-    private const double WEIGHT_COHESION = 1;
-    private const double WEIGHT_FOLLOW = 5;
-    private const double WEIGHT_CENTER = 1;
-    private const double WEIGHT_FLEE = 10;
+    private const double WEIGHT_AVOID = 7;
+    private const double WEIGHT_COHESION = 2;
+    private const double WEIGHT_FOLLOW = 3;
+    private const double WEIGHT_CENTER = 10;
+    private const double WEIGHT_FLEE = 20;
 
 
     private Vec3 CENTER = new Vec3(50, 0, 50);
@@ -52,7 +52,7 @@ public class AnimalFleeState : AnimalState
     private Vec3 Avoidance(List<Animal> nearbyAnimals) //Avoid nearby animals creating a repelling force between them
     {
         Vec3 avoidanceVector = Vec3.Zero();
-        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, this._agent.SquaredVisionRadius/144);
+        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, 2.5);
         int animalCount = closeAnimals.Count;
 
         if (animalCount > 0) {
@@ -122,16 +122,8 @@ public class AnimalFleeState : AnimalState
 
     private Vec3 Center() //Stay in the scene
     {
-        Vec3 goToCenterVector = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, CENTER);
-        if (goToCenterVector.SquaredModule > 2500)
-        {
-            goToCenterVector.Multiply(WEIGHT_CENTER);
-            return goToCenterVector;
-        }
-        else
-        {
-            return Vec3.Zero();
-        }
+        Vec3 goToCenter = new Vec3(WEIGHT_CENTER, 0, 0);
+        return goToCenter;
     }
 
     private Vec3 Flee(List<Animal> predators) //Avoid predators by creating a repelling force
@@ -140,7 +132,7 @@ public class AnimalFleeState : AnimalState
         int nearbyPredatorNumber = 0;
         foreach(Animal a in predators)
         {
-            if(this._agent.SquareDistanceTo(a) < this._agent.SquaredVisionRadius)
+            if(this._agent.SquareDistanceTo(a) < this._agent.SquaredVisionRadius/4)
             {
                 nearbyPredatorNumber++;
                 Vec3 force = Vec3.CalculateVectorsBetweenPoints(a.Position, this._agent.Position);

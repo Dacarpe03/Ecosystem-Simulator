@@ -9,20 +9,35 @@ public class AnimalHuntState : AnimalState
 
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
-        if (!preyFixed) 
+        if (!preyFixed)
         {
             List<Animal> nearbyPreys = this.GetNearbyAnimals(foes, this._agent.SquaredVisionRadius);
-            fixedPreyId = this.GetSlowestAnimal(nearbyPreys);
-            preyFixed = true; 
+            if (nearbyPreys.Count > 0)
+            {
+                fixedPreyId = this.GetSlowestAnimal(nearbyPreys);
+                preyFixed = true;
+            }
+            else
+            {
+                this._agent.Move();
+            }
         }
+        else
+        {
 
-        Vec3 fixedPreyPosition  = (Vec3) foes.Where(a => a.Id == fixedPreyId).Select(a => a.Position).ToList().First();
+            Animal fixedPrey = (Animal)foes.Where(a => a.Id == fixedPreyId).Select(a => a).ToList().First();
 
-        Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPreyPosition);
-        acceleration.Expand(this._agent.MaxSpeed);
+            Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, fixedPrey.Position);
+            acceleration.Expand(this._agent.MaxSpeed);
 
-        this._agent.UpdateSpeed(acceleration);
-        this._agent.Move();
+            this._agent.UpdateSpeed(acceleration);
+            this._agent.Move();
+
+            if(this._agent.SquareDistanceTo(fixedPrey) < 1)
+            {
+                fixedPrey.IsDead = true;
+            }
+        }
     }
     
     private int GetSlowestAnimal(List<Animal> nearbyPreys)
