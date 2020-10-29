@@ -32,12 +32,6 @@ public class AnimalHuntState : AnimalState
 
             this._agent.UpdateSpeed(acceleration);
             this._agent.Move();
-
-            if(this._agent.SquareDistanceTo(fixedPrey) < 1)
-            {
-                fixedPrey.IsDead = true;
-                fixedPrey.IsSafe = true;
-            }
         }
     }
     

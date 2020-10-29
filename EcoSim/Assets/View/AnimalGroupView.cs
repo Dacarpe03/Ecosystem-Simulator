@@ -33,4 +33,12 @@ public class AnimalGroupView : MonoBehaviour
             this.Animals.ElementAt(i).UpdatePosition(newPositions.ElementAt(i));
         }
     }
+
+    public void Reset()
+    {
+        foreach(AnimalView av in Animals)
+        {
+            Destroy(av);
+        }
+    }
 }

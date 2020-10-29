@@ -25,6 +25,10 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this._ecosystem.Reset)
+        {
+            this.ResetView();
+        }
         this._ecosystem.Update();
         List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
         List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
@@ -50,5 +54,13 @@ public class Controller : MonoBehaviour
 
         return newVectors;
     }
+
+    public void ResetView()
+    {
+        this._myView.Reset();
+        this._myView = Instantiate(_myView);
+        this._myView.Initialize(this._ecosystem.Preys.Size, this._ecosystem.Predators.Size);
+    }
 }
 
+    

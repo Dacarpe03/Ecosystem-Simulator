@@ -32,4 +32,11 @@ public class View : MonoBehaviour
         GroupOne.UpdatePositions(positionsGrOne);
         GroupTwo.UpdatePositions(positionsGrTwo);
     }
+
+    public void Reset()
+    {
+        this.GroupOne.Reset();
+        this.GroupTwo.Reset();
+        Destroy(this);
+    }
 }
