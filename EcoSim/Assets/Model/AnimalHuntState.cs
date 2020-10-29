@@ -36,6 +36,7 @@ public class AnimalHuntState : AnimalState
             if(this._agent.SquareDistanceTo(fixedPrey) < 1)
             {
                 fixedPrey.IsDead = true;
+                fixedPrey.IsSafe = true;
             }
         }
     }
@@ -46,8 +47,8 @@ public class AnimalHuntState : AnimalState
         int idFixed = -1;
         foreach(Animal p in nearbyPreys)
         {
-            double preySpeed = p.Speed.SquaredModule;
-           if(preySpeed < maxSpeed)
+           double preySpeed = p.Speed.SquaredModule;
+           if(preySpeed < maxSpeed & !p.IsDead)
             {
                 maxSpeed = preySpeed;
                 idFixed = p.Id;
