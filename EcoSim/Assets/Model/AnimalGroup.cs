@@ -30,7 +30,7 @@ public class AnimalGroup
             AnimalState initialState = new AnimalHuntState();
             if (prey)
             {
-                initialState = new AnimalStillState();
+                initialState = new AnimalFleeState();
             }
             Animal a = new Animal(initialState, maxSpeed, visionRadius , i, rand); ;
             this._animals.Add(a);

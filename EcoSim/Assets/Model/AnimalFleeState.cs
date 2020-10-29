@@ -22,8 +22,9 @@ public class AnimalFleeState : AnimalState
         this._agent.Move();
         
 
-        if (this._agent.IsSafe)
+        if (this._agent.Position.XCoord > 500)
         {
+            this._agent.IsSafe = true;
             this._agent.TransitionTo(new AnimalStillState());
         }
     }
