@@ -24,6 +24,9 @@ public class Animal
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
 
+    private Boolean _isDead = false;
+    public Boolean IsDead { get => _isDead; set => _isDead = value; }
+
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
 
