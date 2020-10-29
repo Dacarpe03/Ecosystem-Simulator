@@ -22,7 +22,7 @@ public class AnimalFleeState : AnimalState
         this._agent.Move();
         
 
-        if (this._agent.Position.XCoord > 500)
+        if (this._agent.Position.XCoord > 500 | this._agent.IsDead)
         {
             this._agent.IsSafe = true;
             this._agent.TransitionTo(new AnimalStillState());
@@ -133,11 +133,17 @@ public class AnimalFleeState : AnimalState
         int nearbyPredatorNumber = 0;
         foreach(Animal a in predators)
         {
-            if(this._agent.SquareDistanceTo(a) < this._agent.SquaredVisionRadius/4)
+            double squaredDistanceToPredator = this._agent.SquareDistanceTo(a);
+            if (squaredDistanceToPredator < this._agent.SquaredVisionRadius/4)
             {
                 nearbyPredatorNumber++;
                 Vec3 force = Vec3.CalculateVectorsBetweenPoints(a.Position, this._agent.Position);
                 fleeVector.Add(force);
+            }
+
+            if(squaredDistanceToPredator < 2)
+            {
+                //this._agent.IsDead = true;
             }
         }
 

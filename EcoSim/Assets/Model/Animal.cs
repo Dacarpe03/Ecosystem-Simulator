@@ -105,6 +105,7 @@ public class Animal
 
     public void ResetPosition(Random rand)
     {
+        this._isSafe = false;
         this._position.RandomizeCoords(rand);
     }
     //END: Secondary methods

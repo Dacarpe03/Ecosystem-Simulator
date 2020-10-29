@@ -8,6 +8,8 @@ public class AnimalGroup
     private const double REPRODUCTIONPROB = 0.1;
 
     private int _size;
+    public int Size { get => _size; }
+
     private double _maxSpeed;
     private double _visionRadius;
 
