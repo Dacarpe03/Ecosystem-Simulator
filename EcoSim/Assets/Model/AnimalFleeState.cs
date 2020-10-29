@@ -16,7 +16,7 @@ public class AnimalFleeState : AnimalState
 
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
-        Vec3 acceleration = this.BoidBehavior(friendly);
+        Vec3 acceleration = this.BoidBehavior(friendly, foes);
 
         this._agent.UpdateSpeed(acceleration);
         this._agent.Move();
