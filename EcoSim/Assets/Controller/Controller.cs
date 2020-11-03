@@ -7,32 +7,38 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
 
-    private const int PREY_GROUP_SIZE = 500;
-    private const int PREDATOR_GROUP_SIZE = 6;
+    private int PREY_GROUP_SIZE = 500;
+    private int PREDATOR_GROUP_SIZE = 6;
 
     private Ecosystem _ecosystem;
 
-    public View _myView;
+    public View MyView;
+    private View _myView;
     // Start is called before the first frame update
 
     void Start()
     {
         this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
-        _myView = Instantiate(_myView);
-        _myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+        this._myView = Instantiate(MyView);
+        this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (this._ecosystem.Reset)
         {
+            this._ecosystem.Update();
             this.ResetView();
         }
-        this._ecosystem.Update();
-        List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
-        List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
-        this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
+        else
+        {
+            this._ecosystem.Update();
+            List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
+            List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
+            this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
+        }
     }
 
     public List<Vector3> GetModelPositions(AnimalGroup modelGroup)
@@ -58,7 +64,8 @@ public class Controller : MonoBehaviour
     public void ResetView()
     {
         this._myView.Reset();
-        this._myView = Instantiate(_myView);
+        Destroy(this._myView.gameObject);
+        this._myView = Instantiate(MyView);
         this._myView.Initialize(this._ecosystem.Preys.Size, this._ecosystem.Predators.Size);
     }
 }

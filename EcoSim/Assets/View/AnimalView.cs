@@ -19,5 +19,10 @@ public class AnimalView : MonoBehaviour
     {
         this.GetComponentInChildren<Renderer>().material.color = color;
     }
-    
+
+    public void Reset()
+    {
+        Destroy(this.gameObject);
+    }
+
 }
