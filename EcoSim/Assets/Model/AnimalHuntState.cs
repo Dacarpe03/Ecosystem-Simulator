@@ -43,6 +43,7 @@ public class AnimalHuntState : AnimalState
             else
             {
                 Vec3 avoid = this.Avoidance(friendly);
+                avoid.Multiply(0.2);
                 this._agent.UpdateSpeed(avoid);
                 this._agent.Move();
             }
