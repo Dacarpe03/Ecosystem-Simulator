@@ -15,7 +15,6 @@ public class AnimalGroupView : MonoBehaviour
 
     public void Initialize(int size, Color color)
     {
-        Debug.Log("Inicializo grupo con tamaño " + size);
         this._size = size;
 
         for (int i=0; i<this._size; i++) 

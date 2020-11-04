@@ -6,8 +6,10 @@ using UnityEngine;
 public class AnimalGroup
 {
     //SECTION: Attributes and properties
-    private const double REPRODUCTIONPROB = 0.1;
+    private const double REPRODUCTIONPROB = 0.4;
     public int Size { get => this.Animals.Count; }
+
+    private Boolean _arePrey;
 
     private double _maxSpeed;
     private double _visionRadius;
@@ -21,6 +23,7 @@ public class AnimalGroup
 
     public AnimalGroup(int size, double maxSpeed, double visionRadius, Boolean prey)
     {
+        this._arePrey = prey;
         this._maxSpeed = maxSpeed;
         this._visionRadius = visionRadius;
         this._animals = new List<Animal>();
@@ -40,7 +43,7 @@ public class AnimalGroup
 
     public void Survive(List<Animal> foes)
     {
-        List<Animal> alive = this._animals.Where(a => a.IsDead == false).Select(a => a).ToList();
+        List<Animal> alive = this._animals.Where(a => !a.IsDead && !a.IsSafe).Select(a => a).ToList();
         foreach (Animal a in this._animals)
         {
             a.State.Update(alive, foes);
@@ -49,7 +52,7 @@ public class AnimalGroup
 
     public void Evolve()
     {
-        List<Animal> survivors = this._animals.Where(a => a.IsDead == false).Select(a => a).ToList();
+        List<Animal> survivors = this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList();
         Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
 
         int possibleBreedingCount = this.Size / 2;
@@ -83,7 +86,12 @@ public class AnimalGroup
         System.Random rand = new System.Random();
         foreach(Animal a in this._animals)
         {
-            a.TransitionTo(new AnimalFleeState());
+            AnimalState initialState = new AnimalHuntState();
+            if (this._arePrey)
+            {
+                initialState = new AnimalFleeState();
+            }
+            a.TransitionTo(initialState);
             a.ResetPosition(rand);
         }
     }
