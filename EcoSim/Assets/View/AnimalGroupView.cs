@@ -33,4 +33,16 @@ public class AnimalGroupView : MonoBehaviour
             this.Animals.ElementAt(i).UpdatePosition(newPositions.ElementAt(i));
         }
     }
+
+    public void Reset()
+    {
+        int size = Animals.Count;
+        for (int i=size-1; i>=0; i--)
+        {
+            AnimalView a = this.Animals.ElementAt(i);
+            this.Animals.RemoveAt(i);
+            Destroy(a.gameObject);
+        }
+        Destroy(this.gameObject);
+    }
 }

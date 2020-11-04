@@ -43,7 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5917665dfc768542bea57500a995b19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroupOne: {fileID: 6595345165847576224, guid: c423577f75d941e409206364b9273bfb,
-    type: 3}
-  GroupTwo: {fileID: 6595345165847576224, guid: c423577f75d941e409206364b9273bfb,
+  GroupDummy: {fileID: 6595345165847576224, guid: c423577f75d941e409206364b9273bfb,
     type: 3}

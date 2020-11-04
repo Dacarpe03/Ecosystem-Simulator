@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class AnimalGroup
 {
     //SECTION: Attributes and properties
-    private const double REPRODUCTIONPROB = 0.1;
+    private const double REPRODUCTIONPROB = 0.4;
+    public int Size { get => this.Animals.Count; }
 
-    private int _size;
+    private Boolean _arePrey;
+
     private double _maxSpeed;
     private double _visionRadius;
 
@@ -17,53 +21,77 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
 
-    public AnimalGroup(int size, double maxSpeed, double visionRadius)
+    public AnimalGroup(int size, double maxSpeed, double visionRadius, Boolean prey)
     {
-        this._size = size;
+        this._arePrey = prey;
         this._maxSpeed = maxSpeed;
         this._visionRadius = visionRadius;
         this._animals = new List<Animal>();
 
-        Random rand = new Random();
+        System.Random rand = new System.Random();
         for (int i = 0; i < size; i++)
         {
-            Animal a = new Animal(new AnimalStillState(), maxSpeed, visionRadius , i, rand); ;
+            AnimalState initialState = new AnimalHuntState();
+            if (prey)
+            {
+                initialState = new AnimalFleeState();
+            }
+            Animal a = new Animal(initialState, maxSpeed, visionRadius , i, rand); ;
             this._animals.Add(a);
         }
     }
 
     public void Survive(List<Animal> foes)
     {
-        foreach(Animal a in this._animals)
+        List<Animal> alive = this._animals.Where(a => !a.IsDead && !a.IsSafe).Select(a => a).ToList();
+        foreach (Animal a in this._animals)
         {
-            a.State.Update(this._animals, foes);
+            a.State.Update(alive, foes);
         }
     }
 
     public void Evolve()
     {
-        int possibleBreedingCount = this._size / 2;
-        var rand = new Random();
+        List<Animal> survivors = this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList();
+        Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
+
+        int possibleBreedingCount = this.Size / 2;
+        var rand = new System.Random();
         for (int i = 0; i < possibleBreedingCount; i++)
         {
             double r = rand.NextDouble();
             if (r < REPRODUCTIONPROB)
             {
                 Animal a = new Animal(new AnimalStillState(), this._maxSpeed, this._visionRadius, i, rand);
-                this._animals.Add(a);
-                this._size += 1;
+                survivors.Add(a);
             }
         }
 
+        this._animals = survivors;
+        Debug.Log("Tamaño grupo después de reproducción: " + this.Size);
+        this.ResetSafe();
         this.ResetPositions();
+    }
+
+    public void ResetSafe()
+    {
+        foreach(Animal a in this._animals)
+        {
+            a.IsSafe = false;
+        }
     }
 
     public void ResetPositions()
     {
-        Random rand = new Random();
+        System.Random rand = new System.Random();
         foreach(Animal a in this._animals)
         {
-            a.TransitionTo(new AnimalStillState());
+            AnimalState initialState = new AnimalHuntState();
+            if (this._arePrey)
+            {
+                initialState = new AnimalFleeState();
+            }
+            a.TransitionTo(initialState);
             a.ResetPosition(rand);
         }
     }

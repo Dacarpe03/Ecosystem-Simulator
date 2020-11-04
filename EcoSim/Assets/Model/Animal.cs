@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Animal
 {
     //SECTION: Attributes and properties
-    private const double STEER_FORCE = 0.8;
+    private const double STEER_FORCE = 0.7;
 
     private int _id;
     public int Id { get => _id; }
@@ -13,6 +13,7 @@ public class Animal
     public AnimalState State { get => _state; set => _state = value; }
 
     private double _maxSpeed;
+    public double MaxSpeed { get => _maxSpeed; }
     private double _maxSquaredSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
     public double MaxSquaredSpeed { get => _maxSquaredSpeed; }
     
@@ -22,6 +23,9 @@ public class Animal
 
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
+
+    private Boolean _isDead = false;
+    public Boolean IsDead { get => _isDead; set => _isDead = value; }
 
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
@@ -101,6 +105,7 @@ public class Animal
 
     public void ResetPosition(Random rand)
     {
+        this._isSafe = false;
         this._position.RandomizeCoords(rand);
     }
     //END: Secondary methods

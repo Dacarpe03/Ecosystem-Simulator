@@ -10,7 +10,7 @@ public class AnimalStillState : AnimalState
     {
         //if (this._agent.InDanger(foes))
         //{
-            this._agent.TransitionTo(new AnimalFleeState());
+            //this._agent.TransitionTo(new AnimalFleeState());
         //}
     }
 }
