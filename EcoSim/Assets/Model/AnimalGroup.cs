@@ -6,7 +6,7 @@ using UnityEngine;
 public class AnimalGroup
 {
     //SECTION: Attributes and properties
-    private const double REPRODUCTIONPROB = 0.4;
+    private const double REPRODUCTIONPROB = 1;
     public int Size { get => this.Animals.Count; }
 
     private Boolean _arePrey;
@@ -43,10 +43,11 @@ public class AnimalGroup
 
     public void Survive(List<Animal> foes)
     {
-        List<Animal> alive = this._animals.Where(a => !a.IsDead && !a.IsSafe).Select(a => a).ToList();
+        List<Animal> aliveAllies = this._animals.Where(a => !a.IsDead | !a.IsSafe).Select(a => a).ToList();
+        List<Animal> aliveFoes = this._animals.Where(a => !a.IsDead | !a.IsSafe).Select(a => a).ToList();
         foreach (Animal a in this._animals)
         {
-            a.State.Update(alive, foes);
+            a.State.Update(aliveAllies, foes);
         }
     }
 
@@ -55,12 +56,12 @@ public class AnimalGroup
         List<Animal> survivors = this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList();
         Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
 
-        int possibleBreedingCount = this.Size / 2;
+        int possibleBreedingCount = survivors.Count / 2;
         var rand = new System.Random();
         for (int i = 0; i < possibleBreedingCount; i++)
         {
             double r = rand.NextDouble();
-            if (r < REPRODUCTIONPROB)
+            if (r <= REPRODUCTIONPROB)
             {
                 Animal a = new Animal(new AnimalStillState(), this._maxSpeed, this._visionRadius, i, rand);
                 survivors.Add(a);

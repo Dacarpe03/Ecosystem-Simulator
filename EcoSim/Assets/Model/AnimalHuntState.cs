@@ -4,7 +4,7 @@ using System.Linq;
 
 public class AnimalHuntState : AnimalState
 {
-    private const int PREYS_NEEDED_TO_SURVIVE = 10;
+    private const int PREYS_NEEDED_TO_SURVIVE = 1;
     private int _preysHunted = 0;
 
     private Boolean preyFixed = false;
@@ -31,6 +31,7 @@ public class AnimalHuntState : AnimalState
                 if(fixedPreyId == -1)
                 {
                     Vec3 avoid = this.Avoidance(friendly);
+                    avoid.Multiply(0.2);
                     this._agent.UpdateSpeed(avoid);
                     this._agent.Move();
                 }
@@ -54,8 +55,7 @@ public class AnimalHuntState : AnimalState
             {
                 this.preyFixed = false;
             }
-
-            if(fixedPrey.SquareDistanceTo(this._agent) < 4)
+            else if(fixedPrey.SquareDistanceTo(this._agent) < 4)
             {
                 fixedPrey.IsDead = true;
                 fixedPrey.IsSafe = true;
@@ -81,7 +81,7 @@ public class AnimalHuntState : AnimalState
             double preySpeed = p.Speed.Module;
             double distanceToPrey = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, p.Position).Module;
             double fitness = distanceToPrey / preySpeed;
-            if(fitness > maxFitness)
+            if(fitness > maxFitness & !p.IsDead)
             {
                 idFixed = p.Id;
                 maxFitness = fitness;

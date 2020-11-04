@@ -33,9 +33,9 @@ public class Vec3
 
     public void RandomizeCoords(Random rand)
     {
-        this._xCoord = rand.NextDouble() * 50;
+        this._xCoord = rand.NextDouble() * 100;
         this._yCoord = 0f;
-        this._zCoord = rand.NextDouble() * 50;
+        this._zCoord = rand.NextDouble() * 100;
     }
     //END: Constructor and main methods
 

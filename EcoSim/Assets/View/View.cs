@@ -19,7 +19,6 @@ public class View : MonoBehaviour
 
     public void Initialize(int sizeOne, int sizeTwo)
     {
-        Debug.Log("Inicializo vista");
         _sizeGroupOne = sizeOne;
         _sizeGroupTwo = sizeTwo;
 
