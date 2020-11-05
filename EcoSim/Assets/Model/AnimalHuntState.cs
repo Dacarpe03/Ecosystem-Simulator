@@ -82,7 +82,7 @@ public class AnimalHuntState : AnimalState
             double preySpeed = p.Speed.Module;
             double distanceToPrey = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, p.Position).Module;
             double fitness = distanceToPrey / preySpeed;
-            if(fitness > maxFitness & !p.IsDead)
+            if(fitness > maxFitness & !p.IsDead & !p.IsSafe)
             {
                 idFixed = p.Id;
                 maxFitness = fitness;
