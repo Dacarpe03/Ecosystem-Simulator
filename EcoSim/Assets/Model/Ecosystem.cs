@@ -5,12 +5,6 @@ public class Ecosystem
 {
     //SECTION: Attributes and properties
 
-    private const double PREY_MAX_SPEED = 0.5;
-    private const double PREDATOR_MAX_SPEED = 0.6;
-
-    private const double PREY_VISION_RADIUS = 8;
-    private const double PREDATOR_VISION_RADIUS = 15;
-
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }
     
@@ -29,12 +23,12 @@ public class Ecosystem
 
 
     //SECTION: Constructor and main methods
-    public Ecosystem(int preyGroupSize, int predatorGroupSize)
+    public Ecosystem(int preyGroupSize, double preyMaxSpeed, double preyVisionRadius, double preyReproductionProb, int predatorGroupSize, double predatorMaxSpeed, double predatorVisionRadius, double predatorReproductionProb)
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(preyGroupSize, PREY_MAX_SPEED, PREY_VISION_RADIUS, true);
-        this._predators = new AnimalGroup(predatorGroupSize, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, false);
+        this._preys = new AnimalGroup(preyGroupSize, preyMaxSpeed, preyVisionRadius, preyReproductionProb, true);
+        this._predators = new AnimalGroup(predatorGroupSize, predatorMaxSpeed, predatorVisionRadius, predatorReproductionProb, false);
     }
 
     public void Update()

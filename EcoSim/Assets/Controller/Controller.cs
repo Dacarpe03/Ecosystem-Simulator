@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    private double PREY_REPRODUCTION_PROB = 1;
+    private double PREDATOR_REPRODUCTION_PROB = 1;
+
+    private double PREY_MAX_SPEED = 0.5;
+    private double PREDATOR_MAX_SPEED = 0.6;
+
+    private double PREY_VISION_RADIUS = 8;
+    private double PREDATOR_VISION_RADIUS = 15;
 
     private int PREY_GROUP_SIZE = 500;
     private int PREDATOR_GROUP_SIZE = 15;
@@ -18,7 +26,7 @@ public class Controller : MonoBehaviour
 
     void Start()
     {
-        this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+        this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
         this._myView = Instantiate(MyView);
         this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
     }
