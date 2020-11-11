@@ -19,6 +19,8 @@ public class Ecosystem
 
     public Boolean _reset = false;
     public Boolean Reset { get => _reset; set => _reset = value; }
+
+    public Boolean Extinguised { get => this.Predators.Size == 0; }
     //END: Attributes and properties
 
 

@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+
+    private int NUMBER_OF_SIMULATIONS = 3;
+    private int ITERATIONS_PER_SIMULATION = 5;
+
     private double PREY_REPRODUCTION_PROB = 1;
     private double PREDATOR_REPRODUCTION_PROB = 1;
 
@@ -15,8 +19,10 @@ public class Controller : MonoBehaviour
     private double PREY_VISION_RADIUS = 8;
     private double PREDATOR_VISION_RADIUS = 15;
 
-    private int PREY_GROUP_SIZE = 500;
-    private int PREDATOR_GROUP_SIZE = 15;
+    private int PREY_GROUP_SIZE = 50;
+    private int PREDATOR_GROUP_SIZE = 1;
+
+    private int _simulationCounter = 1;
 
     private Ecosystem _ecosystem;
 
@@ -26,6 +32,7 @@ public class Controller : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Simulación " + this._simulationCounter);
         this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
         this._myView = Instantiate(MyView);
         this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
@@ -34,18 +41,33 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (this._ecosystem.Reset)
+        if (this._ecosystem.Iteration < ITERATIONS_PER_SIMULATION & !this._ecosystem.Extinguised)
         {
-            this._ecosystem.Update();
+
+            if (this._ecosystem.Reset)
+            {
+                this._ecosystem.Update();
+                this.ResetView();
+            }
+            else
+            {
+                this._ecosystem.Update();
+                List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
+                List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
+                this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
+            }
+        }
+        else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
+        {
+            Debug.Log("Simulación " + this._simulationCounter);
+            this._simulationCounter++;
+            this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
             this.ResetView();
         }
         else
         {
-            this._ecosystem.Update();
-            List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
-            List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
-            this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
+            Debug.Log("Fin de las simulaciones");
+            Destroy(this.gameObject);
         }
     }
 

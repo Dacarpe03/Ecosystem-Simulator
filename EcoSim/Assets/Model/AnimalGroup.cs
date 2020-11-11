@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+//using UnityEngine;
 
 public class AnimalGroup
 {
@@ -55,7 +55,7 @@ public class AnimalGroup
     public void Evolve()
     {
         List<Animal> survivors = this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList();
-        Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
+        //Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
 
         int possibleBreedingCount = survivors.Count / 2;
         var rand = new System.Random();
@@ -70,7 +70,7 @@ public class AnimalGroup
         }
 
         this._animals = survivors;
-        Debug.Log("Tamaño grupo después de reproducción: " + this.Size);
+        //Debug.Log("Tamaño grupo después de reproducción: " + this.Size);
         this.ResetSafe();
         this.ResetPositions();
     }
