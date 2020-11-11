@@ -60,6 +60,7 @@ public class Controller : MonoBehaviour
 
             if (this._ecosystem.Reset)
             {
+                this.UpdateFile();
                 this._ecosystem.Update();
                 this.ResetView();
             }
@@ -73,10 +74,11 @@ public class Controller : MonoBehaviour
         }
         else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
         {
-            Debug.Log("Simulación " + this._simulationCounter);
             this._simulationCounter++;
+            Debug.Log("Simulación " + this._simulationCounter);
             this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
             this.ResetView();
+            this.CreateFileForSimulation();
         }
         else
         {
@@ -133,7 +135,6 @@ public class Controller : MonoBehaviour
 
             sr.WriteLine("Iteracion|InicialPresas|InicialPredadores");
             sr.WriteLine("Iteracion|SupervivientesPresas|SupervivientesPredadores");
-            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
             sr.Close();
         }
     }
@@ -144,6 +145,7 @@ public class Controller : MonoBehaviour
         {
             StreamWriter sr = File.AppendText(_currentFileName);
             sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
+            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.SurvivorsNumber + "||" + this._ecosystem.Predators.SurvivorsNumber);
             sr.Close();
         }
     }
