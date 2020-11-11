@@ -23,12 +23,12 @@ public class Ecosystem
 
 
     //SECTION: Constructor and main methods
-    public Ecosystem(int preyGroupSize, int predatorGroupSize, double preyMaxSpeed, double preyVisionRadius, double predatorMaxSpeed, double predatorVisionRadius)
+    public Ecosystem(int preyGroupSize, double preyMaxSpeed, double preyVisionRadius, double preyReproductionProb, int predatorGroupSize, double predatorMaxSpeed, double predatorVisionRadius, double predatorReproductionProb)
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(preyGroupSize, preyMaxSpeed, preyVisionRadius, true);
-        this._predators = new AnimalGroup(predatorGroupSize, predatorMaxSpeed, predatorVisionRadius, false);
+        this._preys = new AnimalGroup(preyGroupSize, preyMaxSpeed, preyVisionRadius, preyReproductionProb, true);
+        this._predators = new AnimalGroup(predatorGroupSize, predatorMaxSpeed, predatorVisionRadius, predatorReproductionProb, false);
     }
 
     public void Update()

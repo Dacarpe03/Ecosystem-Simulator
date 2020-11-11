@@ -6,7 +6,7 @@ using UnityEngine;
 public class AnimalGroup
 {
     //SECTION: Attributes and properties
-    private const double REPRODUCTIONPROB = 1;
+    private  double _reproductionProb = 1;
     public int Size { get => this.Animals.Count; }
 
     private Boolean _arePrey;
@@ -21,11 +21,12 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
 
-    public AnimalGroup(int size, double maxSpeed, double visionRadius, Boolean prey)
+    public AnimalGroup(int size, double maxSpeed, double visionRadius, double reproductionProb, Boolean prey)
     {
         this._arePrey = prey;
         this._maxSpeed = maxSpeed;
         this._visionRadius = visionRadius;
+        this._reproductionProb = reproductionProb;
         this._animals = new List<Animal>();
 
         System.Random rand = new System.Random();
@@ -61,7 +62,7 @@ public class AnimalGroup
         for (int i = 0; i < possibleBreedingCount; i++)
         {
             double r = rand.NextDouble();
-            if (r <= REPRODUCTIONPROB)
+            if (r <= _reproductionProb)
             {
                 Animal a = new Animal(new AnimalStillState(), this._maxSpeed, this._visionRadius, i, rand);
                 survivors.Add(a);
