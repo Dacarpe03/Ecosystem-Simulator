@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
     //PATHS FOR FILES
-    private String PATH;
-
+    private string PATH;
+    private string _currentFileName;
     //END PATHS FOR FILES
+
+
     //PARAMETERS OF SIMULATION
     private int NUMBER_OF_SIMULATIONS = 3;
     private int ITERATIONS_PER_SIMULATION = 5;
@@ -45,9 +48,8 @@ public class Controller : MonoBehaviour
         this._myView = Instantiate(MyView);
         this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
 
-
-        this.PATH = Application.dataPath + "/SimulationData/Simulation";
-        Debug.Log(PATH);
+        this.PATH = Application.dataPath + "/SimulationData/";
+        this.CreateFileForSimulation();
     }
 
     // Update is called once per frame
@@ -111,6 +113,40 @@ public class Controller : MonoBehaviour
         this._myView.Initialize(this._ecosystem.Preys.Size, this._ecosystem.Predators.Size);
     }
 
+    public void CreateFileForSimulation()
+    {
+        var dt = DateTime.Now;
+        string date = dt.ToString("MM-dd-yyyy-hh-mm");
+        string fileName = date + "-simulation" + this._simulationCounter + ".txt";
+        this._currentFileName = this.PATH + fileName;
+        if (!File.Exists(this._currentFileName))
+        {
+            StreamWriter sr = File.CreateText(_currentFileName);
+            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed");
+            sr.WriteLine(this.ITERATIONS_PER_SIMULATION
+                        + "||" + this.PREY_REPRODUCTION_PROB
+                        + "||" + this.PREY_VISION_RADIUS
+                        + "||" + this.PREY_MAX_SPEED
+                        + "||" + this.PREDATOR_REPRODUCTION_PROB
+                        + "||" + this.PREDATOR_VISION_RADIUS
+                        + "||" + this.PREDATOR_MAX_SPEED);
+
+            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores");
+            sr.WriteLine("Iteracion|SupervivientesPresas|SupervivientesPredadores");
+            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
+            sr.Close();
+        }
+    }
+
+    public void UpdateFile()
+    {
+        if (File.Exists(this._currentFileName))
+        {
+            StreamWriter sr = File.AppendText(_currentFileName);
+            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
+            sr.Close();
+        }
+    }
 }
 
     
