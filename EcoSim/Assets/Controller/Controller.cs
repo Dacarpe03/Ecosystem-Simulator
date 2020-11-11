@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    //PATHS FOR FILES
+    private string PATH;
+    private string _currentFileName;
+    //END PATHS FOR FILES
 
+
+    //PARAMETERS OF SIMULATION
     private int NUMBER_OF_SIMULATIONS = 3;
     private int ITERATIONS_PER_SIMULATION = 5;
 
@@ -21,14 +28,18 @@ public class Controller : MonoBehaviour
 
     private int PREY_GROUP_SIZE = 50;
     private int PREDATOR_GROUP_SIZE = 1;
+    //END PARAMETERS OF SIMULATION
 
+    //COUNTER PARAMETERS
     private int _simulationCounter = 1;
+    //END COUNTER PARAMETERS
 
+    //MAIN ATTRIBUTES
     private Ecosystem _ecosystem;
 
     public View MyView;
     private View _myView;
-    // Start is called before the first frame update
+    //END MAIN ATTRIBUTES
 
     void Start()
     {
@@ -36,6 +47,9 @@ public class Controller : MonoBehaviour
         this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
         this._myView = Instantiate(MyView);
         this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+
+        this.PATH = Application.dataPath + "/SimulationData/";
+        this.CreateFileForSimulation();
     }
 
     // Update is called once per frame
@@ -46,6 +60,7 @@ public class Controller : MonoBehaviour
 
             if (this._ecosystem.Reset)
             {
+                this.UpdateFile();
                 this._ecosystem.Update();
                 this.ResetView();
             }
@@ -59,10 +74,11 @@ public class Controller : MonoBehaviour
         }
         else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
         {
-            Debug.Log("Simulación " + this._simulationCounter);
             this._simulationCounter++;
+            Debug.Log("Simulación " + this._simulationCounter);
             this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
             this.ResetView();
+            this.CreateFileForSimulation();
         }
         else
         {
@@ -97,6 +113,41 @@ public class Controller : MonoBehaviour
         Destroy(this._myView.gameObject);
         this._myView = Instantiate(MyView);
         this._myView.Initialize(this._ecosystem.Preys.Size, this._ecosystem.Predators.Size);
+    }
+
+    public void CreateFileForSimulation()
+    {
+        var dt = DateTime.Now;
+        string date = dt.ToString("MM-dd-yyyy-hh-mm");
+        string fileName = date + "-simulation" + this._simulationCounter + ".txt";
+        this._currentFileName = this.PATH + fileName;
+        if (!File.Exists(this._currentFileName))
+        {
+            StreamWriter sr = File.CreateText(_currentFileName);
+            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed");
+            sr.WriteLine(this.ITERATIONS_PER_SIMULATION
+                        + "||" + this.PREY_REPRODUCTION_PROB
+                        + "||" + this.PREY_VISION_RADIUS
+                        + "||" + this.PREY_MAX_SPEED
+                        + "||" + this.PREDATOR_REPRODUCTION_PROB
+                        + "||" + this.PREDATOR_VISION_RADIUS
+                        + "||" + this.PREDATOR_MAX_SPEED);
+
+            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores");
+            sr.WriteLine("Iteracion|SupervivientesPresas|SupervivientesPredadores");
+            sr.Close();
+        }
+    }
+
+    public void UpdateFile()
+    {
+        if (File.Exists(this._currentFileName))
+        {
+            StreamWriter sr = File.AppendText(_currentFileName);
+            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
+            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.SurvivorsNumber + "||" + this._ecosystem.Predators.SurvivorsNumber);
+            sr.Close();
+        }
     }
 }
 

@@ -8,6 +8,7 @@ public class AnimalGroup
     //SECTION: Attributes and properties
     private  double _reproductionProb = 1;
     public int Size { get => this.Animals.Count; }
+    public int SurvivorsNumber { get => this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList().Count; }
 
     private Boolean _arePrey;
 
