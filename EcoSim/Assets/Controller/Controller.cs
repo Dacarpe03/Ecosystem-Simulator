@@ -6,7 +6,11 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    //PATHS FOR FILES
+    private String PATH;
 
+    //END PATHS FOR FILES
+    //PARAMETERS OF SIMULATION
     private int NUMBER_OF_SIMULATIONS = 3;
     private int ITERATIONS_PER_SIMULATION = 5;
 
@@ -21,14 +25,18 @@ public class Controller : MonoBehaviour
 
     private int PREY_GROUP_SIZE = 50;
     private int PREDATOR_GROUP_SIZE = 1;
+    //END PARAMETERS OF SIMULATION
 
+    //COUNTER PARAMETERS
     private int _simulationCounter = 1;
+    //END COUNTER PARAMETERS
 
+    //MAIN ATTRIBUTES
     private Ecosystem _ecosystem;
 
     public View MyView;
     private View _myView;
-    // Start is called before the first frame update
+    //END MAIN ATTRIBUTES
 
     void Start()
     {
@@ -36,6 +44,10 @@ public class Controller : MonoBehaviour
         this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
         this._myView = Instantiate(MyView);
         this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+
+
+        this.PATH = Application.dataPath + "/SimulationData/Simulation";
+        Debug.Log(PATH);
     }
 
     // Update is called once per frame
@@ -98,6 +110,7 @@ public class Controller : MonoBehaviour
         this._myView = Instantiate(MyView);
         this._myView.Initialize(this._ecosystem.Preys.Size, this._ecosystem.Predators.Size);
     }
+
 }
 
     
