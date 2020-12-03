@@ -14,8 +14,8 @@ public class Controller : MonoBehaviour
 
 
     //PARAMETERS OF SIMULATION
-    private int NUMBER_OF_SIMULATIONS = 3;
-    private int ITERATIONS_PER_SIMULATION = 5;
+    private int NUMBER_OF_SIMULATIONS = 500;
+    private int ITERATIONS_PER_SIMULATION = 100;
 
     private double PREY_REPRODUCTION_PROB = 1;
     private double PREDATOR_REPRODUCTION_PROB = 1;
@@ -26,8 +26,8 @@ public class Controller : MonoBehaviour
     private double PREY_VISION_RADIUS = 8;
     private double PREDATOR_VISION_RADIUS = 15;
 
-    private int PREY_GROUP_SIZE = 50;
-    private int PREDATOR_GROUP_SIZE = 1;
+    private int PREY_GROUP_SIZE = 500 ;
+    private int PREDATOR_GROUP_SIZE = 15;
     //END PARAMETERS OF SIMULATION
 
     //COUNTER PARAMETERS
