@@ -8,6 +8,9 @@ public class AnimalStillState : AnimalState
     //END: Constructor and main methods
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
-        Console.Write("I am still");
+        //if (this._agent.InDanger(foes))
+        //{
+            //this._agent.TransitionTo(new AnimalFleeState());
+        //}
     }
 }

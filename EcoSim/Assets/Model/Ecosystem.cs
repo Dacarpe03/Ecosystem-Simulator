@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 public class Ecosystem
 {
     //SECTION: Attributes and properties
-    private const int PREY_GROUP_SIZE = 40;
-    private const int PREDATOR_GROUP_SIZE = 6;
-
-    private const float PREY_MAX_SPEED = 5f;
-    private const float PREDATOR_MAX_SPEED = 7f;
 
     private SimulationState _state;
     public SimulationState State { get => _state; set => _state = value; }
@@ -21,16 +16,21 @@ public class Ecosystem
 
     private AnimalGroup _predators;
     public AnimalGroup Predators { get => _predators; }
+
+    public Boolean _reset = false;
+    public Boolean Reset { get => _reset; set => _reset = value; }
+
+    public Boolean Extinguised { get => this.Predators.Size <= 1; }
     //END: Attributes and properties
 
 
     //SECTION: Constructor and main methods
-    public Ecosystem()
+    public Ecosystem(int preyGroupSize, double preyMaxSpeed, double preyVisionRadius, double preyReproductionProb, int predatorGroupSize, double predatorMaxSpeed, double predatorVisionRadius, double predatorReproductionProb)
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(PREY_GROUP_SIZE, PREY_MAX_SPEED);
-        this._predators = new AnimalGroup(PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED);
+        this._preys = new AnimalGroup(preyGroupSize, preyMaxSpeed, preyVisionRadius, preyReproductionProb, true);
+        this._predators = new AnimalGroup(predatorGroupSize, predatorMaxSpeed, predatorVisionRadius, predatorReproductionProb, false);
     }
 
     public void Update()
@@ -58,4 +58,14 @@ public class Ecosystem
         this._predators.Survive(this._preys.Animals);
     }
     //END: Secondary Methods
+
+    public List<Vec3> GetPreyPositions()
+    {
+        return this._preys.GetPositions();
+    }
+
+    public List<Vec3> GetPredatorPositions()
+    {
+        return this._preys.GetPositions();
+    }
 }
