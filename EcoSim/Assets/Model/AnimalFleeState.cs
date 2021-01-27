@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class AnimalFleeState : AnimalState
 {
 
-
     private const double WEIGHT_AVOID = 7;
     private const double WEIGHT_COHESION = 2;
     private const double WEIGHT_FOLLOW = 3;
@@ -12,8 +11,7 @@ public class AnimalFleeState : AnimalState
     private const double WEIGHT_FLEE = 20;
 
 
-    private Vec3 CENTER = new Vec3(50, 0, 50);
-
+    //Creates a force vector which is the result from Boids algorithm
     public override void Update(List<Animal> friendly, List<Animal> foes)
     {
         Vec3 acceleration = this.BoidBehavior(friendly, foes);
@@ -29,6 +27,8 @@ public class AnimalFleeState : AnimalState
         }
     }
 
+    //TODO: Use the Composite pattern to join all the forces
+    //Returns a force vector resulting from all the forces of the Boids algorithm 
     private Vec3 BoidBehavior(List<Animal> friendly, List<Animal> foes)
     {
 
@@ -48,9 +48,11 @@ public class AnimalFleeState : AnimalState
         acceleration.Trim(this._agent.MaxSquaredSpeed);
 
         return acceleration;
-    }
+    }//END BoidBehavior
 
-    private Vec3 Avoidance(List<Animal> nearbyAnimals) //Avoid nearby animals creating a repelling force between them
+
+    //Avoid nearby animals creating a repelling force between them
+    private Vec3 Avoidance(List<Animal> nearbyAnimals) 
     {
         Vec3 avoidanceVector = Vec3.Zero();
         List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, 2.5);
@@ -73,9 +75,11 @@ public class AnimalFleeState : AnimalState
         {
             return Vec3.Zero();
         }
-    }
+    }//END Avoidance
 
-    private Vec3 Cohesion(List<Animal> nearbyAnimals) //Try to stay together by creating a force that attracts to the center of nearby animals
+
+    //Try to stay together by creating a force that attracts to the center of nearby animals
+    private Vec3 Cohesion(List<Animal> nearbyAnimals) 
     {
         int animalCount = nearbyAnimals.Count;
         if(animalCount > 0)
@@ -96,9 +100,11 @@ public class AnimalFleeState : AnimalState
         {
             return Vec3.Zero();
         }
-    }
+    }//END Cohesion
 
-    private Vec3 Follow(List<Animal> nearbyAnimals) //Follow the speed of nearby animals
+
+    //Follow the speed of nearby animals
+    private Vec3 Follow(List<Animal> nearbyAnimals) 
     {
         int animalCount = nearbyAnimals.Count;
         if (animalCount > 0)
@@ -119,9 +125,11 @@ public class AnimalFleeState : AnimalState
             return Vec3.Zero();
         }
 
-    }
+    }//END Follow
 
-    private Vec3 Center() //Stay in the scene
+
+    //Go towards the safe zone
+    private Vec3 Center()
     {
         Vec3 goToCenter = new Vec3(WEIGHT_CENTER, 0, 0);
         return goToCenter;
@@ -149,5 +157,5 @@ public class AnimalFleeState : AnimalState
         }
 
         return fleeVector;
-    }
+    }//END Center
 }

@@ -55,23 +55,28 @@ public class Animal
         this._id = id;
     }
 
+
+    //Method to transition between states
     public void TransitionTo(AnimalState newState)
     {
         this._state = newState;
         this._state.Agent = this;
-    }
+    }//END TransitionTo
 
     public void Move()
     {
         this._position.Add(Speed);
-    }
+    }//END Move
 
+
+    //Update the speed of the animal
     public void UpdateSpeed(Vec3 acceleration)
     {
         if (!acceleration.IsZero())
         {
             Vec3 newSpeed = Vec3.Zero();
 
+            //Given the desired speed we steer towards it, do not go to that speed directly in order to give the sensation of steering
             this._speed.Multiply(STEER_FORCE);
             newSpeed.Add(this._speed);
 
@@ -81,11 +86,13 @@ public class Animal
             newSpeed.Trim(MaxSquaredSpeed);
             this._speed = newSpeed;
         }
-    }
+    }//END UpdateSpeed
 
     //END: Constructor and main methods
 
     //SECTION: Secondary methods
+
+    //If a foe animal is within his vision radius then it is in danger
     public Boolean InDanger(List<Animal> foes)
     {
         foreach(Animal a in foes)
@@ -96,13 +103,17 @@ public class Animal
             }
         }
         return false;
-    }
+    }//InDanger
 
+
+    //Returns the squaredDistance to another animal
     public double SquareDistanceTo(Animal other)
     {
         return this._position.SquaredDistanceTo(other.Position);
     }
 
+
+    //Resets the position and is not safe now
     public void ResetPosition(Random rand)
     {
         this._isSafe = false;
