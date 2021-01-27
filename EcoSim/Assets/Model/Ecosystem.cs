@@ -38,6 +38,7 @@ public class Ecosystem
         this._state.Update();
     }
 
+    //To change between states
     public void TransitionTo(SimulationState newState)
     {
         this._state = newState;
@@ -47,11 +48,14 @@ public class Ecosystem
 
 
     //SECTION: Secondary Methods
+
+    //TODO: Refactor this method into SimulationEvolveState
     public void Evolve() {
         this._preys.Evolve();
         this._predators.Evolve();
     }
 
+    //TODO: Refactor this method into SimultaionSurviveState
     public void Survive()
     {
         this._preys.Survive(this._predators.Animals);
@@ -59,13 +63,16 @@ public class Ecosystem
     }
     //END: Secondary Methods
 
+
+    //Returns a list with the positions from the preys
     public List<Vec3> GetPreyPositions()
     {
         return this._preys.GetPositions();
-    }
+    }//END GetPreyPositions
 
+    //Returns a list with the positions from the predators
     public List<Vec3> GetPredatorPositions()
     {
         return this._preys.GetPositions();
-    }
+    }//END GetPredatorPositions
 }

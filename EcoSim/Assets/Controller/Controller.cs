@@ -104,7 +104,7 @@ public class Controller : MonoBehaviour
     }//End Update
 
     
-    //TODO: Change this method so it is encapsulated, (for example return two lists of positions)
+    //TODO: Change this method so it is encapsulated, (for example return two lists of positions) Note: Use the methods in ecosystem
     //Gets all the positions of an animal group
     public List<Vector3> GetModelPositions(AnimalGroup modelGroup)
     {
