@@ -160,15 +160,14 @@ public class Controller : MonoBehaviour
             StreamWriter sr = File.CreateText(_currentFileName);
             sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed");
             sr.WriteLine(this.ITERATIONS_PER_SIMULATION
-                        + "||" + this.PREY_REPRODUCTION_PROB
-                        + "||" + this.PREY_VISION_RADIUS
-                        + "||" + this.PREY_MAX_SPEED
-                        + "||" + this.PREDATOR_REPRODUCTION_PROB
-                        + "||" + this.PREDATOR_VISION_RADIUS
-                        + "||" + this.PREDATOR_MAX_SPEED);
+                        + "|" + this.PREY_REPRODUCTION_PROB
+                        + "|" + this.PREY_VISION_RADIUS
+                        + "|" + this.PREY_MAX_SPEED
+                        + "|" + this.PREDATOR_REPRODUCTION_PROB
+                        + "|" + this.PREDATOR_VISION_RADIUS
+                        + "|" + this.PREDATOR_MAX_SPEED);
 
-            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores");
-            sr.WriteLine("Iteracion|SupervivientesPresas|SupervivientesPredadores");
+            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores");
             sr.Close();
         }
     }//End CreateFileForSimulation
@@ -182,8 +181,11 @@ public class Controller : MonoBehaviour
         if (File.Exists(this._currentFileName))
         {
             StreamWriter sr = File.AppendText(_currentFileName);
-            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
-            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.SurvivorsNumber + "||" + this._ecosystem.Predators.SurvivorsNumber);
+            sr.WriteLine(this._ecosystem.Iteration 
+                + "|" + this._ecosystem.Preys.Size 
+                + "|" + this._ecosystem.Predators.Size
+                + "|" + this._ecosystem.Preys.SurvivorsNumber 
+                + "|" + this._ecosystem.Predators.SurvivorsNumber);
             sr.Close();
         }
     }//End UpdateFile
