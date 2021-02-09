@@ -78,10 +78,10 @@ public class Controller : MonoBehaviour
             {
                 //Update the model
                 this._ecosystem.Update();
-                
+
                 //Pass the information of positions from model to view
-                List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
-                List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
+                List<Vector3> preyModelPositions = this.TransformToVector3(this._ecosystem.GetPreyPositions());
+                List<Vector3> predatorModelPositions = this.TransformToVector3(this._ecosystem.GetPredatorPositions());
                 this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
             }
         }
@@ -106,18 +106,6 @@ public class Controller : MonoBehaviour
         }
     }//End Update
 
-    
-    //TODO: Change this method so it is encapsulated, (for example return two lists of positions) Note: Use the methods in ecosystem
-    //Gets all the positions of an animal group
-    public List<Vector3> GetModelPositions(AnimalGroup modelGroup)
-    {
-        List<Vec3> modelPositions = modelGroup.GetPositions();
-        List<Vector3> viewPositions = this.TransformToVector3(modelPositions);
-
-        return viewPositions;
-    }//End GetModelPositions
-
-    
     //Transforms from Vec3 to Vector3
     public List<Vector3> TransformToVector3(List<Vec3> vectors)
     {
@@ -145,7 +133,6 @@ public class Controller : MonoBehaviour
     }//End ResetView
 
 
-    //TODO: Change the name of the file to stage_x_sim_y
     //Creates a file to save the data from a simulation
     public void CreateFileForSimulation()
     {
@@ -191,16 +178,16 @@ public class Controller : MonoBehaviour
         }
     }//End UpdateFile
 
-
+    //TODO: No funciona bien, sobreescribe si se lanzan las simulaciones en distintas ejecuciones
     //Calculates the total number of iterations so that we dont overwrite the files of previous simulations
     private void CalculateTotalSimulations()
     {
-        this._totalSimulations = 1;
         string fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
         this._currentFileName = this.PATH + fileName;
 
         while (File.Exists(this._currentFileName))
         {
+            Debug.Log("Existe");
             this._totalSimulations++;
             fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
             this._currentFileName = this.PATH + fileName;

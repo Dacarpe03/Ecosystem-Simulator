@@ -73,6 +73,6 @@ public class Ecosystem
     //Returns a list with the positions from the predators
     public List<Vec3> GetPredatorPositions()
     {
-        return this._preys.GetPositions();
+        return this._predators.GetPositions();
     }//END GetPredatorPositions
 }
