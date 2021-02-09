@@ -10,6 +10,7 @@ public class Controller : MonoBehaviour
     //PATHS FOR FILES
     private string PATH;
     private string _currentFileName;
+    private int _totalSimulations = 1;
     //END PATHS FOR FILES
 
 
@@ -26,7 +27,7 @@ public class Controller : MonoBehaviour
     private double PREY_VISION_RADIUS = 8;
     private double PREDATOR_VISION_RADIUS = 15;
 
-    private int PREY_GROUP_SIZE = 500 ;
+    private int PREY_GROUP_SIZE = 100 ;
     private int PREDATOR_GROUP_SIZE = 15;
     //END PARAMETERS OF SIMULATION
 
@@ -52,8 +53,9 @@ public class Controller : MonoBehaviour
         //Initialize the view
         this._myView = Instantiate(MyView);
         this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+        this.CalculateTotalSimulations();
 
-        this.PATH = Application.dataPath + "/SimulationData/";
+        this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
         this.CreateFileForSimulation();
     }//End Start
 
@@ -87,6 +89,7 @@ public class Controller : MonoBehaviour
         else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
         {
             this._simulationCounter++;
+            this._totalSimulations += 1;
             Debug.Log("Simulación " + this._simulationCounter);
 
             //Initialize the ecosystem
@@ -142,21 +145,22 @@ public class Controller : MonoBehaviour
     }//End ResetView
 
 
-    //TODO: Change the separators to only one character
     //TODO: Change the name of the file to stage_x_sim_y
     //Creates a file to save the data from a simulation
     public void CreateFileForSimulation()
     {
         //Create the name of the file
         var dt = DateTime.Now;
-        string date = dt.ToString("MM-dd-yyyy-hh-mm");
-        string fileName = date + "-simulation" + this._simulationCounter + ".txt";
+        string date = dt.ToString("yyyy-MM-dd");
+        string fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
+
         this._currentFileName = this.PATH + fileName;
 
         //Write the first lines of the file
         if (!File.Exists(this._currentFileName))
         {
-            StreamWriter sr = File.CreateText(_currentFileName);
+            StreamWriter sr = File.CreateText(this._currentFileName);
+            sr.WriteLine(date);
             sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed");
             sr.WriteLine(this.ITERATIONS_PER_SIMULATION
                         + "|" + this.PREY_REPRODUCTION_PROB
@@ -177,7 +181,7 @@ public class Controller : MonoBehaviour
     {
         if (File.Exists(this._currentFileName))
         {
-            StreamWriter sr = File.AppendText(_currentFileName);
+            StreamWriter sr = File.AppendText(this._currentFileName);
             sr.WriteLine(this._ecosystem.Iteration 
                 + "|" + this._ecosystem.Preys.Size 
                 + "|" + this._ecosystem.Predators.Size
@@ -186,6 +190,23 @@ public class Controller : MonoBehaviour
             sr.Close();
         }
     }//End UpdateFile
+
+
+    //Calculates the total number of iterations so that we dont overwrite the files of previous simulations
+    private void CalculateTotalSimulations()
+    {
+        this._totalSimulations = 1;
+        string fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
+        this._currentFileName = this.PATH + fileName;
+
+        while (File.Exists(this._currentFileName))
+        {
+            this._totalSimulations++;
+            fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
+            this._currentFileName = this.PATH + fileName;
+
+        }//End CalculateTotalSimulations
+    }
 }
 
     
