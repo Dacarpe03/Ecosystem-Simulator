@@ -142,7 +142,6 @@ public class Controller : MonoBehaviour
     }//End ResetView
 
 
-    //TODO: Save all the information of an iteration in the same line
     //TODO: Change the separators to only one character
     //TODO: Change the name of the file to stage_x_sim_y
     //Creates a file to save the data from a simulation
@@ -173,8 +172,6 @@ public class Controller : MonoBehaviour
     }//End CreateFileForSimulation
 
 
-
-    //TODO: Save all the information in one line
     //Saves the data from an iteration
     public void UpdateFile()
     {
