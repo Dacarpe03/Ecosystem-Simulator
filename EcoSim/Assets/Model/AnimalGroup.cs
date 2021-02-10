@@ -6,14 +6,15 @@ using System.Linq;
 public class AnimalGroup
 {
     //SECTION: Attributes and properties
-    private  double _reproductionProb = 1;
     public int Size { get => this.Animals.Count; }
     public int SurvivorsNumber { get => this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList().Count; }
 
     private Boolean _arePrey;
 
+    private double _reproductionProb;
     private double _maxSpeed;
     private double _visionRadius;
+
 
     private List<Animal> _animals;
     public List<Animal> Animals { get => _animals;}
@@ -22,23 +23,24 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
     //TODO: Use Builder pattern to create the different animal groups so delete de booolean prey parameter in builder
-    public AnimalGroup(int size, double maxSpeed, double visionRadius, double reproductionProb, Boolean prey)
+    public AnimalGroup(GroupParameters parameters, Boolean prey)
     {
         this._arePrey = prey;
-        this._maxSpeed = maxSpeed;
-        this._visionRadius = visionRadius;
-        this._reproductionProb = reproductionProb;
+
+        this._reproductionProb = parameters.ReproductionProb;
+        this._maxSpeed = parameters.MaxSpeed;
+        this._visionRadius = parameters.VisionRadius;
         this._animals = new List<Animal>();
 
         System.Random rand = new System.Random();
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < parameters.GroupSize; i++)
         {
             AnimalState initialState = new AnimalHuntState();
             if (prey)
             {
                 initialState = new AnimalFleeState();
             }
-            Animal a = new Animal(initialState, maxSpeed, visionRadius , i, rand); ;
+            Animal a = new Animal(initialState, this._maxSpeed, this._visionRadius , i, rand); ;
             this._animals.Add(a);
         }
     }

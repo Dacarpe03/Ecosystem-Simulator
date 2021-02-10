@@ -7,17 +7,7 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    //PATHS FOR FILES
-    private string PATH;
-    private string _currentFileName;
-    private int _totalSimulations = 1;
-    //END PATHS FOR FILES
-
-
-    //PARAMETERS OF SIMULATION
-    private int NUMBER_OF_SIMULATIONS = 500;
-    private int ITERATIONS_PER_SIMULATION = 100;
-
+    /*
     private double PREY_REPRODUCTION_PROB = 1;
     private double PREDATOR_REPRODUCTION_PROB = 1;
 
@@ -27,9 +17,24 @@ public class Controller : MonoBehaviour
     private double PREY_VISION_RADIUS = 8;
     private double PREDATOR_VISION_RADIUS = 15;
 
-    private int PREY_GROUP_SIZE = 100 ;
+    private int PREY_GROUP_SIZE = 500 ;
     private int PREDATOR_GROUP_SIZE = 15;
+     */
+
+    //PARAMETERS OF SIMULATION
+    private int NUMBER_OF_SIMULATIONS = 500;
+    private int ITERATIONS_PER_SIMULATION = 100;
+
+                                               //Reproduction probability, maximum speed, visionRadius, GroupSize
+    private GroupParameters _preyParameters = new GroupParameters(1, 0.5, 8, 500);
+    private GroupParameters _predatorParameters = new GroupParameters(1, 0.6, 15, 15);
     //END PARAMETERS OF SIMULATION
+
+    //PATHS FOR FILES
+    private string PATH;
+    private string _currentFileName;
+    private int _totalSimulations = 1;
+    //END PATHS FOR FILES
 
     //COUNTER PARAMETERS
     private int _simulationCounter = 1;
@@ -46,13 +51,13 @@ public class Controller : MonoBehaviour
     {
         Debug.Log("Simulación " + this._simulationCounter);
 
-        //TODO: Create a class that contains all the initial paremeters of a group
         //Initialize the ecosystem
-        this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
+
+        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
         
         //Initialize the view
         this._myView = Instantiate(MyView);
-        this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+        this._myView.Initialize(this._preyParameters.GroupSize, this._predatorParameters.GroupSize);
         this.CalculateTotalSimulations();
 
         this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
@@ -93,7 +98,7 @@ public class Controller : MonoBehaviour
             Debug.Log("Simulación " + this._simulationCounter);
 
             //Initialize the ecosystem
-            this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
+            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
             //Reset the view
             this.ResetView();
             //Create a new file to save the data of the simulation
@@ -148,14 +153,10 @@ public class Controller : MonoBehaviour
         {
             StreamWriter sr = File.CreateText(this._currentFileName);
             sr.WriteLine(date);
-            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed");
+            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisionRadius|PredatorReproductionRate|PredatorMaxSpeed|PredatorVisionRadius");
             sr.WriteLine(this.ITERATIONS_PER_SIMULATION
-                        + "|" + this.PREY_REPRODUCTION_PROB
-                        + "|" + this.PREY_VISION_RADIUS
-                        + "|" + this.PREY_MAX_SPEED
-                        + "|" + this.PREDATOR_REPRODUCTION_PROB
-                        + "|" + this.PREDATOR_VISION_RADIUS
-                        + "|" + this.PREDATOR_MAX_SPEED);
+                        + "|" + this._preyParameters.toString()
+                        + "|" + this._predatorParameters.toString());
 
             sr.WriteLine("Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores");
             sr.Close();
