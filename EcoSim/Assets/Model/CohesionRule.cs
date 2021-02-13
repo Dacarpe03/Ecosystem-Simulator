@@ -4,6 +4,7 @@ public class CohesionRule : BoidRule
 {
     public CohesionRule(double w) : base(w) { }
 
+    //Try to stay together by creating a force that attracts to the center of nearby animals
     public override Vec3 CalculateForce(Animal agent, List<Animal> animals)
     {
         int animalCount = animals.Count;

@@ -6,6 +6,7 @@ public class FollowRule : BoidRule
 {
     public FollowRule(double w) : base(w) { }
 
+    //Follow the speed of nearby animals
     public override Vec3 CalculateForce(Animal agent, List<Animal> animals)
     {
         int animalCount = animals.Count;
