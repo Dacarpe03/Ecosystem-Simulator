@@ -14,7 +14,8 @@ public class SimulationSurviveState : SimulationState
         }
         else
         {
-            this._eco.Survive();
+            this._eco.Preys.Survive(this._eco.Predators.Animals);
+            this._eco.Predators.Survive(this._eco.Preys.Animals);
         }
     }
     //END: Constructor and main methods

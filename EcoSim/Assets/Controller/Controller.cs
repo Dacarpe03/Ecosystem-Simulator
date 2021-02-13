@@ -7,16 +7,7 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    //PATHS FOR FILES
-    private string PATH;
-    private string _currentFileName;
-    //END PATHS FOR FILES
-
-
-    //PARAMETERS OF SIMULATION
-    private int NUMBER_OF_SIMULATIONS = 500;
-    private int ITERATIONS_PER_SIMULATION = 100;
-
+    /*
     private double PREY_REPRODUCTION_PROB = 1;
     private double PREDATOR_REPRODUCTION_PROB = 1;
 
@@ -28,7 +19,22 @@ public class Controller : MonoBehaviour
 
     private int PREY_GROUP_SIZE = 500 ;
     private int PREDATOR_GROUP_SIZE = 15;
+     */
+
+    //PARAMETERS OF SIMULATION
+    private int NUMBER_OF_SIMULATIONS = 500;
+    private int ITERATIONS_PER_SIMULATION = 100;
+
+                                               //Reproduction probability, maximum speed, visionRadius, GroupSize
+    private GroupParameters _preyParameters = new GroupParameters(1, 0.5, 8, 500);
+    private GroupParameters _predatorParameters = new GroupParameters(1, 0.6, 15, 15);
     //END PARAMETERS OF SIMULATION
+
+    //PATHS FOR FILES
+    private string PATH;
+    private string _currentFileName;
+    private int _totalSimulations = 1;
+    //END PATHS FOR FILES
 
     //COUNTER PARAMETERS
     private int _simulationCounter = 1;
@@ -45,15 +51,16 @@ public class Controller : MonoBehaviour
     {
         Debug.Log("Simulación " + this._simulationCounter);
 
-        //TODO: Create a class that contains all the initial paremeters of a group
         //Initialize the ecosystem
-        this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
+
+        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
         
         //Initialize the view
         this._myView = Instantiate(MyView);
-        this._myView.Initialize(PREY_GROUP_SIZE, PREDATOR_GROUP_SIZE);
+        this._myView.Initialize(this._preyParameters.GroupSize, this._predatorParameters.GroupSize);
+        this.CalculateTotalSimulations();
 
-        this.PATH = Application.dataPath + "/SimulationData/";
+        this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
         this.CreateFileForSimulation();
     }//End Start
 
@@ -76,10 +83,10 @@ public class Controller : MonoBehaviour
             {
                 //Update the model
                 this._ecosystem.Update();
-                
+
                 //Pass the information of positions from model to view
-                List<Vector3> preyModelPositions = this.GetModelPositions(this._ecosystem.Preys);
-                List<Vector3> predatorModelPositions = this.GetModelPositions(this._ecosystem.Predators);
+                List<Vector3> preyModelPositions = this.TransformToVector3(this._ecosystem.GetPreyPositions());
+                List<Vector3> predatorModelPositions = this.TransformToVector3(this._ecosystem.GetPredatorPositions());
                 this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
             }
         }
@@ -87,10 +94,11 @@ public class Controller : MonoBehaviour
         else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
         {
             this._simulationCounter++;
+            this._totalSimulations += 1;
             Debug.Log("Simulación " + this._simulationCounter);
 
             //Initialize the ecosystem
-            this._ecosystem = new Ecosystem(PREY_GROUP_SIZE, PREY_MAX_SPEED, PREY_VISION_RADIUS, PREY_REPRODUCTION_PROB, PREDATOR_GROUP_SIZE, PREDATOR_MAX_SPEED, PREDATOR_VISION_RADIUS, PREDATOR_REPRODUCTION_PROB);
+            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
             //Reset the view
             this.ResetView();
             //Create a new file to save the data of the simulation
@@ -103,18 +111,6 @@ public class Controller : MonoBehaviour
         }
     }//End Update
 
-    
-    //TODO: Change this method so it is encapsulated, (for example return two lists of positions) Note: Use the methods in ecosystem
-    //Gets all the positions of an animal group
-    public List<Vector3> GetModelPositions(AnimalGroup modelGroup)
-    {
-        List<Vec3> modelPositions = modelGroup.GetPositions();
-        List<Vector3> viewPositions = this.TransformToVector3(modelPositions);
-
-        return viewPositions;
-    }//End GetModelPositions
-
-    
     //Transforms from Vec3 to Vector3
     public List<Vector3> TransformToVector3(List<Vec3> vectors)
     {
@@ -142,51 +138,63 @@ public class Controller : MonoBehaviour
     }//End ResetView
 
 
-    //TODO: Save all the information of an iteration in the same line
-    //TODO: Change the separators to only one character
-    //TODO: Change the name of the file to stage_x_sim_y
     //Creates a file to save the data from a simulation
     public void CreateFileForSimulation()
     {
         //Create the name of the file
         var dt = DateTime.Now;
-        string date = dt.ToString("MM-dd-yyyy-hh-mm");
-        string fileName = date + "-simulation" + this._simulationCounter + ".txt";
+        string date = dt.ToString("yyyy-MM-dd");
+        string fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
+
         this._currentFileName = this.PATH + fileName;
 
         //Write the first lines of the file
         if (!File.Exists(this._currentFileName))
         {
-            StreamWriter sr = File.CreateText(_currentFileName);
-            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed");
+            StreamWriter sr = File.CreateText(this._currentFileName);
+            sr.WriteLine(date);
+            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisionRadius|PredatorReproductionRate|PredatorMaxSpeed|PredatorVisionRadius");
             sr.WriteLine(this.ITERATIONS_PER_SIMULATION
-                        + "||" + this.PREY_REPRODUCTION_PROB
-                        + "||" + this.PREY_VISION_RADIUS
-                        + "||" + this.PREY_MAX_SPEED
-                        + "||" + this.PREDATOR_REPRODUCTION_PROB
-                        + "||" + this.PREDATOR_VISION_RADIUS
-                        + "||" + this.PREDATOR_MAX_SPEED);
+                        + "|" + this._preyParameters.toString()
+                        + "|" + this._predatorParameters.toString());
 
-            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores");
-            sr.WriteLine("Iteracion|SupervivientesPresas|SupervivientesPredadores");
+            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores");
             sr.Close();
         }
     }//End CreateFileForSimulation
 
 
-
-    //TODO: Save all the information in one line
     //Saves the data from an iteration
     public void UpdateFile()
     {
         if (File.Exists(this._currentFileName))
         {
-            StreamWriter sr = File.AppendText(_currentFileName);
-            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.Size + "||" + this._ecosystem.Predators.Size);
-            sr.WriteLine(this._ecosystem.Iteration + "||" + this._ecosystem.Preys.SurvivorsNumber + "||" + this._ecosystem.Predators.SurvivorsNumber);
+            StreamWriter sr = File.AppendText(this._currentFileName);
+            sr.WriteLine(this._ecosystem.Iteration 
+                + "|" + this._ecosystem.Preys.Size 
+                + "|" + this._ecosystem.Predators.Size
+                + "|" + this._ecosystem.Preys.SurvivorsNumber 
+                + "|" + this._ecosystem.Predators.SurvivorsNumber);
             sr.Close();
         }
     }//End UpdateFile
+
+    //TODO: No funciona bien, sobreescribe si se lanzan las simulaciones en distintas ejecuciones
+    //Calculates the total number of iterations so that we dont overwrite the files of previous simulations
+    private void CalculateTotalSimulations()
+    {
+        string fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
+        this._currentFileName = this.PATH + fileName;
+
+        while (File.Exists(this._currentFileName))
+        {
+            Debug.Log("Existe");
+            this._totalSimulations++;
+            fileName = "Stage2-Simulation" + this._totalSimulations + ".txt";
+            this._currentFileName = this.PATH + fileName;
+
+        }//End CalculateTotalSimulations
+    }
 }
 
     

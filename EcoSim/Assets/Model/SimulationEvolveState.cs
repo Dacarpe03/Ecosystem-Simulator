@@ -7,11 +7,14 @@ public class SimulationEvolveState : SimulationState
     {
         //Increment the number of the iteration
         this._eco.Iteration++;
+
         //Create the next generation of animals
-        this._eco.Evolve();
+        this._eco.Preys.Evolve();
+        this._eco.Predators.Evolve();
 
         //End the 'reset condition' so that in the controller main loop we dont update the view again
         this._eco.Reset = false;
+
         //Transition to the Survive State
         this._eco.TransitionTo(new SimulationSurviveState());
     }

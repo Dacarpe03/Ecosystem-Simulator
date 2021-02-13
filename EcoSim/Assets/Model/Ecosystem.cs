@@ -25,12 +25,16 @@ public class Ecosystem
 
 
     //SECTION: Constructor and main methods
-    public Ecosystem(int preyGroupSize, double preyMaxSpeed, double preyVisionRadius, double preyReproductionProb, int predatorGroupSize, double predatorMaxSpeed, double predatorVisionRadius, double predatorReproductionProb)
+    public Ecosystem(GroupParameters preyParameters, GroupParameters predatorParameters)
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(preyGroupSize, preyMaxSpeed, preyVisionRadius, preyReproductionProb, true);
-        this._predators = new AnimalGroup(predatorGroupSize, predatorMaxSpeed, predatorVisionRadius, predatorReproductionProb, false);
+
+        AnimalBuilder preyBuilder = new PreyBuilder(preyParameters);
+        this._preys = new AnimalGroup(preyParameters.GroupSize, preyParameters.ReproductionProb, preyBuilder);
+
+        AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
+        this._predators = new AnimalGroup(predatorParameters.GroupSize, predatorParameters.ReproductionProb, predatorBuilder);
     }
 
     public void Update()
@@ -47,23 +51,6 @@ public class Ecosystem
     //END: Constructor and main methods
 
 
-    //SECTION: Secondary Methods
-
-    //TODO: Refactor this method into SimulationEvolveState
-    public void Evolve() {
-        this._preys.Evolve();
-        this._predators.Evolve();
-    }
-
-    //TODO: Refactor this method into SimultaionSurviveState
-    public void Survive()
-    {
-        this._preys.Survive(this._predators.Animals);
-        this._predators.Survive(this._preys.Animals);
-    }
-    //END: Secondary Methods
-
-
     //Returns a list with the positions from the preys
     public List<Vec3> GetPreyPositions()
     {
@@ -73,6 +60,6 @@ public class Ecosystem
     //Returns a list with the positions from the predators
     public List<Vec3> GetPredatorPositions()
     {
-        return this._preys.GetPositions();
+        return this._predators.GetPositions();
     }//END GetPredatorPositions
 }
