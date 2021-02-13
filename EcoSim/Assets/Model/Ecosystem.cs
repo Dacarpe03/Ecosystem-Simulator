@@ -34,7 +34,7 @@ public class Ecosystem
         this._preys = new AnimalGroup(preyParameters, preyBuilder);
 
         AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
-        this._predators = new AnimalGroup(predatorParameters, predatorParameters);
+        this._predators = new AnimalGroup(predatorParameters, predatorBuilder);
     }
 
     public void Update()
