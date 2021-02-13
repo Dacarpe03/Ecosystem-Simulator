@@ -29,8 +29,12 @@ public class Ecosystem
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
-        this._preys = new AnimalGroup(preyParameters, true);
-        this._predators = new AnimalGroup(predatorParameters, false);
+
+        AnimalBuilder preyBuilder = new PreyBuilder(preyParameters);
+        this._preys = new AnimalGroup(preyParameters.GroupSize, preyParameters.ReproductionProb, preyBuilder);
+
+        AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
+        this._predators = new AnimalGroup(predatorParameters.GroupSize, predatorParameters.ReproductionProb, predatorBuilder);
     }
 
     public void Update()
