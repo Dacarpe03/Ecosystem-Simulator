@@ -97,6 +97,10 @@ public class AnimalGroup
         System.Random rand = new System.Random();
         foreach(Animal a in this._animals)
         {
+            AnimalState initialState = this._animalBuilder.GetAnimalState();
+            //Reset to the initial state
+            a.TransitionTo(initialState);
+            //Reset the position in the initial square
             a.ResetPosition(rand);
         }
     }

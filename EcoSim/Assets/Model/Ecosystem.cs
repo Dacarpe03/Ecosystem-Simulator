@@ -31,10 +31,10 @@ public class Ecosystem
         this._iteration = 0;
 
         AnimalBuilder preyBuilder = new PreyBuilder(preyParameters);
-        this._preys = new AnimalGroup(preyParameters.GroupSize, preyBuilder);
+        this._preys = new AnimalGroup(preyParameters.GroupSize, preyParameters.ReproductionProb, preyBuilder);
 
         AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
-        this._predators = new AnimalGroup(predatorParameters.GroupSize, predatorBuilder);
+        this._predators = new AnimalGroup(predatorParameters.GroupSize, predatorParameters.ReproductionProb, predatorBuilder);
     }
 
     public void Update()
