@@ -33,6 +33,7 @@ public class AnimalFleeState : AnimalState
     {
 
         List<Animal> nearbyAnimals = this.GetNearbyAnimals(friendly, this._agent.SquaredVisionRadius);
+        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, 2.5);
         Vec3 avoidanceVector = this.Avoidance(nearbyAnimals);
         Vec3 cohesionVector = this.Cohesion(nearbyAnimals);
         Vec3 followVector = this.Follow(nearbyAnimals);
@@ -52,10 +53,9 @@ public class AnimalFleeState : AnimalState
 
 
     //Avoid nearby animals creating a repelling force between them
-    private Vec3 Avoidance(List<Animal> nearbyAnimals) 
+    private Vec3 Avoidance(List<Animal> closeAnimals) 
     {
         Vec3 avoidanceVector = Vec3.Zero();
-        List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, 2.5);
         int animalCount = closeAnimals.Count;
 
         if (animalCount > 0) {
