@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public abstract class AnimalBuilder
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    protected GroupParameters animalParameters;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract Animal CreateAnimal();
+    public abstract AnimalState GetAnimalState();
 }
