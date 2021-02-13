@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 public class AvoidanceRule : BoidRule
 {
-    public AvoidanceRule(double w)
-    {
-        this._weight = w;
-    }
+    public AvoidanceRule(double w): base(w){}
 
+    //Avoid nearby animals creating a repelling force between them
     public override Vec3 CalculateForce(Animal agent, List<Animal> animals)
     {
         List<Animal> closeAnimals = GetCloseAnimals(agent, animals, 2.5);
