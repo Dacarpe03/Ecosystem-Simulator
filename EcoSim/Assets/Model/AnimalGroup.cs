@@ -9,12 +9,9 @@ public class AnimalGroup
     public int Size { get => this.Animals.Count; }
     public int SurvivorsNumber { get => this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList().Count; }
 
-    private Boolean _arePrey;
-
     private double _reproductionProb;
-    private double _maxSpeed;
-    private double _visionRadius;
 
+    private AnimalBuilder _animalBuilder;
 
     private List<Animal> _animals;
     public List<Animal> Animals { get => _animals;}
@@ -23,24 +20,18 @@ public class AnimalGroup
 
     //SECTION: Constructor and main methods
     //TODO: Use Builder pattern to create the different animal groups so delete de booolean prey parameter in builder
-    public AnimalGroup(GroupParameters parameters, Boolean prey)
+    public AnimalGroup(int groupSize, double repProb, AnimalBuilder builder)
     {
-        this._arePrey = prey;
+        this._reproductionProb = repProb;
 
-        this._reproductionProb = parameters.ReproductionProb;
-        this._maxSpeed = parameters.MaxSpeed;
-        this._visionRadius = parameters.VisionRadius;
+        this._animalBuilder = builder;
+
         this._animals = new List<Animal>();
 
         System.Random rand = new System.Random();
-        for (int i = 0; i < parameters.GroupSize; i++)
+        for (int i = 0; i < groupSize; i++)
         {
-            AnimalState initialState = new AnimalHuntState();
-            if (prey)
-            {
-                initialState = new AnimalFleeState();
-            }
-            Animal a = new Animal(initialState, this._maxSpeed, this._visionRadius , i, rand); ;
+            Animal a = builder.CreateAnimal(rand);
             this._animals.Add(a);
         }
     }
@@ -75,9 +66,9 @@ public class AnimalGroup
         for (int i = 0; i < possibleBreedingCount; i++)
         {
             double r = rand.NextDouble();
-            if (r <= _reproductionProb)
+            if (r <= this._reproductionProb)
             {
-                Animal a = new Animal(new AnimalStillState(), this._maxSpeed, this._visionRadius, i, rand);
+                Animal a = this._animalBuilder.CreateAnimal(rand);
                 survivors.Add(a);
             }
         }
@@ -106,15 +97,6 @@ public class AnimalGroup
         System.Random rand = new System.Random();
         foreach(Animal a in this._animals)
         {
-            AnimalState initialState = new AnimalHuntState();
-            if (this._arePrey)
-            {
-                initialState = new AnimalFleeState();
-            }
-
-            //Reset to the initial state
-            a.TransitionTo(initialState);
-            //Reset the position in the initial square
             a.ResetPosition(rand);
         }
     }
