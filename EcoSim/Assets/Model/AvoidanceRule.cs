@@ -3,12 +3,16 @@ using System.Collections.Generic;
 
 public class AvoidanceRule : BoidRule
 {
-    public AvoidanceRule(double w): base(w){}
+    private double _squaredAvoidanceRadius;
+    public AvoidanceRule(double w, double squareRadius): base(w){
+        this._squaredAvoidanceRadius = squareRadius;
+    }
+
 
     //Avoid nearby animals creating a repelling force between them
     public override Vec3 CalculateForce(Animal agent, List<Animal> animals)
     {
-        List<Animal> closeAnimals = GetCloseAnimals(agent, animals, 2.5);
+        List<Animal> closeAnimals = GetCloseAnimals(agent, animals);
         Vec3 avoidanceVector = Vec3.Zero();
         int animalCount = closeAnimals.Count;
 
@@ -32,12 +36,12 @@ public class AvoidanceRule : BoidRule
         }
     }
     
-    private List<Animal> GetCloseAnimals(Animal agent, List<Animal> animals, double squareRadius)
+    private List<Animal> GetCloseAnimals(Animal agent, List<Animal> animals)
     {
         List<Animal> closeAnimals = new List<Animal>();
         foreach (Animal a in animals)
         {
-            if (a.Id != agent.Id & agent.SquareDistanceTo(a) <= squareRadius)
+            if (a.Id != agent.Id & agent.SquareDistanceTo(a) <= this._squaredAvoidanceRadius)
             {
                 closeAnimals.Add(a);
             }
