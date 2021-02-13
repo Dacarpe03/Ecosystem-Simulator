@@ -19,7 +19,6 @@ public class AnimalGroup
 
 
     //SECTION: Constructor and main methods
-    //TODO: Use Builder pattern to create the different animal groups so delete de booolean prey parameter in builder
     public AnimalGroup(int groupSize, double repProb, AnimalBuilder builder)
     {
         this._reproductionProb = repProb;

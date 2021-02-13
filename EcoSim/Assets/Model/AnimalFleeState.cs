@@ -133,7 +133,7 @@ public class AnimalFleeState : AnimalState
     {
         Vec3 goToCenter = new Vec3(WEIGHT_CENTER, 0, 0);
         return goToCenter;
-    }
+    }//END Center
 
     private Vec3 Flee(List<Animal> predators) //Avoid predators by creating a repelling force
     {
@@ -157,5 +157,5 @@ public class AnimalFleeState : AnimalState
         }
 
         return fleeVector;
-    }//END Center
+    }//END Flee
 }
