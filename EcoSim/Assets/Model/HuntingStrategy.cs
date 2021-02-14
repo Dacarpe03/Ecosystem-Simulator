@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-interface HuntingStrategy
+public abstract class HuntingStrategy
 {
-    Vec3 Hunt(Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes);
+    public abstract void Hunt(Animal agent, Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes);
 }

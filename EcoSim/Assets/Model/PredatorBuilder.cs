@@ -10,7 +10,7 @@ public class PredatorBuilder : AnimalBuilder
     //Method to create a prey with Flee State as initial state
     public override Animal CreateAnimal(Random rand)
     {
-        AnimalState initialState = new AnimalHuntState();
+        AnimalState initialState = new AnimalHuntState(new SimpleStrategy());
         Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter, rand);
         this._creationCounter += 1;
 
@@ -19,6 +19,6 @@ public class PredatorBuilder : AnimalBuilder
 
     public override AnimalState GetAnimalState()
     {
-        return new AnimalHuntState();
+        return new AnimalHuntState(new SimpleStrategy());
     }
 }
