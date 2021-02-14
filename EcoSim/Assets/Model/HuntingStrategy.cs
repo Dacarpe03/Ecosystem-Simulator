@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
-public interface HuntingStrategy
+interface HuntingStrategy
 {
     public Vec3 Hunt(List<Animal> friendly, List<Animal> foes);
 }
