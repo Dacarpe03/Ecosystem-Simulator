@@ -2,5 +2,5 @@
 
 interface HuntingStrategy
 {
-    Vec3 Hunt(List<Animal> friendly, List<Animal> foes);
+    Vec3 Hunt(Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes);
 }
