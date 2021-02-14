@@ -12,12 +12,12 @@ public abstract class AnimalState
 
 
     //SECTION: Constructor and main methods
-    public abstract void Update(List<Animal> friendly, List<Animal> foes);
+    public abstract void Update(Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes);
 
-    protected List<Animal> GetNearbyAnimals(List<Animal> animals, double squareRadius)
+    protected List<Animal> GetNearbyAnimals(Dictionary<int, Animal> animals, double squareRadius)
     {
         List<Animal> nearbyAnimals = new List<Animal>();
-        foreach(Animal a in animals)
+        foreach(Animal a in animals.Values)
         {
             if(a.Id != this._agent.Id & this._agent.SquareDistanceTo(a) <= squareRadius){
                 nearbyAnimals.Add(a);

@@ -10,7 +10,7 @@ public class AnimalHuntState : AnimalState
     private Boolean preyFixed = false;
     private int fixedPreyId = -1;
 
-    public override void Update(List<Animal> friendly, List<Animal> foes)
+    public override void Update(Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes)
     {
         if(_preysHunted >= PREYS_NEEDED_TO_SURVIVE)
         {
@@ -51,7 +51,7 @@ public class AnimalHuntState : AnimalState
         else
         {
 
-            Animal fixedPrey = (Animal)foes.Where(a => a.Id == fixedPreyId).Select(a => a).ToList().First();
+            Animal fixedPrey = (Animal)foes.Where(a => a.Value.Id == fixedPreyId).Select(a => a.Value).ToList().First();
             if (fixedPrey.IsDead | fixedPrey.IsSafe)
             {
                 this.preyFixed = false;
@@ -92,7 +92,7 @@ public class AnimalHuntState : AnimalState
         return idFixed;
     }
 
-    private Vec3 Avoidance(List<Animal> nearbyAnimals) //Avoid nearby animals creating a repelling force between them
+    private Vec3 Avoidance(Dictionary<int, Animal> nearbyAnimals) //Avoid nearby animals creating a repelling force between them
     {
         Vec3 avoidanceVector = Vec3.Zero();
         List<Animal> closeAnimals = this.GetNearbyAnimals(nearbyAnimals, 2.5);

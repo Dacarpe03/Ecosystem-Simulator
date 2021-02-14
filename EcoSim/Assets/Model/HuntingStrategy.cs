@@ -2,5 +2,5 @@
 
 interface HuntingStrategy
 {
-    public Vec3 Hunt(List<Animal> friendly, List<Animal> foes);
+    Vec3 Hunt(List<Animal> friendly, List<Animal> foes);
 }
