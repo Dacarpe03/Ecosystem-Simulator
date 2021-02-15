@@ -12,27 +12,35 @@ public class Animal
     private AnimalState _state;
     public AnimalState State { get => _state; set => _state = value; }
 
+
     private double _maxSpeed;
     public double MaxSpeed { get => _maxSpeed; }
     private double _maxSquaredSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
     public double MaxSquaredSpeed { get => _maxSquaredSpeed; }
     
+
     private double _visionRadius;
     private double _squaredVisionRadius;
     public double SquaredVisionRadius { get => _squaredVisionRadius; }
 
+
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
+
 
     private Boolean _isDead = false;
     public Boolean IsDead { get => _isDead; set => _isDead = value; }
 
+
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
+
 
     private Vec3 _speed;
     public Vec3 Speed { get => _speed; set => _speed = value; }
 
+    private AnimalMediator _predatorCommunication;
+    public AnimalMediator AnimalMediator { get => _predatorCommunication; set => _predatorCommunication = value; }
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods

@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class AnimalMediator
 {
@@ -14,5 +15,39 @@ public class AnimalMediator
         this._predators.Add(a.Id, a);
     }
 
+    public void UpdateBestPreyId(Dictionary<int, Animal> preys)
+    {
+        double minSpeed = double.MaxValue;
+        foreach (Animal a in preys.Values)
+        {
+            if (a.Speed.SquaredModule < minSpeed)
+            {
+                if (this.IsVisible(a))
+                {
+                    this.FixedPreyId = a.Id;
+                }
+            }
+        }
+    }
 
+    public Boolean IsVisible(Animal a)
+    {
+        Boolean isVisible = false;
+
+        foreach(Animal p in this._predators.Values)
+        {
+            if(p.SquaredVisionRadius >= p.SquareDistanceTo(a))
+            {
+                return true;
+            }
+        }
+
+        return isVisible;
+
+    }
+
+    public void Reset()
+    {
+        this._predators = this._predators.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
+    }
 }
