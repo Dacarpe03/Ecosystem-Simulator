@@ -28,7 +28,6 @@ public class Vec3
     public Vec3(System.Random rand)
     {
         this.RandomizeCoords(rand);
-        this.RandomizeCoords(rand);
     }
 
     public void RandomizeCoords(Random rand)
@@ -117,6 +116,14 @@ public class Vec3
     public static Vec3 Zero()
     {
         return new Vec3(0, 0, 0);
+    }
+
+    public static Vec3 Add(Vec3 a, Vec3 b)
+    {
+        double x = a.XCoord + b.XCoord;
+        double y = a.YCoord + b.YCoord;
+        double z = a.ZCoord + b.ZCoord;
+        return new Vec3(x, y, z);
     }
     //END: Static methods
 }

@@ -20,6 +20,7 @@ public class Animal
     
 
     private double _visionRadius;
+    public double VisionRadius { get => _visionRadius; }
     private double _squaredVisionRadius;
     public double SquaredVisionRadius { get => _squaredVisionRadius; }
 

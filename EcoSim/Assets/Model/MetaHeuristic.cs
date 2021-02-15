@@ -2,5 +2,5 @@
 
 interface MetaHeuristic
 {
-    double objectiveFunction(Dictionary<int, Animal> predators, Animal prey);
+    double ObjectiveFunction(List<Vec3> predatorPositions, Vec3 preyPosition);
 }
