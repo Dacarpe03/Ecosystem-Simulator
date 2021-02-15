@@ -5,7 +5,7 @@ using System.Linq;
 public class AnimalMediator
 {
     private int _fixedPreyId = -1;
-    public int FixedPreyId { get => _fixedPreyId; set => this._fixedPreyId = value; }
+    public int FixedPreyId { get => this._fixedPreyId; set => this._fixedPreyId = value; }
 
     private Dictionary<int, Animal> _predators;
     public Dictionary<int, Animal> Predators { get => this._predators; }
