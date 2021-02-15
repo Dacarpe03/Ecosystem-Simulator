@@ -49,7 +49,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     }
 
 
-    public Vec3 GreyWolfOptimizer(Animal agent, List<Vec3> predatorPosition, Animal fixedPrey)
+    public Vec3 GreyWolfOptimizer(Animal agent, List<Vec3> predatorPositions, Animal fixedPrey)
     {
         //Initialize the candidateSolutions in the 
         Random rand = new Random();
@@ -64,7 +64,14 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         for(int i=0; i<this.METAHEURISTIC_CANDIDATES; i++)
         {
-            Vec3 position = new Vec3(xUpperLimit, xLowerLimit, 0, 0, zUpperLimit, zLowerLimit, rand);
+            Vec3 candidateSolution = new Vec3(xUpperLimit, xLowerLimit, 0, 0, zUpperLimit, zLowerLimit, rand);
+            double fitness = this.CalculateFitness(candidateSolution, predatorPositions, fixedPrey);
+            candidates.Add(new CandidateSolution(candidateSolution, fitness));
+        }
+
+        for(int i=1; i<=this.METAHEURISTIC_ITERATIONS; i++)
+        {
+            
         }
         
         return Vec3.Zero();
@@ -101,5 +108,11 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         }
 
         return minDistance;
+    }
+
+    private double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
+    {
+        Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
+        return ObjectiveFunction(predatorPositions, prey.Position);
     }
 }
