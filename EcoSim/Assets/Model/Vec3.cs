@@ -30,6 +30,13 @@ public class Vec3
         this.RandomizeCoords(rand);
     }
 
+    public Vec3(double xUp, double xLo, double yUp, double yLo, double zUp, double zLo, Random rand)
+    {
+        this._xCoord = xLo + (xUp - xLo) * rand.NextDouble();
+        this._yCoord = yLo + (yUp - yLo) * rand.NextDouble();
+        this._zCoord = xLo + (zUp - zLo) * rand.NextDouble();
+    }
+
     public void RandomizeCoords(Random rand)
     {
         this._xCoord = rand.NextDouble() * 100;
