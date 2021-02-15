@@ -107,6 +107,11 @@ public class Vec3
     {
         return (this._xCoord == 0 & this._yCoord == 0 & this._zCoord == 0);
     }
+
+    public Vec3 Clone()
+    {
+        return new Vec3(XCoord, YCoord, ZCoord);
+    }
     //END: Secondary methods
 
 
