@@ -4,7 +4,6 @@ using System;
 
 public class PredatorBuilder : AnimalBuilder
 {
-    private AnimalMediator _mediator;
     public PredatorBuilder(GroupParameters parameters) : base(parameters) {
         this._mediator = new AnimalMediator();
     }

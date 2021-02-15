@@ -6,6 +6,7 @@ public abstract class AnimalBuilder
 {
     protected GroupParameters _animalParameters;
     protected int _creationCounter;
+    protected AnimalMediator _mediator;
 
     public AnimalBuilder(GroupParameters parameters)
     {
@@ -15,4 +16,9 @@ public abstract class AnimalBuilder
 
     public abstract Animal CreateAnimal(Random rand);
     public abstract AnimalState GetAnimalState();
+
+    public void ResetMediator()
+    {
+        this._mediator.Reset();
+    }
 }

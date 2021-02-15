@@ -102,6 +102,7 @@ public class AnimalGroup
             //Reset the position in the initial square
             a.ResetPosition(rand);
         }
+        this._animalBuilder.ResetMediator();
     }
 
     //Returns the positions of all its animals
