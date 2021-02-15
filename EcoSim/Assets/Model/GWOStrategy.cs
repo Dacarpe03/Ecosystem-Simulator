@@ -1,11 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
     private int METAHEURISTIC_ITERATIONS = 20;
     private int METAHEURISTIC_CANDIDATES = 5;
+    private int SIZE_OF_SPACE = 50;
+
+    private class CandidateSolution
+    {
+        public Vec3 Solution;
+        public double Fitness;
+
+        public CandidateSolution(Vec3 solution, double fitness)
+        {
+            this.Solution = solution;
+            this.Fitness = fitness;
+        }
+    }
 
     public override void Hunt(Animal agent, Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes)
     {
@@ -28,21 +41,33 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         //Get data from fixedPrey
         Animal fixedPrey = foes[agent.AnimalMediator.FixedPreyId];
-        Vec3 preyPosition = fixedPrey.Position;
-        double preyMaxSquaredSpeed = fixedPrey.MaxSquaredSpeed;
-        double preyVisionRadius = fixedPrey.VisionRadius;
 
         //Calculate optimal position of the predator agent
-        Vec3 desiredAgentPosition = this.GreyWolfOptimizer(agent.Position, predatorPositions, preyPosition, agent.MaxSquaredSpeed, preyMaxSquaredSpeed, preyVisionRadius);
+        Vec3 desiredAgentPosition = this.GreyWolfOptimizer(agent, predatorPositions, fixedPrey);
 
         throw new System.NotImplementedException();
     }
 
 
-    public Vec3 GreyWolfOptimizer(Vec3 agentPosition, List<Vec3> predatorPosition, Vec3 preyPosition, double maxSquaredAgentSpeed, double maxSquaredPreySpeed, double preyVisionRadius)
+    public Vec3 GreyWolfOptimizer(Animal agent, List<Vec3> predatorPosition, Animal fixedPrey)
     {
-        //Initialize the solutions
+        //Initialize the candidateSolutions in the 
+        Random rand = new Random();
+
+        //Declare the space of solutions
+        double xUpperLimit = agent.Position.XCoord + this.SIZE_OF_SPACE;
+        double xLowerLimit = agent.Position.XCoord - this.SIZE_OF_SPACE;
+        double zUpperLimit = agent.Position.ZCoord + this.SIZE_OF_SPACE;
+        double zLowerLimit = agent.Position.ZCoord + this.SIZE_OF_SPACE;
+
+        List<CandidateSolution> candidates = new List<CandidateSolution>();
+
+        for(int i=0; i<this.METAHEURISTIC_CANDIDATES; i++)
+        {
+            Vec3 position = new Vec3(xUpperLimit, xLowerLimit, 0, 0, zUpperLimit, zLowerLimit, rand);
+        }
         
+        return Vec3.Zero();
     }
 
 
