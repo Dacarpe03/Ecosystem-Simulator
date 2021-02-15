@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
     private int METAHEURISTIC_ITERATIONS = 20;
-    private int METAHEURISTIC_CANDIDATES = 5;
-    private int SIZE_OF_SPACE = 50;
+    private int METAHEURISTIC_CANDIDATES = 5; //MUST BE >= 3
+    private int SIZE_OF_SPACE = 25;
 
     private class CandidateSolution
     {
-        public Vec3 Solution;
-        public double Fitness;
+        private Vec3 _solution;
+        public Vec3 Solution { get => _solution; set => _solution = value; }
+
+        private double _fitness;
+        public double Fitness{ get => _fitness; set => _fitness = value; }
 
         public CandidateSolution(Vec3 solution, double fitness)
         {
@@ -58,20 +62,43 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         double xUpperLimit = agent.Position.XCoord + this.SIZE_OF_SPACE;
         double xLowerLimit = agent.Position.XCoord - this.SIZE_OF_SPACE;
         double zUpperLimit = agent.Position.ZCoord + this.SIZE_OF_SPACE;
-        double zLowerLimit = agent.Position.ZCoord + this.SIZE_OF_SPACE;
+        double zLowerLimit = agent.Position.ZCoord - this.SIZE_OF_SPACE;
 
+        //Initialize the candidate solutions in the space of solutions
         List<CandidateSolution> candidates = new List<CandidateSolution>();
 
-        for(int i=0; i<this.METAHEURISTIC_CANDIDATES; i++)
+        for(int i=0; i<=this.METAHEURISTIC_CANDIDATES; i++)
         {
             Vec3 candidateSolution = new Vec3(xUpperLimit, xLowerLimit, 0, 0, zUpperLimit, zLowerLimit, rand);
             double fitness = this.CalculateFitness(candidateSolution, predatorPositions, fixedPrey);
             candidates.Add(new CandidateSolution(candidateSolution, fitness));
         }
 
-        for(int i=1; i<=this.METAHEURISTIC_ITERATIONS; i++)
+        //Main GWO algorithm loop
+        for(int i=0; i<=this.METAHEURISTIC_ITERATIONS; i++)
         {
-            
+            //Order the candidates by fitness (the lower the better)
+            candidates = candidates.OrderBy(c => c.Fitness).ToList();
+
+            //Fittest Solutions
+            Vec3 alphaSol = candidates[0].Solution.Clone();
+            Vec3 betaSol = candidates[1].Solution.Clone();
+            Vec3 gamaSol = candidates[2].Solution.Clone();
+
+            foreach(CandidateSolution cand in candidates)
+            {
+                //Random vectors (coords between 0 and 1)
+                Vec3 r1 = new Vec3(1, 0, 0, 0, 1, 0, rand);
+                Vec3 r2 = new Vec3(1, 0, 0, 0, 1, 0, rand);
+
+                //Scalar a (coords go from 2 to 0 lineally during the iterations)
+                double a = 2 - i * (2 / this.METAHEURISTIC_ITERATIONS);
+
+                //
+
+            }
+
+
         }
         
         return Vec3.Zero();
