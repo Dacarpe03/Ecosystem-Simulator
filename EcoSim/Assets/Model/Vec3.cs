@@ -137,5 +137,13 @@ public class Vec3
         double z = a.ZCoord + b.ZCoord;
         return new Vec3(x, y, z);
     }
+
+    public static Vec3 WolfProduct(Vec3 a, Vec3 b)
+    {
+        double x = a.XCoord * b.XCoord;
+        double y = a.YCoord * b.YCoord;
+        double z = a.ZCoord * b.ZCoord;
+        return new Vec3(x, y, z);
+    }
     //END: Static methods
 }
