@@ -16,9 +16,5 @@ public abstract class AnimalBuilder
 
     public abstract Animal CreateAnimal(Random rand);
     public abstract AnimalState GetAnimalState();
-
-    public void ResetMediator()
-    {
-        this._mediator.Reset();
-    }
+    public abstract void ResetMediator();
 }

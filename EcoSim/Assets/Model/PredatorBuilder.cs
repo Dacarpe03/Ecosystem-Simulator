@@ -24,10 +24,10 @@ public class PredatorBuilder : AnimalBuilder
     public override AnimalState GetAnimalState()
     {
 
-        return new AnimalHuntState(new GWOStrategy());
+        return new AnimalHuntState(new SimpleStrategy());
     }
 
-    private void ResetMediator()
+    public override void ResetMediator()
     {
         this._mediator.Reset();
     }

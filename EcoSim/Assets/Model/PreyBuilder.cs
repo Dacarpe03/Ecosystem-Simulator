@@ -22,4 +22,9 @@ public class PreyBuilder : AnimalBuilder
     {
         return new AnimalFleeState();
     }
+
+    public override void ResetMediator()
+    {
+
+    }
 }

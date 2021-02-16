@@ -7,7 +7,7 @@ public class AnimalMediator
     private int _fixedPreyId = -1;
     public int FixedPreyId { get => this._fixedPreyId; set => this._fixedPreyId = value; }
 
-    private Dictionary<int, Animal> _predators;
+    private Dictionary<int, Animal> _predators = new Dictionary<int, Animal>();
     public Dictionary<int, Animal> Predators { get => this._predators; }
 
     public void AddAnimal(Animal a)
