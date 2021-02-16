@@ -5,9 +5,9 @@ using System.Linq;
 
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
-    private int METAHEURISTIC_ITERATIONS = 20;
+    private int METAHEURISTIC_ITERATIONS = 100;
     private int METAHEURISTIC_CANDIDATES = 5; //MUST BE >= 3
-    private int SIZE_OF_SPACE = 25;
+    private int SIZE_OF_SPACE = 20;
 
     private class CandidateSolution
     {
@@ -48,8 +48,12 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         //Calculate optimal position of the predator agent
         Vec3 desiredAgentPosition = this.GreyWolfOptimizer(agent, predatorPositions, fixedPrey);
-
-        throw new System.NotImplementedException();
+        
+        //Update the predator Speed
+        Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, desiredAgentPosition);
+        acceleration.Expand(agent.MaxSpeed);
+        agent.UpdateSpeed(acceleration);
+        agent.Move();
     }
 
 
@@ -83,27 +87,59 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             //Fittest Solutions
             Vec3 alphaSol = candidates[0].Solution.Clone();
             Vec3 betaSol = candidates[1].Solution.Clone();
-            Vec3 gamaSol = candidates[2].Solution.Clone();
+            Vec3 gammaSol = candidates[2].Solution.Clone();
 
             foreach(CandidateSolution cand in candidates)
             {
-                //Random vectors (coords between 0 and 1)
-                Vec3 r1 = new Vec3(1, 0, 0, 0, 1, 0, rand);
-                Vec3 r2 = new Vec3(1, 0, 0, 0, 1, 0, rand);
+                Vec3 X1 = CalculateVectorX(cand.Solution, alphaSol, rand, i);
+                Vec3 X2 = CalculateVectorX(cand.Solution, betaSol, rand, i);
+                Vec3 X3 = CalculateVectorX(cand.Solution, gammaSol, rand, i);
 
-                //Scalar a (coords go from 2 to 0 lineally during the iterations)
-                double a = 2 - i * (2 / this.METAHEURISTIC_ITERATIONS);
+                //(X1+X2+X3)/3
+                X1.Add(X2);
+                X1.Add(X3);
+                X1.Divide(3);
 
-                //
-
+                cand.Solution = X1;
+                cand.Fitness = this.CalculateFitness(X1, predatorPositions, fixedPrey);
             }
-
-
         }
-        
-        return Vec3.Zero();
+
+        //Return the optimal solution found
+        candidates = candidates.OrderBy(c => c.Fitness).ToList();
+        return candidates[0].Solution;
     }
 
+    //To calculate X1, X2, X3 form the gwo equations
+    private Vec3 CalculateVectorX(Vec3 candidate, Vec3 optimalSolution, Random rand, int iteration)
+    {
+        //Random vectors (coords between 0 and 1)
+        Vec3 r1 = new Vec3(1, 0, 0, 0, 1, 0, rand);
+
+        //C = 2r2, in this line we calculate r2 and C at the same time
+        Vec3 C = new Vec3(2, 0, 0, 0, 2, 0, rand);
+
+        //Scalar a (coords go from 2 to 0 lineally during the iterations)
+        double coord = 2 - iteration * (2 / this.METAHEURISTIC_ITERATIONS);
+        Vec3 a = new Vec3(coord, 0, coord);
+
+        //A vector A = 2*a*r1 - a
+        Vec3 A = Vec3.WolfProduct(a, r1);
+        A.Multiply(2);
+        A.Substract(a);
+
+        //Calculate distance (C-Xalpha or C-Xbeta or C-Xamma)
+        //optDistance = Module(C*optimalSolution - candidate)
+        Vec3 dVector = Vec3.WolfProduct(C, optimalSolution);
+        dVector.Substract(candidate);
+        double optDistance = dVector.Module;
+
+        //Calculate XVector=optimalSolution - optDistance*A
+        A.Multiply(optDistance);
+        Vec3 vectorX = Vec3.Substract(optimalSolution, A);
+
+        return vectorX;
+    }
 
     private Vec3 PredictPreyPosition(Vec3 candidatePosition, Vec3 preyPosition, double maxSquaredPreySpeed, double preyVisionRadius)
     {
