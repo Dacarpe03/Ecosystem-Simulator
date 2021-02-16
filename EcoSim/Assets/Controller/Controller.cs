@@ -8,6 +8,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     /*
+     * These are equilibrium parameters with the simplestrategy
     private double PREY_REPRODUCTION_PROB = 1;
     private double PREDATOR_REPRODUCTION_PROB = 1;
 
@@ -26,8 +27,8 @@ public class Controller : MonoBehaviour
     private int ITERATIONS_PER_SIMULATION = 100;
 
                                                //Reproduction probability, maximum speed, visionRadius, GroupSize
-    private GroupParameters _preyParameters = new GroupParameters(1, 0.5, 8, 500);
-    private GroupParameters _predatorParameters = new GroupParameters(1, 0.6, 15, 15);
+    private GroupParameters _preyParameters = new GroupParameters(1, 0.5, 8, 20);
+    private GroupParameters _predatorParameters = new GroupParameters(1, 0.56, 15, 2);
     //END PARAMETERS OF SIMULATION
 
     //PATHS FOR FILES
@@ -47,6 +48,11 @@ public class Controller : MonoBehaviour
     private View _myView;
     //END MAIN ATTRIBUTES
 
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 30;
+    }
     void Start()
     {
         Debug.Log("Simulación " + this._simulationCounter);
