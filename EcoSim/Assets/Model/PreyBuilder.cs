@@ -12,7 +12,10 @@ public class PreyBuilder : AnimalBuilder
     public override Animal CreateAnimal(Random rand)
     {
         AnimalState initialState = new AnimalFleeState();
+        //AnimalState initialState = new AnimalStillState();
         Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter, rand);
+
+        //Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter);
         this._creationCounter += 1;
 
         return a;
@@ -21,6 +24,7 @@ public class PreyBuilder : AnimalBuilder
     public override AnimalState GetAnimalState()
     {
         return new AnimalFleeState();
+        //return new AnimalStillState();
     }
 
     public override void ResetMediator()

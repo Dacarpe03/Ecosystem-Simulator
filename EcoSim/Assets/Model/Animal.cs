@@ -64,7 +64,6 @@ public class Animal
         this._id = id;
     }
 
-
     //Method to transition between states
     public void TransitionTo(AnimalState newState)
     {

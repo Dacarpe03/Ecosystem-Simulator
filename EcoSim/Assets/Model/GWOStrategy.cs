@@ -8,6 +8,9 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     private int METAHEURISTIC_ITERATIONS = 50;
     private int METAHEURISTIC_CANDIDATES = 6; //MUST BE >= 3
     private int SIZE_OF_SPACE = 10;
+
+    private int _frameCounter = 0;
+
     private Vec3 _desiredPosition = new Vec3(0, 0, 0);
     private Boolean fixedPosition = false;
 
@@ -33,10 +36,11 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             agent.AnimalMediator.UpdateBestPreyId(foes);
             this.fixedPosition = false;
         }
-        else if(!this.fixedPosition || agent.Position.SquaredDistanceTo(this._desiredPosition) < 9)
+        //else if (!this.fixedPosition || agent.Position.SquaredDistanceTo(this._desiredPosition) < 9)
+        else if(!this.fixedPosition || this._frameCounter > 30)
+        //else if (true)
         {
-
-            Debug.Log("Calculamos");
+            this._frameCounter = 0;
             //Get all the positions
             List<Vec3> predatorPositions = new List<Vec3>();
 
@@ -55,22 +59,23 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             this._desiredPosition= this.GreyWolfOptimizer(agent, predatorPositions, fixedPrey);
 
             //Update the predator Speed
-            Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
-            acceleration.Expand(agent.MaxSpeed);
-            agent.UpdateSpeed(acceleration);
-            agent.Move();
 
             this.fixedPosition = true;
 
-            Debug.Log("Lobo: " + agent.Id + " va a la posicion (" + this._desiredPosition.XCoord + "," + this._desiredPosition.ZCoord);
+            //Debug.Log("Presa(" + fixedPrey.Position.XCoord + "," + fixedPrey.Position.ZCoord);
+            //Debug.Log("Lobo: " + agent.Id + " va a la posicion (" + this._desiredPosition.XCoord + "," + this._desiredPosition.ZCoord);
         }
         else
         {
-            Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
-            acceleration.Expand(agent.MaxSpeed);
-            agent.UpdateSpeed(acceleration);
-            agent.Move();
+            this._frameCounter += 1;
         }
+
+        Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
+        acceleration.Add(this.Avoidance(agent, friendly));
+        acceleration.Expand(agent.MaxSpeed);
+
+        agent.UpdateSpeed(acceleration);
+        agent.Move();
 
     }
 
@@ -78,12 +83,12 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     public Vec3 GreyWolfOptimizer(Animal agent, List<Vec3> predatorPositions, Animal fixedPrey)
     {
         System.Random rand = new System.Random();
-
+        Debug.Log("Primer random: " + rand.NextDouble());
         //Declare the space of solutions
-        double xUpperLimit = agent.Position.XCoord + this.SIZE_OF_SPACE;
-        double xLowerLimit = agent.Position.XCoord - this.SIZE_OF_SPACE;
-        double zUpperLimit = agent.Position.ZCoord + this.SIZE_OF_SPACE;
-        double zLowerLimit = agent.Position.ZCoord - this.SIZE_OF_SPACE;
+        double xUpperLimit = fixedPrey.Position.XCoord + this.SIZE_OF_SPACE;
+        double xLowerLimit = fixedPrey.Position.XCoord - this.SIZE_OF_SPACE;
+        double zUpperLimit = fixedPrey.Position.ZCoord + this.SIZE_OF_SPACE;
+        double zLowerLimit = fixedPrey.Position.ZCoord - this.SIZE_OF_SPACE;
 
         //Initialize the candidate solutions in the space of solutions
         List<CandidateSolution> candidates = new List<CandidateSolution>();
@@ -105,7 +110,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             Vec3 betaSol = candidates[1].Solution.Clone();
             Vec3 gammaSol = candidates[2].Solution.Clone();
 
-            Debug.Log("Mejor fitness iteracion" + i + "lobo "+ agent.Id +" : " + candidates[0].Fitness);
+            //Debug.Log("Mejor fitness iteracion" + i + "lobo "+ agent.Id +" : " + candidates[0].Fitness);
             //Debug.Log("Segunda fitness iteracion" + i + "lobo " + agent.Id + " : " + candidates[1].Fitness);
             //Debug.Log("Tercera fitness iteracion" + i + "lobo " + agent.Id + " : " + candidates[2].Fitness);
             for (int j = 3; j < candidates.Count; j++)
@@ -128,6 +133,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         //Return the optimal solution found
         candidates = candidates.OrderBy(c => c.Fitness).ToList();
+        //Debug.Log("Mejor fitness lobo " + agent.Id + " : " + candidates[0].Fitness);
         return candidates[0].Solution;
     }
 
@@ -167,11 +173,11 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
         //Calculate where the prey would move if the agent moves to the possible position 
         Vec3 preyDirection = Vec3.CalculateVectorsBetweenPoints(candidatePosition, preyPosition);
-        //double distance = preyDirection.Module;
+        double distance = preyDirection.Module;
         preyDirection.Trim(maxSquaredPreySpeed);
 
-        //double force = preyVisionRadius / distance;
-        //preyDirection.Multiply(force);
+        double force = preyVisionRadius / distance;
+        preyDirection.Multiply(force);
 
         return Vec3.Add(preyDirection, preyPosition);
     }
@@ -187,13 +193,13 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         foreach(Vec3 position in predatorPositions)
         {
             double sqrdDistance = position.SquaredDistanceTo(preyPosition);
-            if (sqrdDistance < minDistance)
+            if (sqrdDistance > maxDistance)
             {
-                minDistance = sqrdDistance;
+                maxDistance = sqrdDistance;
             }
         }
 
-        return minDistance;
+        return maxDistance;
 
     }
 
@@ -202,10 +208,48 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         return Vec3.CalculateVectorsBetweenPoints(pos, preyPosition).Module;
     }
 
-
     private double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
     {
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
-        return ObjFunc(candidateSolution, prey.Position);
+        return ObjectiveFunction(predatorPositions, predictedPreyPosition);
+    }
+
+    private Vec3 Avoidance(Animal agent, Dictionary<int, Animal> nearbyAnimals) //Avoid nearby animals creating a repelling force between them
+    {
+        Vec3 avoidanceVector = Vec3.Zero();
+        List<Animal> closeAnimals = this.GetNearbyAnimals(agent, nearbyAnimals, 2.5);
+        int animalCount = closeAnimals.Count;
+
+        if (animalCount > 0)
+        {
+
+            foreach (Animal a in closeAnimals)
+            {
+                Vec3 force = Vec3.CalculateVectorsBetweenPoints(a.Position, agent.Position);
+                avoidanceVector.Add(force);
+            }
+
+            avoidanceVector.Divide(animalCount);
+
+            return avoidanceVector;
+        }
+        else
+        {
+            return Vec3.Zero();
+        }
+    }
+
+    private List<Animal> GetNearbyAnimals(Animal agent, Dictionary<int, Animal> animals, double squareRadius)
+    {
+        List<Animal> nearbyAnimals = new List<Animal>();
+        foreach (Animal a in animals.Values)
+        {
+            if (a.Id != agent.Id & agent.SquareDistanceTo(a) <= squareRadius)
+            {
+                nearbyAnimals.Add(a);
+            }
+        }
+
+        return nearbyAnimals;
     }
 }
