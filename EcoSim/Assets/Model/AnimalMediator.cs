@@ -25,6 +25,7 @@ public class AnimalMediator
                 if (this.IsVisible(a))
                 {
                     this.FixedPreyId = a.Id;
+                    minSpeed = a.Speed.SquaredModule;
                 }
             }
         }
