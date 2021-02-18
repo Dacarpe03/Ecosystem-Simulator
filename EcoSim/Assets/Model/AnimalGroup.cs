@@ -40,10 +40,10 @@ public class AnimalGroup
     public void Survive(Dictionary<int, Animal> foes)
     {
         //Get the animals from the same group that are not dead and are not safe
-        Dictionary<int, Animal> aliveAllies = this._animals.Where(a => !a.Value.IsDead | !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
+        Dictionary<int, Animal> aliveAllies = this._animals.Where(a => !a.Value.IsDead & !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
 
         //Get the animals from the other group that are not dead and are not safe
-        Dictionary<int, Animal> aliveFoes = foes.Where(a => !a.Value.IsDead | !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
+        Dictionary<int, Animal> aliveFoes = foes.Where(a => !a.Value.IsDead & !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
         foreach (Animal a in this._animals.Values)
         {
             a.State.Update(aliveAllies, foes);
