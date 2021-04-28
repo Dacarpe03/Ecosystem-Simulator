@@ -8,6 +8,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     private int METAHEURISTIC_ITERATIONS = 50;
     private int METAHEURISTIC_CANDIDATES = 6; //MUST BE >= 3
     private int SIZE_OF_SPACE = 20;
+    private int FRAMES_UPDATE = 10;
 
     private int _frameCounter = 0;
 
@@ -35,7 +36,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         this._frameCounter += 1;
 
         //First check if the agent is near the prey to hunt it
-        //this.CheckPreyInRangeOfAttack(agent, foes);
+        this.CheckPreyInRangeOfAttack(agent, foes);
 
         //Now fix other prey or calculate new optimal position
         if(agent.AnimalMediator.FixedPreyId == -1)
@@ -45,10 +46,10 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             this.fixedPosition = false;
         }
 
-        else if(!this.fixedPosition || this._frameCounter > 15)
+        else if(!this.fixedPosition || this._frameCounter > this.FRAMES_UPDATE)
         {
             this._frameCounter = 0;
-            //Get all the positions
+            //Get all the positions except the agent one
             List<Vec3> predatorPositions = new List<Vec3>();
 
             foreach (Animal a in friendly.Values)
@@ -72,7 +73,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             //Debug.Log("Presa(" + fixedPrey.Position.XCoord + "," + fixedPrey.Position.ZCoord);
             //Debug.Log("Lobo: " + agent.Id + " va a la posicion (" + this._desiredPosition.XCoord + "," + this._desiredPosition.ZCoord);
         }
-        Debug.Log(agent.AnimalMediator.FixedPreyId);
+        Debug.Log("Presa fijada:"+ agent.AnimalMediator.FixedPreyId);
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
         acceleration.Add(this.Avoidance(agent, friendly));
         acceleration.Expand(agent.MaxSpeed);
@@ -188,10 +189,9 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
         //We want to minimize the minimun distance of all the predators to the prey
         double maxDistance = 0;
-        double minDistance = double.MaxValue;
-
+        //double minDistance = double.MaxValue;
         //Calculate the distance
-        foreach(Vec3 position in predatorPositions)
+        foreach (Vec3 position in predatorPositions)
         {
             double sqrdDistance = position.SquaredDistanceTo(preyPosition);
             if (sqrdDistance > maxDistance)
@@ -207,7 +207,8 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     private double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
     {
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
-        return ObjectiveFunction(predatorPositions, predictedPreyPosition);
+        double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition);
+        return fitness;
     }
 
     private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys)
@@ -219,6 +220,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             preys[preyId].IsSafe = true;
             preys[preyId].TransitionTo(new AnimalStillState());
             agent.AnimalMediator.FixedPreyId = -1;
+            agent.AnimalMediator.Eat();
         }
     }
 

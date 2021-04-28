@@ -23,12 +23,12 @@ public class Controller : MonoBehaviour
      */
 
     //PARAMETERS OF SIMULATION
-    private int NUMBER_OF_SIMULATIONS = 500;
-    private int ITERATIONS_PER_SIMULATION = 100;
+    private int NUMBER_OF_SIMULATIONS = 2;
+    private int ITERATIONS_PER_SIMULATION = 5;
 
                                                //Reproduction probability, maximum speed, visionRadius, GroupSize
-    private GroupParameters _preyParameters = new GroupParameters(1, 0.37, 15, 1);
-    private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 15, 6);
+    private GroupParameters _preyParameters = new GroupParameters(1, 0.37, 16, 40);
+    private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 15, 4);
     //END PARAMETERS OF SIMULATION
 
     //PATHS FOR FILES

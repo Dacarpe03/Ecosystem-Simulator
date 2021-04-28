@@ -47,6 +47,11 @@ public class AnimalMediator
 
     }
 
+    public void Eat()
+    {
+
+    }
+
     public void Reset()
     {
         this._predators = this._predators.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
