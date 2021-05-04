@@ -16,14 +16,14 @@ public class SimpleStrategy : HuntingStrategy
         if (_preysHunted >= PREYS_NEEDED_TO_SURVIVE)
         {
             agent.IsDead = false;
-            agent.IsSafe = true;
+            agent.IsSafe = false;
         }
         else
         {
             agent.IsDead = true;
         }
 
-        if (!preyFixed)
+        if (!this.preyFixed)
         {
             List<Animal> nearbyPreys = this.GetNearbyAnimals(agent, foes, agent.SquaredVisionRadius);
             if (nearbyPreys.Count > 0)
@@ -49,7 +49,7 @@ public class SimpleStrategy : HuntingStrategy
                 agent.Move();
             }
         }
-        else
+        else if (foes.ContainsKey(fixedPreyId))
         {
 
             Animal fixedPrey = (Animal)foes.Where(a => a.Value.Id == fixedPreyId).Select(a => a.Value).ToList().First();
@@ -63,6 +63,7 @@ public class SimpleStrategy : HuntingStrategy
                 fixedPrey.IsSafe = true;
                 fixedPrey.TransitionTo(new AnimalStillState());
                 this._preysHunted += 1;
+                this.preyFixed = false;
             }
 
             Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, fixedPrey.Position);
@@ -71,6 +72,10 @@ public class SimpleStrategy : HuntingStrategy
 
             agent.UpdateSpeed(acceleration);
             agent.Move();
+        }
+        else
+        {
+            this.preyFixed = false;
         }
     }
 

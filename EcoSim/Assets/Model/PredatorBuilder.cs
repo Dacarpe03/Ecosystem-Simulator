@@ -23,7 +23,6 @@ public class PredatorBuilder : AnimalBuilder
 
     public override AnimalState GetAnimalState()
     {
-
         return new AnimalHuntState(new GWOStrategy());
     }
 

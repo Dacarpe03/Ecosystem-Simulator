@@ -5,10 +5,10 @@ using System.Linq;
 using UnityEngine;
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
-    private int METAHEURISTIC_ITERATIONS = 50;
+    private int METAHEURISTIC_ITERATIONS = 250;
     private int METAHEURISTIC_CANDIDATES = 6; //MUST BE >= 3
-    private int SIZE_OF_SPACE = 20;
-    private int FRAMES_UPDATE = 10;
+    private int SIZE_OF_SPACE = 60;
+    private int FRAMES_UPDATE = 15;
 
     private int _frameCounter = 0;
 
@@ -34,10 +34,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
 
         this._frameCounter += 1;
-
-        //First check if the agent is near the prey to hunt it
-        this.CheckPreyInRangeOfAttack(agent, foes);
-
+        Debug.Log("Presa fijada: " + agent.AnimalMediator.FixedPreyId);
         //Now fix other prey or calculate new optimal position
         if(agent.AnimalMediator.FixedPreyId == -1)
         {
@@ -45,7 +42,6 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             agent.AnimalMediator.UpdateBestPreyId(foes);
             this.fixedPosition = false;
         }
-
         else if(!this.fixedPosition || this._frameCounter > this.FRAMES_UPDATE)
         {
             this._frameCounter = 0;
@@ -64,7 +60,8 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             Animal fixedPrey = foes[agent.AnimalMediator.FixedPreyId];
 
             //Calculate optimal position of the predator agent
-            this._desiredPosition= this.GreyWolfOptimizer(agent, predatorPositions, fixedPrey);
+            this._desiredPosition = this.GreyWolfOptimizer(agent, predatorPositions, fixedPrey);
+            
 
             //Update the predator Speed
 
@@ -73,13 +70,19 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             //Debug.Log("Presa(" + fixedPrey.Position.XCoord + "," + fixedPrey.Position.ZCoord);
             //Debug.Log("Lobo: " + agent.Id + " va a la posicion (" + this._desiredPosition.XCoord + "," + this._desiredPosition.ZCoord);
         }
-        Debug.Log("Presa fijada:"+ agent.AnimalMediator.FixedPreyId);
+        else {
+            //Check if the agent is near the prey to hunt it
+            //this.GoForPreyInRange(agent, foes);
+            //this.CheckPreyInRangeOfAttack(agent, foes);
+        }
+        //Debug.Log("Presa fijada:"+ agent.AnimalMediator.FixedPreyId);
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
         acceleration.Add(this.Avoidance(agent, friendly));
         acceleration.Expand(agent.MaxSpeed);
 
         agent.UpdateSpeed(acceleration);
         agent.Move();
+
 
     }
 
@@ -185,10 +188,11 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     }
 
 
-    public double ObjectiveFunction(List<Vec3> predatorPositions, Vec3 preyPosition)
+    public double ObjectiveFunction(List<Vec3> predatorPositions, Vec3 preyPosition, Vec3 candidateSolution)
     {
         //We want to minimize the minimun distance of all the predators to the prey
-        double maxDistance = 0;
+        double maxDistance = candidateSolution.SquaredDistanceTo(preyPosition);
+        //double maxDistance = 0;
         //double minDistance = double.MaxValue;
         //Calculate the distance
         foreach (Vec3 position in predatorPositions)
@@ -207,20 +211,33 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     private double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
     {
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
-        double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition);
+        double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition, candidateSolution);
         return fitness;
+    }
+
+    private void GoForPreyInRange(Animal agent, Dictionary<int, Animal> preys)
+    {
+        int preyId = agent.AnimalMediator.FixedPreyId;
+        if (preys.ContainsKey(preyId) && preys[preyId].SquareDistanceTo(agent) < 9)
+        {
+            this._desiredPosition = preys[preyId].Position;
+        }
     }
 
     private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys)
     {
         int preyId = agent.AnimalMediator.FixedPreyId;
-        if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4)
-        {
-            preys[preyId].IsDead = true;
-            preys[preyId].IsSafe = true;
-            preys[preyId].TransitionTo(new AnimalStillState());
-            agent.AnimalMediator.FixedPreyId = -1;
-            agent.AnimalMediator.Eat();
+        if (preys.ContainsKey(preyId)){
+
+            if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4)
+            {
+                Debug.Log("Cazo");
+                preys[preyId].IsDead = true;
+                preys[preyId].IsSafe = true;
+                preys[preyId].TransitionTo(new AnimalStillState());
+                agent.AnimalMediator.UpdateBestPreyId(preys);
+                agent.AnimalMediator.Eat();
+            }
         }
     }
 

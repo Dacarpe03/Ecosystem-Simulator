@@ -7,7 +7,7 @@ public class AnimalGroup
 {
     //SECTION: Attributes and properties
     public int Size { get => this.Animals.Count; }
-    public int SurvivorsNumber { get => this._animals.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToList().Count; }
+    public int SurvivorsNumber { get => this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToList().Count; }
 
     private double _reproductionProb;
 
@@ -46,7 +46,7 @@ public class AnimalGroup
         Dictionary<int, Animal> aliveFoes = foes.Where(a => !a.Value.IsDead & !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
         foreach (Animal a in this._animals.Values)
         {
-            a.State.Update(aliveAllies, foes);
+            a.State.Update(aliveAllies, aliveFoes);
         }
     }//End Survive
 
@@ -54,7 +54,7 @@ public class AnimalGroup
     //Method to create the next generation of animals
     public void Evolve()
     {
-        Dictionary<int, Animal> survivors = this._animals.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a=> a.Value);
+        Dictionary<int, Animal> survivors = this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToDictionary(a => a.Key, a=> a.Value);
         //Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
 
         //Calculate the maximum breeding count

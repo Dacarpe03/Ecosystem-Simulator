@@ -2,5 +2,5 @@
 
 interface MetaHeuristic
 {
-    double ObjectiveFunction(List<Vec3> predatorPositions, Vec3 preyPosition);
+    double ObjectiveFunction(List<Vec3> predatorPositions, Vec3 preyPosition, Vec3 candidateSolution);
 }

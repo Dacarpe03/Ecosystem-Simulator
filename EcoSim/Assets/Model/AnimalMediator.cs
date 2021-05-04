@@ -17,15 +17,18 @@ public class AnimalMediator
 
     public void UpdateBestPreyId(Dictionary<int, Animal> preys)
     {
-        double minSpeed = double.MaxValue;
+        this._fixedPreyId = -1;
+        double maxScore = 0;
         foreach (Animal a in preys.Values)
         {
-            if (a.Speed.SquaredModule < minSpeed)
+            int counter = 0;
+            if (!a.IsDead)
             {
-                if (this.IsVisible(a))
+                counter = this.PreyScore(a);
+                if (counter > maxScore)
                 {
-                    this.FixedPreyId = a.Id;
-                    minSpeed = a.Speed.SquaredModule;
+                        this.FixedPreyId = a.Id;
+                    maxScore = counter;
                 }
             }
         }
@@ -47,6 +50,19 @@ public class AnimalMediator
 
     }
 
+    public int PreyScore(Animal a)
+    {
+        int count = 0;
+        foreach (Animal p in this._predators.Values)
+        {
+            if (p.SquaredVisionRadius >= p.SquareDistanceTo(a))
+            {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
     public void Eat()
     {
 
@@ -54,6 +70,7 @@ public class AnimalMediator
 
     public void Reset()
     {
-        this._predators = this._predators.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
+        //this._predators = this._predators.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
+        this._fixedPreyId = -1;
     }
 }
