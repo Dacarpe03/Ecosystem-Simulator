@@ -11,8 +11,8 @@ public class PreyBuilder : AnimalBuilder
     //Method to create a prey with Flee State as initial state
     public override Animal CreateAnimal(Random rand)
     {
-        AnimalState initialState = new AnimalFleeState();
         //AnimalState initialState = new AnimalStillState();
+        AnimalState initialState = new AnimalFleeState();
         Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter, rand);
 
         //Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter);

@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEngine;
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
-    private int METAHEURISTIC_ITERATIONS = 250;
-    private int METAHEURISTIC_CANDIDATES = 6; //MUST BE >= 3
-    private int SIZE_OF_SPACE = 60;
+    private int METAHEURISTIC_ITERATIONS = 200;
+    private int METAHEURISTIC_CANDIDATES = 10; //MUST BE >= 3
+    private int SIZE_OF_SPACE = 30;
     private int FRAMES_UPDATE = 15;
 
     private int _frameCounter = 0;
@@ -73,7 +73,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         else {
             //Check if the agent is near the prey to hunt it
             //this.GoForPreyInRange(agent, foes);
-            //this.CheckPreyInRangeOfAttack(agent, foes);
+            this.CheckPreyInRangeOfAttack(agent, foes);
         }
         //Debug.Log("Presa fijada:"+ agent.AnimalMediator.FixedPreyId);
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
@@ -82,6 +82,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         agent.UpdateSpeed(acceleration);
         agent.Move();
+        //agent.Position = this._desiredPosition;
 
 
     }
