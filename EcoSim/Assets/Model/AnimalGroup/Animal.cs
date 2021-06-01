@@ -40,12 +40,12 @@ public class Animal
     private Vec3 _speed;
     public Vec3 Speed { get => _speed; set => _speed = value; }
 
-    private AnimalMediator _predatorCommunication;
-    public AnimalMediator AnimalMediator { get => _predatorCommunication; set => _predatorCommunication = value; }
+    private AnimalMediator _communication;
+    public AnimalMediator Mediator { get => _communication; set => _communication = value; }
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand)
+    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand, AnimalMediator mediator)
     {
         this.TransitionTo(state);
 
@@ -62,6 +62,9 @@ public class Animal
         this._speed.Trim(this._maxSquaredSpeed);
 
         this._id = id;
+
+        this._communication = mediator;
+        this._communication.AddAnimal(this);
     }
 
     //Method to transition between states
