@@ -34,12 +34,12 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
 
         this._frameCounter += 1;
-        Debug.Log("Presa fijada: " + agent.AnimalMediator.FixedPreyId);
+        Debug.Log("Presa fijada: " + agent.Mediator.FixedPreyId);
         //Now fix other prey or calculate new optimal position
-        if(agent.AnimalMediator.FixedPreyId == -1)
+        if(agent.Mediator.FixedPreyId == -1)
         {
             Debug.Log("Cambio presa");
-            agent.AnimalMediator.UpdateBestPreyId(foes);
+            agent.Mediator.UpdateBestPreyId(foes);
             this.fixedPosition = false;
         }
         else if(!this.fixedPosition || this._frameCounter > this.FRAMES_UPDATE)
@@ -57,7 +57,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
             }
 
             //Get data from fixedPrey
-            Animal fixedPrey = foes[agent.AnimalMediator.FixedPreyId];
+            Animal fixedPrey = foes[agent.Mediator.FixedPreyId];
 
             //Calculate optimal position of the predator agent
             this._desiredPosition = this.GreyWolfOptimizer(agent, predatorPositions, fixedPrey);
@@ -218,7 +218,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
     private void GoForPreyInRange(Animal agent, Dictionary<int, Animal> preys)
     {
-        int preyId = agent.AnimalMediator.FixedPreyId;
+        int preyId = agent.Mediator.FixedPreyId;
         if (preys.ContainsKey(preyId) && preys[preyId].SquareDistanceTo(agent) < 9)
         {
             this._desiredPosition = preys[preyId].Position;
@@ -227,7 +227,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
     private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys)
     {
-        int preyId = agent.AnimalMediator.FixedPreyId;
+        int preyId = agent.Mediator.FixedPreyId;
         if (preys.ContainsKey(preyId)){
 
             if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4)
@@ -236,8 +236,8 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
                 preys[preyId].IsDead = true;
                 preys[preyId].IsSafe = true;
                 preys[preyId].TransitionTo(new AnimalStillState());
-                agent.AnimalMediator.UpdateBestPreyId(preys);
-                agent.AnimalMediator.Eat();
+                agent.Mediator.UpdateBestPreyId(preys);
+                agent.Mediator.Eat();
             }
         }
     }

@@ -5,3 +5,4 @@ Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPre
 0|50|5|46|5
 1|69|7|65|7
 0|50|5|48|5
+0|50|5|45|5

@@ -5,7 +5,6 @@ using System;
 public class PredatorBuilder : AnimalBuilder
 {
     public PredatorBuilder(GroupParameters parameters) : base(parameters) {
-        this._mediator = new AnimalMediator();
     }
 
 

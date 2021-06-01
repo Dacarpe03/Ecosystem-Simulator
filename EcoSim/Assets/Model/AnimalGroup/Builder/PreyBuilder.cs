@@ -26,9 +26,4 @@ public class PreyBuilder : AnimalBuilder
         return new AnimalFleeState();
         //return new AnimalStillState();
     }
-
-    public override void ResetMediator()
-    {
-
-    }
 }
