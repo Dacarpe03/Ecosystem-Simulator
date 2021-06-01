@@ -14,7 +14,6 @@ public class PredatorBuilder : AnimalBuilder
     {
         AnimalState initialState = new AnimalHuntState(new GWOStrategy());
         Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter, rand, mediator);
-        this._mediator.AddAnimal(a);
         this._creationCounter += 1;
 
         return a;
@@ -23,10 +22,5 @@ public class PredatorBuilder : AnimalBuilder
     public override AnimalState GetAnimalState()
     {
         return new AnimalHuntState(new GWOStrategy());
-    }
-
-    public override void ResetMediator()
-    {
-        this._mediator.Reset();
     }
 }

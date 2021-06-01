@@ -12,6 +12,7 @@ public class AnimalGroup
     private double _reproductionProb;
 
     private AnimalBuilder _animalBuilder;
+    private AnimalMediator _mediator;
 
     private Dictionary<int, Animal> _animals;
     public Dictionary<int, Animal> Animals { get => _animals;}
@@ -19,18 +20,18 @@ public class AnimalGroup
 
 
     //SECTION: Constructor and main methods
-    public AnimalGroup(GroupParameters groupParameters, AnimalBuilder builder)
+    public AnimalGroup(GroupParameters groupParameters, AnimalBuilder builder, AnimalMediator mediator)
     {
         this._reproductionProb = groupParameters.ReproductionProb;
 
         this._animalBuilder = builder;
 
         this._animals = new Dictionary<int, Animal>();
-
+        this._mediator = mediator;
         System.Random rand = new System.Random();
         for (int i = 0; i < groupParameters.GroupSize; i++)
         {
-            Animal a = builder.CreateAnimal(rand);
+            Animal a = builder.CreateAnimal(rand, mediator);
             this._animals.Add(a.Id, a);
         }
     }
@@ -67,7 +68,7 @@ public class AnimalGroup
             double r = rand.NextDouble();
             if (r <= this._reproductionProb)
             {
-                Animal a = this._animalBuilder.CreateAnimal(rand);
+                Animal a = this._animalBuilder.CreateAnimal(rand, this._mediator);
                 survivors.Add(a.Id, a);
             }
         }
@@ -77,6 +78,7 @@ public class AnimalGroup
         //Reset the animals in the model
         this.ResetSafe();
         this.ResetPositions();
+        this.ResetMediator();
     }//END Evolve
 
 
@@ -102,7 +104,6 @@ public class AnimalGroup
             //Reset the position in the initial square
             a.ResetPosition(rand);
         }
-        this._animalBuilder.ResetMediator();
     }
 
     //Returns the positions of all its animals
@@ -132,4 +133,10 @@ public class AnimalGroup
         return true;
     }
     //END: Constructor and main methods
+
+    public void ResetMediator()
+    {
+        this._mediator.Reset();
+    }
+
 }
