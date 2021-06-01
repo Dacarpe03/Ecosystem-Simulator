@@ -19,16 +19,16 @@ public class AnimalGroup
 
 
     //SECTION: Constructor and main methods
-    public AnimalGroup(int groupSize, double repProb, AnimalBuilder builder)
+    public AnimalGroup(GroupParameters groupParameters, AnimalBuilder builder)
     {
-        this._reproductionProb = repProb;
+        this._reproductionProb = groupParameters.ReproductionProb;
 
         this._animalBuilder = builder;
 
         this._animals = new Dictionary<int, Animal>();
 
         System.Random rand = new System.Random();
-        for (int i = 0; i < groupSize; i++)
+        for (int i = 0; i < groupParameters.GroupSize; i++)
         {
             Animal a = builder.CreateAnimal(rand);
             this._animals.Add(a.Id, a);
