@@ -20,7 +20,7 @@ public class Ecosystem
     public Boolean _reset = false;
     public Boolean Reset { get => _reset; set => _reset = value; }
 
-    public Boolean Extinguised { get => this.Predators.Size <= 1; }
+    public Boolean Extinguised { get => this.Predators.Size <= 1 || this.Preys.Size <= 1; }
     //END: Attributes and properties
 
 
@@ -30,11 +30,13 @@ public class Ecosystem
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
 
+        AnimalMediator preyMediator = new AnimalMediator();
         AnimalBuilder preyBuilder = new PreyBuilder(preyParameters);
-        this._preys = new AnimalGroup(preyParameters.GroupSize, preyParameters.ReproductionProb, preyBuilder);
+        this._preys = new AnimalGroup(preyParameters, preyBuilder, preyMediator);
 
+        AnimalMediator predatorMediator = new AnimalMediator();
         AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
-        this._predators = new AnimalGroup(predatorParameters.GroupSize, predatorParameters.ReproductionProb, predatorBuilder);
+        this._predators = new AnimalGroup(predatorParameters, predatorBuilder, predatorMediator);
     }
 
     public void Update()

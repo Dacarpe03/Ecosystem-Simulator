@@ -7,46 +7,47 @@ public class AnimalGroup
 {
     //SECTION: Attributes and properties
     public int Size { get => this.Animals.Count; }
-    public int SurvivorsNumber { get => this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList().Count; }
+    public int SurvivorsNumber { get => this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToList().Count; }
 
     private double _reproductionProb;
 
     private AnimalBuilder _animalBuilder;
+    private AnimalMediator _mediator;
 
-    private List<Animal> _animals;
-    public List<Animal> Animals { get => _animals;}
+    private Dictionary<int, Animal> _animals;
+    public Dictionary<int, Animal> Animals { get => _animals;}
     //END: Attributes and properties
 
 
     //SECTION: Constructor and main methods
-    public AnimalGroup(int groupSize, double repProb, AnimalBuilder builder)
+    public AnimalGroup(GroupParameters groupParameters, AnimalBuilder builder, AnimalMediator mediator)
     {
-        this._reproductionProb = repProb;
+        this._reproductionProb = groupParameters.ReproductionProb;
 
         this._animalBuilder = builder;
 
-        this._animals = new List<Animal>();
-
+        this._animals = new Dictionary<int, Animal>();
+        this._mediator = mediator;
         System.Random rand = new System.Random();
-        for (int i = 0; i < groupSize; i++)
+        for (int i = 0; i < groupParameters.GroupSize; i++)
         {
-            Animal a = builder.CreateAnimal(rand);
-            this._animals.Add(a);
+            Animal a = builder.CreateAnimal(rand, mediator);
+            this._animals.Add(a.Id, a);
         }
     }
 
 
     //Method to update the position of animals in the iteration
-    public void Survive(List<Animal> foes)
+    public void Survive(Dictionary<int, Animal> foes)
     {
         //Get the animals from the same group that are not dead and are not safe
-        List<Animal> aliveAllies = this._animals.Where(a => !a.IsDead | !a.IsSafe).Select(a => a).ToList();
+        Dictionary<int, Animal> aliveAllies = this._animals.Where(a => !a.Value.IsDead & !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
 
         //Get the animals from the other group that are not dead and are not safe
-        List<Animal> aliveFoes = foes.Where(a => !a.IsDead | !a.IsSafe).Select(a => a).ToList();
-        foreach (Animal a in this._animals)
+        Dictionary<int, Animal> aliveFoes = foes.Where(a => !a.Value.IsDead & !a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
+        foreach (Animal a in this._animals.Values)
         {
-            a.State.Update(aliveAllies, foes);
+            a.State.Update(aliveAllies, aliveFoes);
         }
     }//End Survive
 
@@ -54,7 +55,7 @@ public class AnimalGroup
     //Method to create the next generation of animals
     public void Evolve()
     {
-        List<Animal> survivors = this._animals.Where(a => !a.IsDead & a.IsSafe).Select(a => a).ToList();
+        Dictionary<int, Animal> survivors = this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToDictionary(a => a.Key, a=> a.Value);
         //Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
 
         //Calculate the maximum breeding count
@@ -67,8 +68,8 @@ public class AnimalGroup
             double r = rand.NextDouble();
             if (r <= this._reproductionProb)
             {
-                Animal a = this._animalBuilder.CreateAnimal(rand);
-                survivors.Add(a);
+                Animal a = this._animalBuilder.CreateAnimal(rand, this._mediator);
+                survivors.Add(a.Id, a);
             }
         }
 
@@ -77,13 +78,14 @@ public class AnimalGroup
         //Reset the animals in the model
         this.ResetSafe();
         this.ResetPositions();
+        this.ResetMediator();
     }//END Evolve
 
 
     //Reset the safe attribute to False
     public void ResetSafe()
     {
-        foreach(Animal a in this._animals)
+        foreach(Animal a in this._animals.Values)
         {
             a.IsSafe = false;
         }
@@ -94,7 +96,7 @@ public class AnimalGroup
     public void ResetPositions()
     {
         System.Random rand = new System.Random();
-        foreach(Animal a in this._animals)
+        foreach(Animal a in this._animals.Values)
         {
             AnimalState initialState = this._animalBuilder.GetAnimalState();
             //Reset to the initial state
@@ -108,7 +110,7 @@ public class AnimalGroup
     public List<Vec3> GetPositions()
     {
         List<Vec3> positions = new List<Vec3>();
-        foreach(Animal a in _animals)
+        foreach(Animal a in this._animals.Values)
         {
             positions.Add(a.Position);
         }
@@ -120,7 +122,7 @@ public class AnimalGroup
     //Return true if all the animals are safe
     public Boolean AreSafe()
     {
-        foreach(Animal a in this._animals)
+        foreach(Animal a in this._animals.Values)
         {
             if (!a.IsSafe)
             {
@@ -131,4 +133,10 @@ public class AnimalGroup
         return true;
     }
     //END: Constructor and main methods
+
+    public void ResetMediator()
+    {
+        this._mediator.Reset();
+    }
+
 }

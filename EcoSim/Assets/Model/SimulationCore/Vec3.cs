@@ -28,7 +28,13 @@ public class Vec3
     public Vec3(System.Random rand)
     {
         this.RandomizeCoords(rand);
-        this.RandomizeCoords(rand);
+    }
+
+    public Vec3(double xUp, double xLo, double yUp, double yLo, double zUp, double zLo, Random rand)
+    {
+        this._xCoord = xLo + (xUp - xLo) * rand.NextDouble();
+        this._yCoord = yLo + (yUp - yLo) * rand.NextDouble();
+        this._zCoord = xLo + (zUp - zLo) * rand.NextDouble();
     }
 
     public void RandomizeCoords(Random rand)
@@ -101,6 +107,11 @@ public class Vec3
     {
         return (this._xCoord == 0 & this._yCoord == 0 & this._zCoord == 0);
     }
+
+    public Vec3 Clone()
+    {
+        return new Vec3(XCoord, YCoord, ZCoord);
+    }
     //END: Secondary methods
 
 
@@ -117,6 +128,29 @@ public class Vec3
     public static Vec3 Zero()
     {
         return new Vec3(0, 0, 0);
+    }
+
+    public static Vec3 Add(Vec3 a, Vec3 b)
+    {
+        double x = a.XCoord + b.XCoord;
+        double y = a.YCoord + b.YCoord;
+        double z = a.ZCoord + b.ZCoord;
+        return new Vec3(x, y, z);
+    }
+
+    public static Vec3 Substract(Vec3 a, Vec3 b)
+    {
+        double x = a.XCoord - b.XCoord;
+        double y = a.YCoord - b.YCoord;
+        double z = a.ZCoord - b.ZCoord;
+        return new Vec3(x, y, z);
+    }
+    public static Vec3 WolfProduct(Vec3 a, Vec3 b)
+    {
+        double x = a.XCoord * b.XCoord;
+        double y = a.YCoord * b.YCoord;
+        double z = a.ZCoord * b.ZCoord;
+        return new Vec3(x, y, z);
     }
     //END: Static methods
 }

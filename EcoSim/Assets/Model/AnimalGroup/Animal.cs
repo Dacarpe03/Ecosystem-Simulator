@@ -12,31 +12,40 @@ public class Animal
     private AnimalState _state;
     public AnimalState State { get => _state; set => _state = value; }
 
+
     private double _maxSpeed;
     public double MaxSpeed { get => _maxSpeed; }
     private double _maxSquaredSpeed; //So that the computation of the norm of the vector skips one step, the sqrt
     public double MaxSquaredSpeed { get => _maxSquaredSpeed; }
     
+
     private double _visionRadius;
+    public double VisionRadius { get => _visionRadius; }
     private double _squaredVisionRadius;
     public double SquaredVisionRadius { get => _squaredVisionRadius; }
+
 
     private Boolean _isSafe;
     public Boolean IsSafe { get => _isSafe; set => _isSafe = value; }
 
+
     private Boolean _isDead = false;
     public Boolean IsDead { get => _isDead; set => _isDead = value; }
+
 
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
 
+
     private Vec3 _speed;
     public Vec3 Speed { get => _speed; set => _speed = value; }
 
+    private AnimalMediator _communication;
+    public AnimalMediator Mediator { get => _communication; set => _communication = value; }
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand)
+    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand, AnimalMediator mediator)
     {
         this.TransitionTo(state);
 
@@ -53,8 +62,10 @@ public class Animal
         this._speed.Trim(this._maxSquaredSpeed);
 
         this._id = id;
-    }
 
+        this._communication = mediator;
+        this._communication.AddAnimal(this);
+    }
 
     //Method to transition between states
     public void TransitionTo(AnimalState newState)
