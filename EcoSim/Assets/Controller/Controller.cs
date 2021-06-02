@@ -69,6 +69,7 @@ public class Controller : MonoBehaviour
         this.CalculateTotalSimulations();
 
         this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
+        Debug.Log(this.PATH);
         this.CreateFileForSimulation();
     }//End Start
 
