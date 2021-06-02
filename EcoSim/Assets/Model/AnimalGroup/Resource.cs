@@ -26,6 +26,11 @@ public class Resource
         }
     }
 
+    public void addUnits(int n)
+    {
+        this._quantity += n;
+    }
+
     public void Grow()
     {
         this._quantity *= this._growthFactor;
