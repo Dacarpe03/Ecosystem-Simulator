@@ -64,7 +64,6 @@ public class Animal
         this._id = id;
 
         this._communication = mediator;
-        this._communication.AddAnimal(this);
     }
 
     //Method to transition between states

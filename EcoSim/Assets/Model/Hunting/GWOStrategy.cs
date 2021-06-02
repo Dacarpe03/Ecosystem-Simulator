@@ -236,7 +236,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
                 preys[preyId].IsDead = true;
                 preys[preyId].IsSafe = true;
                 preys[preyId].TransitionTo(new AnimalStillState());
-                agent.Mediator.UpdateBestPreyId(preys, predators);
+                agent.Mediator.UpdateBestPreyId(predators, preys);
                 agent.Mediator.PreyHunted(preys[preyId]);
             }
         }
