@@ -30,12 +30,12 @@ public class Ecosystem
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
 
-        AnimalMediator preyMediator = new AnimalMediator();
+        AnimalMediator preyMediator = new AnimalMediator(plants);
         AnimalBuilder preyBuilder = new PreyBuilder(preyParameters);
         this._preys = new AnimalGroup(preyParameters, preyBuilder, preyMediator);
 
-        Resource meat = new Resource(0, 0)
-        AnimalMediator predatorMediator = new AnimalMediator();
+        Resource meat = new Resource(0, 0);
+        AnimalMediator predatorMediator = new AnimalMediator(meat);
         AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
         this._predators = new AnimalGroup(predatorParameters, predatorBuilder, predatorMediator);
     }

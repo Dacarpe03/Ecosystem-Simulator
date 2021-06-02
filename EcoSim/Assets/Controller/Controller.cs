@@ -26,6 +26,8 @@ public class Controller : MonoBehaviour
     private int NUMBER_OF_SIMULATIONS = 40;
     private int ITERATIONS_PER_SIMULATION = 100;
 
+    private double INITIAL_PLANTS = 50;
+    private double GROWTH_RATE = 1.2;
                                                //Reproduction probability, maximum speed, visionRadius, GroupSize
     private GroupParameters _preyParameters = new GroupParameters(1, 0.40, 10, 50);
     private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 20, 5);
@@ -58,8 +60,8 @@ public class Controller : MonoBehaviour
         Debug.Log("Simulación " + this._simulationCounter);
 
         //Initialize the ecosystem
-
-        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
+        Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE);
+        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
         
         //Initialize the view
         this._myView = Instantiate(MyView);
@@ -104,7 +106,8 @@ public class Controller : MonoBehaviour
             Debug.Log("Simulación " + this._simulationCounter);
 
             //Initialize the ecosystem
-            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
+            Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE);
+            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
             //Reset the view
             this.ResetView();
             //Create a new file to save the data of the simulation
