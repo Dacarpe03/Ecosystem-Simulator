@@ -8,6 +8,7 @@ public class AnimalGroup
     //SECTION: Attributes and properties
     public int Size { get => this.Animals.Count; }
     public int SurvivorsNumber { get => this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToList().Count; }
+    public double CurrentFood { get => this._mediator.CurrentFood(); }
 
     private double _reproductionProb;
 

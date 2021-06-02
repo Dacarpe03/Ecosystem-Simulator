@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Resource
 {
     private double _quantity;
+    public double Quantity { get => this._quantity; }
     private double _growthFactor;
 
     public Resource (double initialQuantity, double increaseFactor)

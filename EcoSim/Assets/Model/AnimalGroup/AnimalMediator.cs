@@ -72,4 +72,9 @@ public class AnimalMediator
     {
         this._resource.addUnits(4);
     }
+    
+    public double CurrentFood()
+    {
+        return this._resource.Quantity;
+    }
 }
