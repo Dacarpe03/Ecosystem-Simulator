@@ -4,17 +4,17 @@ using System.Collections.Generic;
 public class Resource
 {
     private double _quantity;
-    private double _increaseFactor;
+    private double _growthFactor;
 
     public Resource (double initialQuantity, double increaseFactor)
     {
         this._quantity = initialQuantity;
-        this._increaseFactor = increaseFactor;
+        this._growthFactor = increaseFactor;
     }
 
     public bool resourcesAvailable()
     {
-        if (this._quantity > 1)
+        if (this._quantity >= 1)
         {
             this._quantity -= 1;
             return true;
@@ -26,8 +26,8 @@ public class Resource
         }
     }
 
-    public void Increase()
+    public void Grow()
     {
-        this._quantity *= this._increaseFactor;
+        this._quantity *= this._growthFactor;
     }
 }
