@@ -25,7 +25,7 @@ public class Ecosystem
 
 
     //SECTION: Constructor and main methods
-    public Ecosystem(GroupParameters preyParameters, GroupParameters predatorParameters)
+    public Ecosystem(GroupParameters preyParameters, GroupParameters predatorParameters, Resource plants)
     {
         this.TransitionTo(new SimulationSurviveState());
         this._iteration = 0;
@@ -34,6 +34,7 @@ public class Ecosystem
         AnimalBuilder preyBuilder = new PreyBuilder(preyParameters);
         this._preys = new AnimalGroup(preyParameters, preyBuilder, preyMediator);
 
+        Resource meat = new Resource(0, 0)
         AnimalMediator predatorMediator = new AnimalMediator();
         AnimalBuilder predatorBuilder = new PredatorBuilder(predatorParameters);
         this._predators = new AnimalGroup(predatorParameters, predatorBuilder, predatorMediator);

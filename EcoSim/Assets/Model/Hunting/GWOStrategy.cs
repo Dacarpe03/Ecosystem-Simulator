@@ -39,7 +39,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         if(agent.Mediator.FixedPreyId == -1)
         {
             Debug.Log("Cambio presa");
-            agent.Mediator.UpdateBestPreyId(foes);
+            agent.Mediator.UpdateBestPreyId(friendly, foes);
             this.fixedPosition = false;
         }
         else if(!this.fixedPosition || this._frameCounter > this.FRAMES_UPDATE)
@@ -73,7 +73,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         else {
             //Check if the agent is near the prey to hunt it
             //this.GoForPreyInRange(agent, foes);
-            this.CheckPreyInRangeOfAttack(agent, foes);
+            this.CheckPreyInRangeOfAttack(agent, foes, friendly);
         }
         //Debug.Log("Presa fijada:"+ agent.AnimalMediator.FixedPreyId);
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
@@ -225,7 +225,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         }
     }
 
-    private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys)
+    private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys, Dictionary<int, Animal> predators)
     {
         int preyId = agent.Mediator.FixedPreyId;
         if (preys.ContainsKey(preyId)){
@@ -236,8 +236,8 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
                 preys[preyId].IsDead = true;
                 preys[preyId].IsSafe = true;
                 preys[preyId].TransitionTo(new AnimalStillState());
-                agent.Mediator.UpdateBestPreyId(preys);
-                agent.Mediator.Eat();
+                agent.Mediator.UpdateBestPreyId(preys, predators);
+                agent.Mediator.PreyHunted(preys[preyId]);
             }
         }
     }
