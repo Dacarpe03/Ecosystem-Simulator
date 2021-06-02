@@ -4,18 +4,16 @@ using System.Linq;
 
 public class AnimalMediator
 {
+    private Resource _resource;
     private int _fixedPreyId = -1;
     public int FixedPreyId { get => this._fixedPreyId; set => this._fixedPreyId = value; }
-
-    private Dictionary<int, Animal> _predators = new Dictionary<int, Animal>();
-    public Dictionary<int, Animal> Predators { get => this._predators; }
-
-    public void AddAnimal(Animal a)
+    
+    public AnimalMediator(Resource resource)
     {
-        this._predators.Add(a.Id, a);
+        this._resource = resource;
     }
 
-    public void UpdateBestPreyId(Dictionary<int, Animal> preys)
+    public void UpdateBestPreyId(Dictionary<int, Animal> predators, Dictionary<int, Animal> preys)
     {
         this._fixedPreyId = -1;
         double maxScore = 0;
@@ -24,7 +22,7 @@ public class AnimalMediator
             int counter = 0;
             if (!a.IsDead)
             {
-                counter = this.PreyScore(a);
+                counter = this.PreyScore(a, predators);
                 if (counter > maxScore)
                 {
                         this.FixedPreyId = a.Id;
@@ -34,13 +32,13 @@ public class AnimalMediator
         }
     }
 
-    public Boolean IsVisible(Animal a)
+    public Boolean IsVisible(Animal prey, Dictionary<int, Animal> predators)
     {
         Boolean isVisible = false;
 
-        foreach(Animal p in this._predators.Values)
+        foreach(Animal p in predators.Values)
         {
-            if(p.SquaredVisionRadius >= p.SquareDistanceTo(a))
+            if(p.SquaredVisionRadius >= p.SquareDistanceTo(prey))
             {
                 return true;
             }
@@ -50,12 +48,12 @@ public class AnimalMediator
 
     }
 
-    public int PreyScore(Animal a)
+    public int PreyScore(Animal prey, Dictionary<int, Animal> predators)
     {
         int count = 0;
-        foreach (Animal p in this._predators.Values)
+        foreach (Animal p in predators.Values)
         {
-            if (p.SquaredVisionRadius >= p.SquareDistanceTo(a))
+            if (p.SquaredVisionRadius >= p.SquareDistanceTo(prey))
             {
                 count += 1;
             }
@@ -63,14 +61,15 @@ public class AnimalMediator
         return count;
     }
 
-    public void Eat()
-    {
-
-    }
-
     public void Reset()
     {
         //this._predators = this._predators.Where(a => !a.Value.IsDead & a.Value.IsSafe).Select(a => a).ToDictionary(a => a.Key, a => a.Value);
         this._fixedPreyId = -1;
+        this._resource.Grow();
+    }
+
+    public void PreyHunted(Animal a)
+    {
+        this._resource.addUnits(4);
     }
 }
