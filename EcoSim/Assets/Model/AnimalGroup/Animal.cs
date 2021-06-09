@@ -132,5 +132,16 @@ public class Animal
         this._hasEaten = false;
         this._position.RandomizeCoords(rand);
     }
+
+    //Animal asks for food to the mediator, if it does not get it he dies
+    public void Eat()
+    {
+        if (!this._hasEaten && !this._isDead)
+        {
+            this._isDead = this.Mediator.DispenseFood();
+        }
+    }//END Eat()
+
     //END: Secondary methods
+
 }
