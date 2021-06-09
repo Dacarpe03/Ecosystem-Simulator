@@ -29,7 +29,7 @@ public class Resource
         }
     }
 
-    public void addUnits(int n)
+    public void addUnits(double n)
     {
         this._quantity += n;
     }

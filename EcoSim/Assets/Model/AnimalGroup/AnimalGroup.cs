@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-//using UnityEngine;
+using UnityEngine;
 
 
 
@@ -59,11 +59,12 @@ public class AnimalGroup
     public void Evolve()
     {
         //First let the animal eat
+        Debug.Log("MODELO--Recursos: " + this._mediator.CurrentFood());
         this.Eat();
 
         //Now evolve
         Dictionary<int, Animal> survivors = this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToDictionary(a => a.Key, a=> a.Value);
-        //Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
+        Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
         
         //Calculate the maximum breeding count
         int possibleBreedingCount = survivors.Count / 2;
@@ -171,7 +172,7 @@ static class ListShuffler
         int n = list.Count;
         while (n > 1)
         {
-            Random r = new Random();
+            System.Random r = new System.Random();
             n--;
             int k = r.Next(n + 1);
             T value = list[k];

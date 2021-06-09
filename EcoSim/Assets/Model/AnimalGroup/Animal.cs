@@ -138,7 +138,8 @@ public class Animal
     {
         if (!this._hasEaten && !this._isDead)
         {
-            this._isDead = this.Mediator.DispenseFood();
+            this._hasEaten = this.Mediator.DispenseFood();
+            this._isDead = !this._hasEaten;
         }
     }//END Eat()
 

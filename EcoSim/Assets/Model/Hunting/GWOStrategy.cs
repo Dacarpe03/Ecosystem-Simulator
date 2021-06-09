@@ -34,11 +34,11 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
 
         this._frameCounter += 1;
-        Debug.Log("Presa fijada: " + agent.Mediator.FixedPreyId);
+        //Debug.Log("Presa fijada: " + agent.Mediator.FixedPreyId);
         //Now fix other prey or calculate new optimal position
         if(agent.Mediator.FixedPreyId == -1)
         {
-            Debug.Log("Cambio presa");
+            //Debug.Log("Cambio presa");
             agent.Mediator.UpdateBestPreyId(friendly, foes);
             this.fixedPosition = false;
         }
@@ -230,7 +230,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         int preyId = agent.Mediator.FixedPreyId;
         if (preys.ContainsKey(preyId)){
 
-            if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4)
+            if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4 && !preys[preyId].IsDead)
             {
                 Debug.Log("Cazo");
                 preys[preyId].IsDead = true;
@@ -238,7 +238,6 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
                 preys[preyId].TransitionTo(new AnimalStillState());
                 agent.Mediator.UpdateBestPreyId(predators, preys);
                 agent.Mediator.PreyHunted(preys[preyId]);
-                agent.Mediator.AddPreyHunted(preys[preyId]);
             }
         }
     }

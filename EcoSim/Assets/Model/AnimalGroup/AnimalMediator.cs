@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine;
 
 public class AnimalMediator
 {
     private Resource _resource;
     private int _fixedPreyId = -1;
+    private int _lastId = -1;
     public int FixedPreyId { get => this._fixedPreyId; set => this._fixedPreyId = value; }
     
     public AnimalMediator(Resource resource)
@@ -70,7 +72,7 @@ public class AnimalMediator
 
     public void PreyHunted(Animal a)
     {
-        this._resource.addUnits(4);
+        this._resource.addUnits(1);
     }
     
     public double CurrentFood()
@@ -81,10 +83,5 @@ public class AnimalMediator
     public bool DispenseFood()
     {
         return this._resource.resourcesAvailable();
-    }
-
-    public void AddPreyHunted(Animal a)
-    {
-        this._resource.addUnits(1);
     }
 }
