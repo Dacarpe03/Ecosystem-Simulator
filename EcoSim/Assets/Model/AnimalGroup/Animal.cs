@@ -32,6 +32,8 @@ public class Animal
     private Boolean _isDead = false;
     public Boolean IsDead { get => _isDead; set => _isDead = value; }
 
+    private Boolean _hasEaten = false;
+    public Boolean HasEaten { get => _hasEaten; set => _hasEaten = value; }
 
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
@@ -127,6 +129,7 @@ public class Animal
     public void ResetPosition(Random rand)
     {
         this._isSafe = false;
+        this._hasEaten = false;
         this._position.RandomizeCoords(rand);
     }
     //END: Secondary methods
