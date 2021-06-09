@@ -28,6 +28,7 @@ public class Controller : MonoBehaviour
 
     private double INITIAL_PLANTS = 50;
     private double GROWTH_RATE = 1.2;
+    private double THRESHOLD = 10;
                                                //Reproduction probability, maximum speed, visionRadius, GroupSize
     private GroupParameters _preyParameters = new GroupParameters(1, 0.40, 10, 50);
     private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 20, 5);
@@ -60,7 +61,7 @@ public class Controller : MonoBehaviour
         Debug.Log("Simulación " + this._simulationCounter);
 
         //Initialize the ecosystem
-        Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE);
+        Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
         this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
         
         //Initialize the view
@@ -107,7 +108,7 @@ public class Controller : MonoBehaviour
             Debug.Log("Simulación " + this._simulationCounter);
 
             //Initialize the ecosystem
-            Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE);
+            Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
             this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
             //Reset the view
             this.ResetView();
