@@ -77,4 +77,9 @@ public class AnimalMediator
     {
         return this._resource.Quantity;
     }
+
+    public bool DispenseFood()
+    {
+        return this._resource.resourcesAvailable();
+    }
 }
