@@ -82,4 +82,9 @@ public class AnimalMediator
     {
         return this._resource.resourcesAvailable();
     }
+
+    public void AddPreyHunted(Animal a)
+    {
+        this._resource.addUnits(1);
+    }
 }
