@@ -238,6 +238,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
                 preys[preyId].TransitionTo(new AnimalStillState());
                 agent.Mediator.UpdateBestPreyId(predators, preys);
                 agent.Mediator.PreyHunted(preys[preyId]);
+                agent.Mediator.AddPreyHunted(preys[preyId]);
             }
         }
     }
