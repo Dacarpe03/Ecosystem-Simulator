@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 //using UnityEngine;
 
+
+
 public class AnimalGroup
 {
     //SECTION: Attributes and properties
@@ -56,9 +58,13 @@ public class AnimalGroup
     //Method to create the next generation of animals
     public void Evolve()
     {
+        //First let the animal eat
+        this.Eat();
+
+        //Now evolve
         Dictionary<int, Animal> survivors = this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToDictionary(a => a.Key, a=> a.Value);
         //Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
-
+        
         //Calculate the maximum breeding count
         int possibleBreedingCount = survivors.Count / 2;
         var rand = new System.Random();
@@ -81,6 +87,23 @@ public class AnimalGroup
         this.ResetPositions();
         this.ResetMediator();
     }//END Evolve
+
+
+    //Function so that each animal eats if it is not dead
+    private void Eat()
+    {
+        //Create a set with all the keys
+        List<int> keys = this.Animals.Keys.ToList();
+
+        //Rearrange in a random way
+        ListShuffler.Shuffle(keys);
+        
+        //For each animal try to eat
+        foreach(int n in keys)
+        {
+            this.Animals[n].Eat();
+        }
+    }//END Eat
 
 
     //Reset the safe attribute to False
@@ -139,5 +162,21 @@ public class AnimalGroup
     {
         this._mediator.Reset();
     }
+}
 
+static class ListShuffler
+{
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            Random r = new Random();
+            n--;
+            int k = r.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
 }
