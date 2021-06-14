@@ -32,6 +32,8 @@ public class Animal
     private Boolean _isDead = false;
     public Boolean IsDead { get => _isDead; set => _isDead = value; }
 
+    private Boolean _hasEaten = false;
+    public Boolean HasEaten { get => _hasEaten; set => _hasEaten = value; }
 
     private Vec3 _position;
     public Vec3 Position { get => _position; set => _position = value; }
@@ -64,7 +66,6 @@ public class Animal
         this._id = id;
 
         this._communication = mediator;
-        this._communication.AddAnimal(this);
     }
 
     //Method to transition between states
@@ -128,7 +129,20 @@ public class Animal
     public void ResetPosition(Random rand)
     {
         this._isSafe = false;
+        this._hasEaten = false;
         this._position.RandomizeCoords(rand);
     }
+
+    //Animal asks for food to the mediator, if it does not get it he dies
+    public void Eat()
+    {
+        if (!this._hasEaten && !this._isDead)
+        {
+            this._hasEaten = this.Mediator.DispenseFood();
+            this._isDead = !this._hasEaten;
+        }
+    }//END Eat()
+
     //END: Secondary methods
+
 }

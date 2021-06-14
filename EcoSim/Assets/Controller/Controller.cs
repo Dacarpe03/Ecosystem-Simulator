@@ -26,9 +26,12 @@ public class Controller : MonoBehaviour
     private int NUMBER_OF_SIMULATIONS = 40;
     private int ITERATIONS_PER_SIMULATION = 100;
 
+    private double INITIAL_PLANTS = 1000;
+    private double GROWTH_RATE = 1.2;
+    private double THRESHOLD = 10;
                                                //Reproduction probability, maximum speed, visionRadius, GroupSize
     private GroupParameters _preyParameters = new GroupParameters(1, 0.40, 10, 50);
-    private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 20, 5);
+    private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 20, 6);
     //END PARAMETERS OF SIMULATION
 
     //PATHS FOR FILES
@@ -58,8 +61,8 @@ public class Controller : MonoBehaviour
         Debug.Log("Simulación " + this._simulationCounter);
 
         //Initialize the ecosystem
-
-        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
+        Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
+        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
         
         //Initialize the view
         this._myView = Instantiate(MyView);
@@ -67,6 +70,7 @@ public class Controller : MonoBehaviour
         this.CalculateTotalSimulations();
 
         this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
+        Debug.Log(this.PATH);
         this.CreateFileForSimulation();
     }//End Start
 
@@ -104,7 +108,8 @@ public class Controller : MonoBehaviour
             Debug.Log("Simulación " + this._simulationCounter);
 
             //Initialize the ecosystem
-            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters);
+            Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
+            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
             //Reset the view
             this.ResetView();
             //Create a new file to save the data of the simulation
@@ -159,12 +164,15 @@ public class Controller : MonoBehaviour
         {
             StreamWriter sr = File.CreateText(this._currentFileName);
             sr.WriteLine(date);
-            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisionRadius|PredatorReproductionRate|PredatorMaxSpeed|PredatorVisionRadius");
+            sr.WriteLine("Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisionRadius|PredatorReproductionRate|PredatorMaxSpeed|PredatorVisionRadius|InitialPlants|GrowthRate");
             sr.WriteLine(this.ITERATIONS_PER_SIMULATION
                         + "|" + this._preyParameters.toString()
-                        + "|" + this._predatorParameters.toString());
+                        + "|" + this._predatorParameters.toString()
+                        + "|" + INITIAL_PLANTS
+                        + "|" + GROWTH_RATE
+                        );
 
-            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores");
+            sr.WriteLine("Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores|Plantas|PlantasSupervivientes");
             sr.Close();
         }
     }//End CreateFileForSimulation
@@ -176,11 +184,14 @@ public class Controller : MonoBehaviour
         if (File.Exists(this._currentFileName))
         {
             StreamWriter sr = File.AppendText(this._currentFileName);
-            sr.WriteLine(this._ecosystem.Iteration 
-                + "|" + this._ecosystem.Preys.Size 
+            sr.WriteLine(this._ecosystem.Iteration
+                + "|" + this._ecosystem.Preys.Size
                 + "|" + this._ecosystem.Predators.Size
-                + "|" + this._ecosystem.Preys.SurvivorsNumber 
-                + "|" + this._ecosystem.Predators.SurvivorsNumber);
+                + "|" + this._ecosystem.Preys.SurvivorsNumber
+                + "|" + this._ecosystem.Predators.SurvivorsNumber
+                + "|" + this._ecosystem.Preys.CurrentFood
+                + "|" + (this._ecosystem.Preys.CurrentFood - this._ecosystem.Preys.SurvivorsNumber)
+                );
             sr.Close();
         }
     }//End UpdateFile

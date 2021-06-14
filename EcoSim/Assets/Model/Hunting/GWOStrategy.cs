@@ -34,12 +34,12 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
 
         this._frameCounter += 1;
-        Debug.Log("Presa fijada: " + agent.Mediator.FixedPreyId);
+        //Debug.Log("Presa fijada: " + agent.Mediator.FixedPreyId);
         //Now fix other prey or calculate new optimal position
         if(agent.Mediator.FixedPreyId == -1)
         {
-            Debug.Log("Cambio presa");
-            agent.Mediator.UpdateBestPreyId(foes);
+            //Debug.Log("Cambio presa");
+            agent.Mediator.UpdateBestPreyId(friendly, foes);
             this.fixedPosition = false;
         }
         else if(!this.fixedPosition || this._frameCounter > this.FRAMES_UPDATE)
@@ -73,7 +73,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         else {
             //Check if the agent is near the prey to hunt it
             //this.GoForPreyInRange(agent, foes);
-            this.CheckPreyInRangeOfAttack(agent, foes);
+            this.CheckPreyInRangeOfAttack(agent, foes, friendly);
         }
         //Debug.Log("Presa fijada:"+ agent.AnimalMediator.FixedPreyId);
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(agent.Position, this._desiredPosition);
@@ -225,19 +225,19 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         }
     }
 
-    private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys)
+    private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys, Dictionary<int, Animal> predators)
     {
         int preyId = agent.Mediator.FixedPreyId;
         if (preys.ContainsKey(preyId)){
 
-            if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4)
+            if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4 && !preys[preyId].IsDead)
             {
                 Debug.Log("Cazo");
                 preys[preyId].IsDead = true;
                 preys[preyId].IsSafe = true;
                 preys[preyId].TransitionTo(new AnimalStillState());
-                agent.Mediator.UpdateBestPreyId(preys);
-                agent.Mediator.Eat();
+                agent.Mediator.UpdateBestPreyId(predators, preys);
+                agent.Mediator.PreyHunted(preys[preyId]);
             }
         }
     }

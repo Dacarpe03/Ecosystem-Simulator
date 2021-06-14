@@ -17,6 +17,7 @@ public class SimpleStrategy : HuntingStrategy
         {
             agent.IsDead = false;
             agent.IsSafe = false;
+            agent.HasEaten = true;
         }
         else
         {
