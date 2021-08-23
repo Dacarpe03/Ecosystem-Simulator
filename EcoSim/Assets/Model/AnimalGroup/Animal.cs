@@ -47,7 +47,7 @@ public class Animal
     //END: Attributes and properties
 
     //SECTION: Constructor and main methods
-    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand, AnimalMediator mediator)
+    public Animal(AnimalState state, double maxSpeed, double visionRadius, int id, Random rand, AnimalMediator mediator, Vec3 position)
     {
         this.TransitionTo(state);
 
@@ -59,7 +59,7 @@ public class Animal
         this._visionRadius = visionRadius;
         this._squaredVisionRadius = visionRadius * visionRadius;
 
-        this._position = new Vec3(rand);
+        this._position = position;
         this._speed = new Vec3(rand);
         this._speed.Trim(this._maxSquaredSpeed);
 
