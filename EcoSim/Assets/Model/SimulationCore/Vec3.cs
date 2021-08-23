@@ -4,13 +4,22 @@ public class Vec3
 {
     //SECTION: Attributes and properties
     private double _xCoord;
+    private double _xUp = 0;
+    private double _xLo = 0;
     public double XCoord { get => _xCoord; }
 
     private double _yCoord;
+    private double _yUp = 0;
+    private double _yLo = 0;
     public double YCoord { get => _yCoord; }
 
     private double _zCoord;
+    private double _zUp = 0;
+    private double _zLo = 0;
     public double ZCoord { get => _zCoord; }
+
+    private bool _hasBounds = false;
+
 
     public double SquaredModule => this._xCoord * this._xCoord + this._yCoord * this._yCoord + this._zCoord * this._zCoord;
     public double Module => Math.Sqrt(this.SquaredModule);
@@ -32,16 +41,30 @@ public class Vec3
 
     public Vec3(double xUp, double xLo, double yUp, double yLo, double zUp, double zLo, Random rand)
     {
-        this._xCoord = xLo + (xUp - xLo) * rand.NextDouble();
-        this._yCoord = yLo + (yUp - yLo) * rand.NextDouble();
-        this._zCoord = xLo + (zUp - zLo) * rand.NextDouble();
+        this._xUp = xUp;
+        this._xLo = xLo;
+        this._yUp = yUp;
+        this._yLo = yLo;
+        this._zUp = zUp;
+        this._zLo = zLo;
+        this._hasBounds = true;
+        this.RandomizeCoords(rand);
     }
 
     public void RandomizeCoords(Random rand)
     {
-        this._xCoord = rand.NextDouble() * 100;
-        this._yCoord = 0f;
-        this._zCoord = rand.NextDouble() * 100;
+        if (!this._hasBounds)
+        {
+            this._xCoord = rand.NextDouble() * 100;
+            this._yCoord = 0f;
+            this._zCoord = rand.NextDouble() * 100;
+        }
+        else
+        {
+            this._xCoord = this._xLo + (this._xUp - this._xLo) * rand.NextDouble();
+            this._yCoord = this._yLo + (this._yUp - this._yLo) * rand.NextDouble();
+            this._zCoord = this._zLo + (this._zUp - this._zLo) * rand.NextDouble();
+        }
     }
     //END: Constructor and main methods
 
