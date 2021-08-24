@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class SimpleStrategy : HuntingStrategy
+public class SimpleStrategy
 {
 
     private const int PREYS_NEEDED_TO_SURVIVE = 1;
@@ -11,7 +11,7 @@ public class SimpleStrategy : HuntingStrategy
     private Boolean preyFixed = false;
     private int fixedPreyId = -1;
 
-    public override void Hunt(Animal agent, Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes)
+    public void Hunt(Animal agent, Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes)
     {
         if (_preysHunted >= PREYS_NEEDED_TO_SURVIVE)
         {
