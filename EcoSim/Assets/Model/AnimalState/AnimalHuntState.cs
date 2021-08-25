@@ -25,9 +25,9 @@ public class AnimalHuntState : AnimalState
     {
         this._frameCounter += 1;
         //Now fix other prey or calculate new optimal position
-        if (this._agent.Mediator.FixedPreyId == -1)
+        if (!this._strategy.HasFixedPrey(this._agent))
         {
-            this._agent.Mediator.UpdateBestPreyId(friendly, foes);
+            this._strategy.SelectPrey(friendly, foes, this._agent);
             this.fixedPosition = false;
         }
         else if (!this.fixedPosition || this._frameCounter > this._framesUpdate)
@@ -45,7 +45,9 @@ public class AnimalHuntState : AnimalState
             }
 
             //Get data from fixedPrey
-            Animal fixedPrey = foes[this._agent.Mediator.FixedPreyId];
+            int fixedPreyId = this._strategy.GetFixedPreyId(this._agent);
+            Debug.Log(fixedPreyId);
+            Animal fixedPrey = foes[fixedPreyId];
 
             //Calculate optimal position of the predator agent
             this._desiredPosition = this._strategy.GetDesiredPosition(this._agent, predatorPositions, fixedPrey);
@@ -55,8 +57,6 @@ public class AnimalHuntState : AnimalState
         }
         else
         {
-            Debug.Log("Checkeo");
-
             //Check if the agent is near the prey to hunt it
             this.CheckPreyInRangeOfAttack(this._agent, foes, friendly);
         }

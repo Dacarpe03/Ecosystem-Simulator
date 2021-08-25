@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using UnityEngine;
+
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
     private int METAHEURISTIC_ITERATIONS = 200;
     private int METAHEURISTIC_CANDIDATES = 10; //MUST BE >= 3
     private int SIZE_OF_SPACE = 30;
     
-
 
     private class CandidateSolution
     {
@@ -159,5 +158,20 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
         double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition, candidateSolution);
         return fitness;
+    }
+
+    public override bool HasFixedPrey(Animal agent)
+    {
+        return agent.Mediator.FixedPreyId != -1;
+    }
+
+    public override void SelectPrey(Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes, Animal agent)
+    {
+        agent.Mediator.UpdateBestPreyId(friendly, foes);
+    }
+
+    public override int GetFixedPreyId(Animal agent)
+    {
+        return agent.Mediator.FixedPreyId;
     }
 }

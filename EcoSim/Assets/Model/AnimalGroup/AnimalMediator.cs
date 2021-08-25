@@ -6,8 +6,8 @@ using UnityEngine;
 public class AnimalMediator
 {
     private Resource _resource;
+
     private int _fixedPreyId = -1;
-    private int _lastId = -1;
     public int FixedPreyId { get => this._fixedPreyId; set => this._fixedPreyId = value; }
     
     public AnimalMediator(Resource resource)
@@ -27,7 +27,7 @@ public class AnimalMediator
                 counter = this.PreyScore(a, predators);
                 if (counter > maxScore)
                 {
-                        this.FixedPreyId = a.Id;
+                    this._fixedPreyId = a.Id;
                     maxScore = counter;
                 }
             }

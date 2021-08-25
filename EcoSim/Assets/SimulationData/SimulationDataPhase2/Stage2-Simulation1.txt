@@ -36,3 +36,4 @@ Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPre
 0|50|6|50|6|1000|950
 0|50|6|49|6|1000|951
 1|73|6|71|6|1141.2|1070.2
+0|50|6|50|6|1000|950

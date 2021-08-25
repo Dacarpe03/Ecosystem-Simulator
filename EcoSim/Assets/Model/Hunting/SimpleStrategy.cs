@@ -10,6 +10,8 @@ public class SimpleStrategy
 
     private Boolean preyFixed = false;
     private int fixedPreyId = -1;
+    
+ 
 
     public void Hunt(Animal agent, Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes)
     {
@@ -136,5 +138,10 @@ public class SimpleStrategy
         }
 
         return nearbyAnimals;
+    }
+
+    public Vec3 GetDesiredPosition(Animal agent, List<Vec3> friendlyPositions, Animal prey)
+    {
+        throw new NotImplementedException();
     }
 }
