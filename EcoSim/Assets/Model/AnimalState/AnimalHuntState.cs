@@ -25,7 +25,7 @@ public class AnimalHuntState : AnimalState
     {
         this._frameCounter += 1;
         //Now fix other prey or calculate new optimal position
-        if (!this._strategy.HasFixedPrey(this._agent))
+        if (!this._strategy.HasFixedPrey(this._agent) || !foes.ContainsKey(this._strategy.GetFixedPreyId(this._agent)))
         {
             this._strategy.SelectPrey(friendly, foes, this._agent);
             this.fixedPosition = false;
@@ -70,17 +70,20 @@ public class AnimalHuntState : AnimalState
 
     private void CheckPreyInRangeOfAttack(Animal agent, Dictionary<int, Animal> preys, Dictionary<int, Animal> predators)
     {
-        int preyId = agent.Mediator.FixedPreyId;
+        int preyId = this._strategy.GetFixedPreyId(agent);
         if (preys.ContainsKey(preyId))
         {
             if (preyId != -1 && preys[preyId].SquareDistanceTo(agent) < 4 && !preys[preyId].IsDead)
             {
-                Debug.Log("Cazo");
                 preys[preyId].IsDead = true;
                 preys[preyId].IsSafe = true;
                 preys[preyId].TransitionTo(new AnimalStillState());
-                agent.Mediator.UpdateBestPreyId(predators, preys);
-                agent.Mediator.PreyHunted(preys[preyId]);
+
+                //Kill prey
+                this._strategy.HuntPrey(agent, preys[preyId]);
+
+                //Select new prey
+                this._strategy.SelectPrey(predators, preys,agent);
             }
         }
     }

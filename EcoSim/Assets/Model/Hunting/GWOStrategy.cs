@@ -174,4 +174,9 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
     {
         return agent.Mediator.FixedPreyId;
     }
+
+    public override void HuntPrey(Animal agent, Animal prey)
+    {
+        agent.Mediator.PreyHunted(prey);
+    }
 }
