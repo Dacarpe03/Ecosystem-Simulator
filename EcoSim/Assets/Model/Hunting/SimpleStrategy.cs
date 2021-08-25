@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class SimpleStrategy
+public class SimpleStrategy: HuntingStrategy
 {
 
     private const int PREYS_NEEDED_TO_SURVIVE = 1;
@@ -11,8 +11,10 @@ public class SimpleStrategy
     private Boolean preyFixed = false;
     private int fixedPreyId = -1;
     
- 
-
+    public SimpleStrategy()
+    {
+        this.FramesUpdate = 1;
+    }
     public void Hunt(Animal agent, Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes)
     {
         if (_preysHunted >= PREYS_NEEDED_TO_SURVIVE)
@@ -140,7 +142,27 @@ public class SimpleStrategy
         return nearbyAnimals;
     }
 
-    public Vec3 GetDesiredPosition(Animal agent, List<Vec3> friendlyPositions, Animal prey)
+    public override Vec3 GetDesiredPosition(Animal agent, List<Vec3> friendlyPositions, Animal prey)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool HasFixedPrey(Animal agent)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void SelectPrey(Dictionary<int, Animal> friendly, Dictionary<int, Animal> foes, Animal agent)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override int GetFixedPreyId(Animal agent)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void HuntPrey(Animal agent, Animal prey)
     {
         throw new NotImplementedException();
     }
