@@ -46,7 +46,6 @@ public class AnimalHuntState : AnimalState
 
             //Get data from fixedPrey
             int fixedPreyId = this._strategy.GetFixedPreyId(this._agent);
-            Debug.Log(fixedPreyId);
             Animal fixedPrey = foes[fixedPreyId];
 
             //Calculate optimal position of the predator agent
@@ -83,7 +82,7 @@ public class AnimalHuntState : AnimalState
                 this._strategy.HuntPrey(agent, preys[preyId]);
 
                 //Select new prey
-                this._strategy.SelectPrey(predators, preys,agent);
+                this._strategy.SelectPrey(predators, preys, agent);
             }
         }
     }
