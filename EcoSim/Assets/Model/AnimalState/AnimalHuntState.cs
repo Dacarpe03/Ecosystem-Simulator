@@ -55,11 +55,11 @@ public class AnimalHuntState : AnimalState
             //Update the predator Speed
             this.fixedPosition = true;
         }
-        else
-        {
-            //Check if the agent is near the prey to hunt it
-            this.CheckPreyInRangeOfAttack(this._agent, foes, friendly);
-        }
+
+        //Check if the agent is near the prey to hunt it
+        this.CheckPreyInRangeOfAttack(this._agent, foes, friendly);
+
+        //Move the agent
         Vec3 acceleration = Vec3.CalculateVectorsBetweenPoints(this._agent.Position, this._desiredPosition);
         acceleration.Add(this.Avoidance(this._agent, friendly));
         acceleration.Expand(this._agent.MaxSpeed);
