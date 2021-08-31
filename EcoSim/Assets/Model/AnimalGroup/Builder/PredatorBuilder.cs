@@ -20,8 +20,7 @@ public class PredatorBuilder : AnimalBuilder
     //Method to create a prey with Flee State as initial state
     public override Animal CreateAnimal(Random rand, AnimalMediator mediator)
     {
-        //AnimalState initialState = new AnimalHuntState(new SimpleStrategy());
-        AnimalState initialState = new AnimalHuntState(new GWOStrategy());
+        AnimalState initialState = this.GetAnimalState();
         Vec3 position = new Vec3(X_UPPER, X_LOWER, Y_UPPER, Y_LOWER, Z_UPPER, Z_LOWER, rand);
         Animal a = new Animal(initialState, this._animalParameters.MaxSpeed, this._animalParameters.VisionRadius, this._creationCounter, rand, mediator, position);
         this._creationCounter += 1;
@@ -31,7 +30,7 @@ public class PredatorBuilder : AnimalBuilder
 
     public override AnimalState GetAnimalState()
     {
-        //return new AnimalHuntState(new SimpleStrategy());
-        return new AnimalHuntState(new GWOStrategy());
+        return new AnimalHuntState(new SimpleStrategy());
+        //return new AnimalHuntState(new GWOStrategy());
     }
 }
