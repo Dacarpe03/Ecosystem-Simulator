@@ -153,7 +153,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
     }
 
-    private double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
+    public double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
     {
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
         double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition, candidateSolution);
