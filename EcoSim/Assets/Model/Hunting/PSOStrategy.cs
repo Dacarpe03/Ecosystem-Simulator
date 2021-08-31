@@ -46,4 +46,9 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
 
         return maxDistance;
     }
+
+    public double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
+    {
+        throw new System.NotImplementedException();
+    }
 }
