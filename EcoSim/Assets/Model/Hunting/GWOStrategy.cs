@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine;
 
 public class GWOStrategy : HuntingStrategy, MetaHeuristic
 {
@@ -83,7 +84,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         //Return the optimal solution found
         candidates = candidates.OrderBy(c => c.Fitness).ToList();
-        //Debug.Log("Mejor fitness lobo " + agent.Id + " : " + candidates[0].Fitness);
+        Debug.Log("Mejor fitness lobo " + agent.Id + " : " + candidates[0].Fitness);
         return candidates[0].Solution;
     }
 
@@ -135,7 +136,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
     public double ObjectiveFunction(List<Vec3> predatorPositions, Vec3 preyPosition, Vec3 candidateSolution)
     {
-        //We want to minimize the minimun distance of all the predators to the prey
+        //We want to minimize the maximum distance of all the predators to the prey
         double maxDistance = candidateSolution.SquaredDistanceTo(preyPosition);
         //double maxDistance = 0;
         //double minDistance = double.MaxValue;
@@ -153,7 +154,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
     }
 
-    private double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
+    public double CalculateFitness(Vec3 candidateSolution, List<Vec3> predatorPositions, Animal prey)
     {
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
         double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition, candidateSolution);
