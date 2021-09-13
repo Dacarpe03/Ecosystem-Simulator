@@ -1,17 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PSOStrategy : HuntingStrategy, MetaHeuristic
 {
     private int METAHEURISTIC_ITERATIONS = 200;
-    private int METAHEURISTIC_CANDIDATES = 10; //MUST BE >= 3
+    private int METAHEURISTIC_CANDIDATES = 5; //MUST BE >= 3
+    private double MAX_VELOCITY = 10;
     private int SIZE_OF_SPACE = 30;
+
+    private int C1 = 2;
+    private int C2 = 2;
+    private double INITIAL_INERTIA = 0.9;
 
     private class CandidateSolution
     {
         private Vec3 _solution;
         private Vec3 _velocity;
         private Vec3 _personalBest;
+
         public Vec3 Solution { get => _solution; set => _solution = value; }
         public Vec3 Velocity { get => _velocity; set => _velocity = value; }
         public Vec3 PersonalBest { get => _personalBest; set => _personalBest = value; }
@@ -19,16 +26,78 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
         private double _fitness;
         public double Fitness { get => _fitness; set => _fitness = value; }
 
-        public CandidateSolution(Vec3 solution, double fitness)
+        public CandidateSolution(Vec3 solution, Vec3 velocity, double fitness)
         {
             this.Solution = solution;
+            this.PersonalBest = solution;
+            this.Velocity = velocity;
             this.Fitness = fitness;
         }
     }
 
-    public override Vec3 GetDesiredPosition(Animal agent, List<Vec3> friendlyPositions, Animal prey)
+    //PSO Algorithm
+    public override Vec3 GetDesiredPosition(Animal agent, List<Vec3> predatorPositions, Animal fixedPrey)
     {
-        throw new System.NotImplementedException();
+        //Initialize solutions
+        System.Random rand = new System.Random();
+        //Declare the space of solutions
+        double xUpperLimit = agent.Position.XCoord + this.SIZE_OF_SPACE;
+        double xLowerLimit = agent.Position.XCoord - this.SIZE_OF_SPACE;
+        double zUpperLimit = agent.Position.ZCoord + this.SIZE_OF_SPACE;
+        double zLowerLimit = agent.Position.ZCoord - this.SIZE_OF_SPACE;
+
+        //Initialize the candidate solutions in the space of solutions
+        List<CandidateSolution> candidates = new List<CandidateSolution>();
+
+        for (int i = 0; i <= this.METAHEURISTIC_CANDIDATES; i++)
+        {
+            Vec3 initialSolution = new Vec3(xUpperLimit, xLowerLimit, 0, 0, zUpperLimit, zLowerLimit, rand);
+            Vec3 initialSpeed = new Vec3(this.MAX_VELOCITY, 0, 0, 0, this.MAX_VELOCITY, 0, rand);
+            double fitness = this.CalculateFitness(initialSolution, predatorPositions, fixedPrey);
+            candidates.Add(new CandidateSolution(initialSolution, initialSpeed, fitness));
+        }
+
+        //Main PSO algorithm loop
+        for (int i = 0; i <= this.METAHEURISTIC_ITERATIONS; i++)
+        {
+            //Order the candidates by fitness (the lower the better)
+            candidates = candidates.OrderBy(c => c.Fitness).ToList();
+            //Fittest Solution
+            Vec3 globalBest = candidates[0].Solution.Clone();
+            double inertia = this.INITIAL_INERTIA - (i * this.INITIAL_INERTIA / this.METAHEURISTIC_ITERATIONS);
+            
+            for (int j = 0; j < candidates.Count; j++)
+            {
+                //w*Velocity
+                Vec3 newVelocity = candidates[j].Velocity.Clone();
+                newVelocity.Multiply(inertia);
+
+                //c1*r1*(PersonalBest - ActualSolution)
+                Vec3 cognitiveComponent = Vec3.Substract(candidates[j].PersonalBest, candidates[j].Solution);
+                cognitiveComponent.Multiply(this.C1);
+                double r1 = rand.NextDouble();
+                cognitiveComponent.Multiply(r1);
+
+                //c2*r2*(GlobalBest - ActualSolution)
+                Vec3 socialComponent = Vec3.Substract(globalBest, candidates[j].Solution);
+                socialComponent.Multiply(this.C2);
+                double r2 = rand.NextDouble();
+                socialComponent.Multiply(r2);
+
+                //new velocity = w*Velocity + c1*r1*(PersonalBest - ActualSolution) + c2*r2*(GlobalBest - ActualSolution)
+                newVelocity.Add(cognitiveComponent);
+                newVelocity.Add(socialComponent);
+
+                //New solution = ActualSolution + NewSpeed
+                candidates[j].Velocity = newVelocity;
+                candidates[j].Solution.Add(newVelocity);
+                candidates[j].Fitness = this.CalculateFitness(candidates[j].Solution, predatorPositions, fixedPrey);
+            }
+        }
+
+        //Return the optimal solution found
+        candidates = candidates.OrderBy(c => c.Fitness).ToList();
+        return candidates[0].Solution;
     }
 
     public override int GetFixedPreyId(Animal agent)
@@ -75,5 +144,18 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
         Vec3 predictedPreyPosition = this.PredictPreyPosition(candidateSolution, prey.Position, prey.MaxSquaredSpeed, prey.VisionRadius);
         double fitness = ObjectiveFunction(predatorPositions, predictedPreyPosition, candidateSolution);
         return fitness;
+    }
+
+    private Vec3 PredictPreyPosition(Vec3 candidatePosition, Vec3 preyPosition, double maxSquaredPreySpeed, double preyVisionRadius)
+    {
+        //Calculate where the prey would move if the agent moves to the possible position 
+        Vec3 preyDirection = Vec3.CalculateVectorsBetweenPoints(candidatePosition, preyPosition);
+        double distance = preyDirection.Module;
+        preyDirection.Trim(maxSquaredPreySpeed);
+
+        double force = preyVisionRadius / distance;
+        preyDirection.Multiply(force);
+
+        return Vec3.Add(preyDirection, preyPosition);
     }
 }
