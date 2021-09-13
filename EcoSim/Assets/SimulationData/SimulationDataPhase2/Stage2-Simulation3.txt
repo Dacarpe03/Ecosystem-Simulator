@@ -3,3 +3,5 @@ Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisi
 100||1|0.4|10||1|0.46|20|1000|1.2
 Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores|Plantas|PlantasSupervivientes
 0|50|6|49|6|1000|951
+0|10|6|10|6|1000|990
+0|2|6|0|6|1000|1000

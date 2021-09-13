@@ -30,7 +30,7 @@ public class Controller : MonoBehaviour
     private double GROWTH_RATE = 1.2;
     private double THRESHOLD = 10;
                                                //Reproduction probability, maximum speed, visionRadius, GroupSize
-    private GroupParameters _preyParameters = new GroupParameters(1, 0.40, 10, 50);
+    private GroupParameters _preyParameters = new GroupParameters(1, 0.4, 10, 10);
     private GroupParameters _predatorParameters = new GroupParameters(1, 0.46, 50, 6);
     //END PARAMETERS OF SIMULATION
 
