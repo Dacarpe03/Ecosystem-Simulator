@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class PSOStrategy : HuntingStrategy, MetaHeuristic
 {
-    private int METAHEURISTIC_ITERATIONS = 200;
-    private int METAHEURISTIC_CANDIDATES = 5; //MUST BE >= 3
-    private double MAX_VELOCITY = 10;
-    private int SIZE_OF_SPACE = 30;
+    private int METAHEURISTIC_ITERATIONS = 50;
+    private int METAHEURISTIC_CANDIDATES = 3;
+    private double MAX_VELOCITY = 1;
+    private int SIZE_OF_SPACE = 50;
 
     private int C1 = 2;
     private int C2 = 2;
     private double INITIAL_INERTIA = 0.9;
+    private double MINIMUM_INERTIA = 0.4;
 
     private class CandidateSolution
     {
@@ -35,6 +37,10 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
         }
     }
 
+    public PSOStrategy()
+    {
+        this.FramesUpdate = 15;
+    }
     //PSO Algorithm
     public override Vec3 GetDesiredPosition(Animal agent, List<Vec3> predatorPositions, Animal fixedPrey)
     {
@@ -63,9 +69,9 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
             //Order the candidates by fitness (the lower the better)
             candidates = candidates.OrderBy(c => c.Fitness).ToList();
             //Fittest Solution
-            Vec3 globalBest = candidates[0].Solution.Clone();
-            double inertia = this.INITIAL_INERTIA - (i * this.INITIAL_INERTIA / this.METAHEURISTIC_ITERATIONS);
-            
+            Vec3 globalBest = candidates[0].PersonalBest.Clone();
+            double inertia = this.INITIAL_INERTIA - (i * (this.INITIAL_INERTIA - this.MINIMUM_INERTIA) / this.METAHEURISTIC_ITERATIONS);
+
             for (int j = 0; j < candidates.Count; j++)
             {
                 //w*Velocity
@@ -90,14 +96,21 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
 
                 //New solution = ActualSolution + NewSpeed
                 candidates[j].Velocity = newVelocity;
-                candidates[j].Solution.Add(newVelocity);
-                candidates[j].Fitness = this.CalculateFitness(candidates[j].Solution, predatorPositions, fixedPrey);
+                Vec3 newSolution = Vec3.Add(candidates[j].Solution, candidates[j].Velocity);
+                candidates[j].Solution = newSolution;
+
+                double actualFitness = this.CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                if (actualFitness < candidates[j].Fitness)
+                {
+                    candidates[j].Fitness = actualFitness;
+                    candidates[j].PersonalBest = newSolution;
+                }
             }
         }
 
         //Return the optimal solution found
         candidates = candidates.OrderBy(c => c.Fitness).ToList();
-        return candidates[0].Solution;
+        return candidates[0].PersonalBest;
     }
 
     public override int GetFixedPreyId(Animal agent)

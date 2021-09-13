@@ -109,6 +109,11 @@ public class Vec3
         this.Divide(vecModule);
     }
 
+    public override String ToString()
+    {
+        return "(" + XCoord + "," + YCoord + "," + ZCoord + ")";
+    }
+
     //This method sets a maximum magnitude to the vector
     public void Trim(double squaredMagnitude)
     {
