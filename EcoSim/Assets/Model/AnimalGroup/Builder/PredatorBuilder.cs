@@ -32,6 +32,7 @@ public class PredatorBuilder : AnimalBuilder
     {
         //return new AnimalHuntState(new SimpleStrategy());
         //return new AnimalHuntState(new GWOStrategy());
-        return new AnimalHuntState(new PSOStrategy());
+        //return new AnimalHuntState(new PSOStrategy());
+        return new AnimalHuntState(new WOAStrategy());
     }
 }

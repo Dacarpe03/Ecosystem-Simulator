@@ -7,9 +7,9 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
 {
     private int METAHEURISTIC_ITERATIONS = 50;
     private int METAHEURISTIC_CANDIDATES = 3;
-    private double MAX_VELOCITY = 1;
     private int SIZE_OF_SPACE = 50;
 
+    private double MAX_VELOCITY = 1;
     private int C1 = 2;
     private int C2 = 2;
     private double INITIAL_INERTIA = 0.9;
