@@ -9,7 +9,7 @@ public class PredatorBuilder : AnimalBuilder
 
     private double Y_UPPER = 0;
     private double Y_LOWER = 0;
-    
+
     private double Z_UPPER = 50;
     private double Z_LOWER = 0;
 
@@ -32,7 +32,7 @@ public class PredatorBuilder : AnimalBuilder
     {
         //return new AnimalHuntState(new SimpleStrategy());
         //return new AnimalHuntState(new GWOStrategy());
-        //return new AnimalHuntState(new PSOStrategy());
-        return new AnimalHuntState(new WOAStrategy());
+        return new AnimalHuntState(new PSOStrategy());
+        //return new AnimalHuntState(new WOAStrategy());
     }
 }

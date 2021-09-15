@@ -129,6 +129,7 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         double force = preyVisionRadius / distance;
         preyDirection.Multiply(force);
+        //preyDirection.Expand(this.FramesUpdate);
 
         return Vec3.Add(preyDirection, preyPosition);
     }
