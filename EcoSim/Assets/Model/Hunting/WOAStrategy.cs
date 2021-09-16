@@ -75,23 +75,32 @@ public class WOAStrategy : HuntingStrategy, MetaHeuristic
                     if (A.Module < 1) //Update the position of the current agent
                     {
                         Vec3 newSolution = EncirclePrey(A, C, bestSolution, candidates[j].Solution);
-                        candidates[j].Solution = newSolution;
-                        candidates[j].Fitness = CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                        if (newSolution.SquaredDistanceTo(agent.Position) < 10000)
+                        {
+                            candidates[j].Solution = newSolution.Clone();
+                            candidates[j].Fitness = CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                        }
                     }
                     else //Select random agent and update the position of current agent based on that
                     {
                         int randomAgent = rand.Next(0, candidates.Count);
                         Vec3 newSolution = ExplorationPhase(A, C, candidates[randomAgent].Solution, candidates[j].Solution);
-                        candidates[j].Solution = newSolution;
-                        candidates[j].Fitness = CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                        if (newSolution.SquaredDistanceTo(agent.Position) < 10000)
+                        {
+                            candidates[j].Solution = newSolution.Clone();
+                            candidates[j].Fitness = CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                        }
                     }
                 }
                 else //Spiral updating positions
                 {
                     if (p < 0.75) { l *= -1; }
                     Vec3 newSolution = SpiralUpdate(this.b, l, bestSolution, candidates[j].Solution);
-                    candidates[j].Solution = newSolution;
-                    candidates[j].Fitness = CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                    if (newSolution.SquaredDistanceTo(agent.Position) < 10000)
+                    {
+                        candidates[j].Solution = newSolution.Clone();
+                        candidates[j].Fitness = CalculateFitness(newSolution, predatorPositions, fixedPrey);
+                    }
                 }
             }
         }
