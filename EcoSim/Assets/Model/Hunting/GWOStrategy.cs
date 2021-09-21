@@ -84,7 +84,6 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
 
         //Return the optimal solution found
         candidates = candidates.OrderBy(c => c.Fitness).ToList();
-        Debug.Log("Mejor fitness lobo " + agent.Id + " : " + candidates[0].Fitness);
         return candidates[0].Solution;
     }
 

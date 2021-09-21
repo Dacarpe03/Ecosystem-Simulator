@@ -1,7 +1,14 @@
-2021-08-23
+2021-09-20
 Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisionRadius|PredatorReproductionRate|PredatorMaxSpeed|PredatorVisionRadius|InitialPlants|GrowthRate
-100||1|0.4|10||1|0.46|20|1000|1.2
+200||0,9|0,55|8||0,3|0,6|15|1200|1,7
 Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores|Plantas|PlantasSupervivientes
-0|50|6|49|6|1000|951
-0|10|6|10|6|1000|990
-0|2|6|0|6|1000|1000
+0|500|12|375|12|1200|825
+1|542|14|413|14|1402,5|989,5
+2|594|16|455|16|1682,15|1227,15
+3|660|20|466|20|2086,155|1620,155
+4|682|23|487|23|2754,2635|2267,2635
+5|700|29|411|29|3854,34795|3443,34795
+6|600|36|283|36|5853,691515|5570,691515
+7|406|38|160|38|9470,1755755|9310,1755755
+8|236|45|18|45|15827,29847835|15809,29847835
+9|27|52|0|52|26875,807413195|26875,807413195

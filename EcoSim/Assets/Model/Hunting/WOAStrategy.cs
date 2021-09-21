@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class WOAStrategy : HuntingStrategy, MetaHeuristic
 {
-    private int METAHEURISTIC_ITERATIONS = 300;
-    private int METAHEURISTIC_CANDIDATES = 25;
+    private int METAHEURISTIC_ITERATIONS = 100;
+    private int METAHEURISTIC_CANDIDATES = 5;
     private int SIZE_OF_SPACE = 30;
 
     private double b = 1;

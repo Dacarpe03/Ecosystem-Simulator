@@ -59,12 +59,10 @@ public class AnimalGroup
     public void Evolve()
     {
         //First let the animal eat
-        Debug.Log("MODELO--Recursos: " + this._mediator.CurrentFood());
         this.Eat();
 
         //Now evolve
         Dictionary<int, Animal> survivors = this._animals.Where(a => !a.Value.IsDead).Select(a => a).ToDictionary(a => a.Key, a=> a.Value);
-        Debug.Log("MODELO--Tamaño grupo supervivientes: " + survivors.Count);
         
         //Calculate the maximum breeding count
         int possibleBreedingCount = survivors.Count / 2;
@@ -103,6 +101,7 @@ public class AnimalGroup
         foreach(int n in keys)
         {
             this.Animals[n].Eat();
+            Debug.Log("Animal" + n + "come, recursos restantes:" + this.CurrentFood);
         }
     }//END Eat
 

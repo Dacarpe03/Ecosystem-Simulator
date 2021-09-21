@@ -72,7 +72,7 @@ public class AnimalMediator
 
     public void PreyHunted(Animal a)
     {
-        this._resource.addUnits(4);
+        this._resource.addUnits(3);
     }
     
     public double CurrentFood()

@@ -24,7 +24,7 @@ public class Resource
         }
         else
         {
-            this._quantity = 0;
+            this._quantity = this._threshold;
             return false;
         }
     }
