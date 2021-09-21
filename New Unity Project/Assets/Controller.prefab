@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8465234516850191603
+--- !u!1 &7034323202075108894
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4893672450304702451}
-  - component: {fileID: 5670853230243482470}
+  - component: {fileID: 420292045057890623}
+  - component: {fileID: 4560446440657693660}
   m_Layer: 0
-  m_Name: ControllerPrefab
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4893672450304702451
+--- !u!4 &420292045057890623
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8465234516850191603}
+  m_GameObject: {fileID: 7034323202075108894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 426.05328, y: 243.68584, z: 195.24193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5670853230243482470
+--- !u!114 &4560446440657693660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8465234516850191603}
+  m_GameObject: {fileID: 7034323202075108894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50fb9d235a90c4e4696ef79b8d3e5796, type: 3}
+  m_Script: {fileID: 11500000, guid: b5499afa925aa694688cc0244ce74830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ready: 1
-  firstTime: 1
-  menu: {fileID: 1936411909009720315, guid: 9be69d7278b611041bf4a75e19c11b48, type: 3}
-  reprodPredator: {fileID: 0}
-  speedPredator: {fileID: 0}
-  visionPredator: {fileID: 0}
-  initialPredator: {fileID: 0}
-  MyView: {fileID: 2794609854212894643, guid: 8f63e7ba571ac8944916ce5938334baf, type: 3}
+  theName: 
+  theOption: 
+  inputField: {fileID: 7055075156612099153, guid: acf86fb4049e7ab48b3757961e6f092d,
+    type: 3}
+  Scroll: {fileID: 0}

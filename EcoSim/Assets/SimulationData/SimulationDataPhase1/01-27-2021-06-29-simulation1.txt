@@ -1,0 +1,10 @@
+Parameters (in next line): Iterations|PreyReproductionRate|PreyVisionRadius|PreyMaxSpeed|PredatorReproductionRate|PredatorVisionRadius|PredatorMaxSpeed
+100||1||8||0.5||1||15||0.6
+Iteracion|InicialPresas|InicialPredadores
+Iteracion|SupervivientesPresas|SupervivientesPredadores
+0||500||15
+0||325||15
+1||487||22
+1||292||22
+2||438||33
+2||220||33
