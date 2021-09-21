@@ -1,5 +1,5 @@
 2021-09-21
 Parameters (in next line): Iterations|PreyReproductionRate|PreyMaxSpeed|PreyVisionRadius|PredatorReproductionRate|PredatorMaxSpeed|PredatorVisionRadius|InitialPlants|GrowthRate
-200||0,9|0,55|8||1|2|50|1200|1,7
+200||1|2|3||0,9|0,55|8|1200|1,7
 Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores|Plantas|PlantasSupervivientes
-0|500|22|123|22|1200|1077
+0|4|500|0|500|1200|1200

@@ -121,9 +121,21 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &158732703 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000988066163790, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &278556417 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1819000986747988165, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &291874709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000987740563252, guid: 9be69d7278b611041bf4a75e19c11b48,
     type: 3}
   m_PrefabInstance: {fileID: 604660364}
   m_PrefabAsset: {fileID: 0}
@@ -149,10 +161,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: InitPredator
       objectReference: {fileID: 0}
+    - target: {fileID: 1819000987225292290, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: InitPrey
+      objectReference: {fileID: 0}
     - target: {fileID: 1819000987604699947, guid: 9be69d7278b611041bf4a75e19c11b48,
         type: 3}
       propertyPath: m_Text
       value: "Ratio de reproducci\xF3n (entre 0 y 1), ej: 0,7"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819000987740563252, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: VisPrey
       objectReference: {fileID: 0}
     - target: {fileID: 1819000987842415569, guid: 9be69d7278b611041bf4a75e19c11b48,
         type: 3}
@@ -264,6 +286,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1819000988066163790, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: SpePrey
+      objectReference: {fileID: 0}
     - target: {fileID: 1819000988094728381, guid: 9be69d7278b611041bf4a75e19c11b48,
         type: 3}
       propertyPath: m_Name
@@ -283,6 +310,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InitiateParameters
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819000988623928421, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: RepPrey
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9be69d7278b611041bf4a75e19c11b48, type: 3}
@@ -379,6 +411,26 @@ PrefabInstance:
       propertyPath: initialPredator
       value: 
       objectReference: {fileID: 1641573912}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: speedPrey
+      value: 
+      objectReference: {fileID: 158732703}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: reprodPrey
+      value: 
+      objectReference: {fileID: 1594537471}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: initialPrey
+      value: 
+      objectReference: {fileID: 2005952850}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: visionPrey
+      value: 
+      objectReference: {fileID: 291874709}
     - target: {fileID: 8465234516850191603, guid: 67007c2f051f6fe4bb036819c2e190f5,
         type: 3}
       propertyPath: m_Name
@@ -651,9 +703,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1594537471 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000988623928421, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1641573912 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1819000987137233691, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2005952850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000987225292290, guid: 9be69d7278b611041bf4a75e19c11b48,
     type: 3}
   m_PrefabInstance: {fileID: 604660364}
   m_PrefabAsset: {fileID: 0}

@@ -12,7 +12,7 @@ public class Controller : MonoBehaviour
     public bool firstTime;
     //Paramenters for menu
     public GameObject menu;
-
+        //Predators
     private double reproductionPredator;
     private double maxSpeedPredator;
     private double visionRadiusPredator;
@@ -21,7 +21,15 @@ public class Controller : MonoBehaviour
     public GameObject speedPredator;
     public GameObject visionPredator;
     public GameObject initialPredator;
-
+        //Preys
+    private double reproductionPrey;
+    private double maxSpeedPrey;
+    private double visionRadiusPrey;
+    private int initialPopulationPrey;
+    public GameObject reprodPrey;
+    public GameObject speedPrey;
+    public GameObject visionPrey;
+    public GameObject initialPrey;
 
     //PARAMETERS OF SIMULATION
     private int NUMBER_OF_SIMULATIONS = 1;
@@ -31,8 +39,8 @@ public class Controller : MonoBehaviour
     private double GROWTH_RATE = 1.7;
     private double THRESHOLD = 200;
     //Reproduction probability, maximum speed, visionRadius, GroupSize
-    private GroupParameters _preyParameters = new GroupParameters(0.9, 0.55, 8, 500);
-    private GroupParameters _predatorParameters = new GroupParameters(0.3, 0.6, 15, 12);
+    private GroupParameters _preyParameters;
+    private GroupParameters _predatorParameters;
     //END PARAMETERS OF SIMULATION
 
     //PATHS FOR FILES
@@ -67,6 +75,11 @@ public class Controller : MonoBehaviour
         this.maxSpeedPredator = 0.6;
         this.visionRadiusPredator = 15;
         this.initialPopulationPredator = 12;
+
+        this.reproductionPrey = 0.9;
+        this.maxSpeedPrey = 0.55;
+        this.visionRadiusPrey = 8;
+        this.initialPopulationPrey = 500;
     }
     // Update is called once per frame
     void Update()
@@ -79,7 +92,7 @@ public class Controller : MonoBehaviour
                 Debug.Log("Simulación " + this._simulationCounter);
 
                 this._predatorParameters = new GroupParameters(this.reproductionPredator, this.maxSpeedPredator, this.visionRadiusPredator, this.initialPopulationPredator);
-
+                this._preyParameters = new GroupParameters(this.reproductionPrey, this.maxSpeedPrey, this.visionRadiusPrey, this.initialPopulationPrey);
                 //Initialize the ecosystem
                 Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
                 this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
@@ -252,6 +265,28 @@ public class Controller : MonoBehaviour
         if (!string.IsNullOrEmpty(strInitPredator))
         {
             this.initialPopulationPredator = Convert.ToInt32(strInitPredator);
+        }
+
+        //Prey parameters
+        string strRepPrey = reprodPrey.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strRepPrey))
+        {
+            this.reproductionPrey = Convert.ToDouble(strRepPrey);
+        }
+        string strSpeedPrey = speedPrey.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strSpeedPrey))
+        {
+            this.maxSpeedPrey = Convert.ToDouble(strSpeedPrey);
+        }
+        string strVisionPrey = visionPrey.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strVisionPrey))
+        {
+            this.visionRadiusPrey = Convert.ToDouble(strVisionPrey);
+        }
+        string strInitPrey = initialPrey.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strInitPrey))
+        {
+            this.initialPopulationPrey = Convert.ToInt32(strInitPrey);
         }
 
 
