@@ -16,7 +16,7 @@ public class Controller : MonoBehaviour
     private double reproductionPredator;
     private double maxSpeedPredator;
     private double visionRadiusPredator;
-    private double initialPopulationPredator;
+    private int initialPopulationPredator;
     public GameObject reprodPredator;
     public GameObject speedPredator;
     public GameObject visionPredator;
@@ -77,6 +77,8 @@ public class Controller : MonoBehaviour
             if (this.firstTime) {
                 this.firstTime = false;
                 Debug.Log("Simulación " + this._simulationCounter);
+
+                this._predatorParameters = new GroupParameters(this.reproductionPredator, this.maxSpeedPredator, this.visionRadiusPredator, this.initialPopulationPredator);
 
                 //Initialize the ecosystem
                 Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
@@ -230,6 +232,29 @@ public class Controller : MonoBehaviour
 
     public void InitiateParameters() {
         this.ready = true;
+
+        //Predator parameters
+        string strRepPred = reprodPredator.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strRepPred)) {
+            this.reproductionPredator = Convert.ToDouble(strRepPred);
+        }
+        string strSpeedPred = speedPredator.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strSpeedPred))
+        {
+            this.maxSpeedPredator = Convert.ToDouble(strSpeedPred);
+        }
+        string strVisionPred = visionPredator.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strVisionPred))
+        {
+            this.visionRadiusPredator = Convert.ToDouble(strVisionPred);
+        }
+        string strInitPredator = initialPredator.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strInitPredator))
+        {
+            this.initialPopulationPredator = Convert.ToInt32(strInitPredator);
+        }
+
+
         Destroy(menu);
     }
 }
