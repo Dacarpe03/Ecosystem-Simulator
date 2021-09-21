@@ -37,8 +37,10 @@ public class PSOStrategy : HuntingStrategy, MetaHeuristic
         }
     }
 
-    public PSOStrategy()
+    public PSOStrategy(int iterations, int candidates)
     {
+        this.METAHEURISTIC_ITERATIONS = iterations;
+        this.METAHEURISTIC_CANDIDATES = candidates;
         this.FramesUpdate = 15;
     }
     //PSO Algorithm

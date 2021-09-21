@@ -13,7 +13,14 @@ public class PredatorBuilder : AnimalBuilder
     private double Z_UPPER = 100;
     private double Z_LOWER = 0;
 
-    public PredatorBuilder(GroupParameters parameters) : base(parameters) {
+    private int iterations;
+    private int candidates;
+    private int strategy;
+
+    public PredatorBuilder(GroupParameters parameters, int iterations, int candidates, int strategy) : base(parameters) {
+        this.iterations = iterations;
+        this.candidates = candidates;
+        this.strategy = strategy;
     }
 
 
@@ -30,9 +37,15 @@ public class PredatorBuilder : AnimalBuilder
 
     public override AnimalState GetAnimalState()
     {
-        return new AnimalHuntState(new SimpleStrategy());
-        //return new AnimalHuntState(new GWOStrategy());
-        //return new AnimalHuntState(new PSOStrategy());
-        //return new AnimalHuntState(new WOAStrategy());
+        switch (strategy) {
+            case 1:
+                return new AnimalHuntState(new PSOStrategy(iterations, candidates));
+            case 2:
+                return new AnimalHuntState(new GWOStrategy(iterations, candidates));
+            case 3:
+                return new AnimalHuntState(new WOAStrategy(iterations, candidates));
+            default:   
+                return new AnimalHuntState(new SimpleStrategy());
+        }
     }
 }

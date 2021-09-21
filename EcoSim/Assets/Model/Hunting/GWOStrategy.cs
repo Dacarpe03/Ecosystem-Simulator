@@ -26,8 +26,10 @@ public class GWOStrategy : HuntingStrategy, MetaHeuristic
         }
     }
 
-    public GWOStrategy()
+    public GWOStrategy(int iterations, int candidates)
     {
+        this.METAHEURISTIC_ITERATIONS = iterations;
+        this.METAHEURISTIC_CANDIDATES = candidates;
         this.FramesUpdate = 15;
     }
 
