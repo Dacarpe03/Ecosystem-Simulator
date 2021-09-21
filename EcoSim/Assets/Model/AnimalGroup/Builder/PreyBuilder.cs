@@ -4,8 +4,8 @@ using System;
 
 public class PreyBuilder : AnimalBuilder
 {
-    private double X_UPPER = 100;
-    private double X_LOWER = 0;
+    private double X_UPPER = 40;
+    private double X_LOWER = 10;
 
     private double Y_UPPER = 0;
     private double Y_LOWER = 0;
