@@ -4,32 +4,33 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
-    /*
-     * These are equilibrium parameters with the simplestrategy
-    private double PREY_REPRODUCTION_PROB = 1;
-    private double PREDATOR_REPRODUCTION_PROB = 1;
+    public bool ready;
+    public bool firstTime;
+    //Paramenters for menu
+    public GameObject menu;
 
-    private double PREY_MAX_SPEED = 0.5;
-    private double PREDATOR_MAX_SPEED = 0.6;
+    private double reproductionPredator;
+    private double maxSpeedPredator;
+    private double visionRadiusPredator;
+    private double initialPopulationPredator;
+    public GameObject reprodPredator;
+    public GameObject speedPredator;
+    public GameObject visionPredator;
+    public GameObject initialPredator;
 
-    private double PREY_VISION_RADIUS = 8;
-    private double PREDATOR_VISION_RADIUS = 15;
-
-    private int PREY_GROUP_SIZE = 500 ;
-    private int PREDATOR_GROUP_SIZE = 15;
-     */
 
     //PARAMETERS OF SIMULATION
-    private int NUMBER_OF_SIMULATIONS = 40;
+    private int NUMBER_OF_SIMULATIONS = 1;
     private int ITERATIONS_PER_SIMULATION = 200;
 
     private double INITIAL_PLANTS = 1200;
     private double GROWTH_RATE = 1.7;
     private double THRESHOLD = 200;
-                                               //Reproduction probability, maximum speed, visionRadius, GroupSize
+    //Reproduction probability, maximum speed, visionRadius, GroupSize
     private GroupParameters _preyParameters = new GroupParameters(0.9, 0.55, 8, 500);
     private GroupParameters _predatorParameters = new GroupParameters(0.3, 0.6, 15, 12);
     //END PARAMETERS OF SIMULATION
@@ -56,69 +57,83 @@ public class Controller : MonoBehaviour
         QualitySettings.vSyncCount = 1;
         Application.targetFrameRate = 30;
     }
+
     void Start()
     {
-        Debug.Log("Simulación " + this._simulationCounter);
+        this.ready = false;
+        this.firstTime = true;
 
-        //Initialize the ecosystem
-        Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
-        this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
-        
-        //Initialize the view
-        this._myView = Instantiate(MyView);
-        this._myView.Initialize(this._preyParameters.GroupSize, this._predatorParameters.GroupSize);
-        this.CalculateTotalSimulations();
-
-        this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
-        Debug.Log(this.PATH);
-        this.CreateFileForSimulation();
-    }//End Start
-
-
+        this.reproductionPredator = 0.3;
+        this.maxSpeedPredator = 0.6;
+        this.visionRadiusPredator = 15;
+        this.initialPopulationPredator = 12;
+    }
     // Update is called once per frame
     void Update()
     {
-        //If we haven't completed the number of iterations fixed or there is no animal group extinguised we keep on the loop
-        if (this._ecosystem.Iteration < ITERATIONS_PER_SIMULATION & !this._ecosystem.Extinguised)
+        if (this.ready)
         {
-            //If the ecosystem has resseted (the iteration has finished), then we reset the view and save the data in the file
-            if (this._ecosystem.Reset)
-            {
-                this.UpdateFile();
-                this._ecosystem.Update();
-                this.ResetView();
+            Debug.Log("Updateamos");
+            if (this.firstTime) {
+                this.firstTime = false;
+                Debug.Log("Simulación " + this._simulationCounter);
+
+                //Initialize the ecosystem
+                Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
+                this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
+
+                //Initialize the view
+                this._myView = Instantiate(MyView);
+                this._myView.Initialize(this._preyParameters.GroupSize, this._predatorParameters.GroupSize);
+                this.CalculateTotalSimulations();
+
+                this.PATH = Application.dataPath + "/SimulationData/SimulationDataPhase2/";
+                Debug.Log(this.PATH);
+                this.CreateFileForSimulation();
             }
-            //If not we update the ecosystem (the next step/frame of the iteration)
+
+            //If we haven't completed the number of iterations fixed or there is no animal group extinguised we keep on the loop
+            if (this._ecosystem.Iteration < ITERATIONS_PER_SIMULATION & !this._ecosystem.Extinguised)
+            {
+                //If the ecosystem has resseted (the iteration has finished), then we reset the view and save the data in the file
+                if (this._ecosystem.Reset)
+                {
+                    this.UpdateFile();
+                    this._ecosystem.Update();
+                    this.ResetView();
+                }
+                //If not we update the ecosystem (the next step/frame of the iteration)
+                else
+                {
+                    //Update the model
+                    this._ecosystem.Update();
+
+                    //Pass the information of positions from model to view
+                    List<Vector3> preyModelPositions = this.TransformToVector3(this._ecosystem.GetPreyPositions());
+                    List<Vector3> predatorModelPositions = this.TransformToVector3(this._ecosystem.GetPredatorPositions());
+                    this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
+                }
+            }
+            //If the simulation has finished, we start another one if necessary
+            else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
+            {
+                this._simulationCounter++;
+                this._totalSimulations += 1;
+                Debug.Log("Simulación " + this._simulationCounter);
+
+                //Initialize the ecosystem
+                Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
+                this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
+                //Reset the view
+                this.ResetView();
+                //Create a new file to save the data of the simulation
+                this.CreateFileForSimulation();
+            }
             else
             {
-                //Update the model
-                this._ecosystem.Update();
-
-                //Pass the information of positions from model to view
-                List<Vector3> preyModelPositions = this.TransformToVector3(this._ecosystem.GetPreyPositions());
-                List<Vector3> predatorModelPositions = this.TransformToVector3(this._ecosystem.GetPredatorPositions());
-                this._myView.UpdatePositions(preyModelPositions, predatorModelPositions);
+                Debug.Log("Fin de las simulaciones");
+                Destroy(this.gameObject);
             }
-        }
-        //If the simulation has finished, we start another one if necessary
-        else if (this._simulationCounter < this.NUMBER_OF_SIMULATIONS)
-        {
-            this._simulationCounter++;
-            this._totalSimulations += 1;
-            Debug.Log("Simulación " + this._simulationCounter);
-
-            //Initialize the ecosystem
-            Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
-            this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
-            //Reset the view
-            this.ResetView();
-            //Create a new file to save the data of the simulation
-            this.CreateFileForSimulation();
-        }
-        else
-        {
-            Debug.Log("Fin de las simulaciones");
-            Destroy(this.gameObject);
         }
     }//End Update
 
@@ -126,7 +141,7 @@ public class Controller : MonoBehaviour
     public List<Vector3> TransformToVector3(List<Vec3> vectors)
     {
         List<Vector3> newVectors = new List<Vector3>();
-        foreach(Vec3 v in vectors)
+        foreach (Vec3 v in vectors)
         {
             Vector3 vNew = new Vector3((float)v.XCoord, (float)v.YCoord, (float)v.ZCoord);
             newVectors.Add(vNew);
@@ -211,6 +226,11 @@ public class Controller : MonoBehaviour
             this._currentFileName = this.PATH + fileName;
 
         }//End CalculateTotalSimulations
+    }
+
+    public void InitiateParameters() {
+        this.ready = true;
+        Destroy(menu);
     }
 }
 
