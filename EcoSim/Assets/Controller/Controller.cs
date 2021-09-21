@@ -31,13 +31,18 @@ public class Controller : MonoBehaviour
     public GameObject visionPrey;
     public GameObject initialPrey;
 
+        //Plants
+    private double initialPlants;
+    private double growthRate;
+    private double threshold;
+    public GameObject initPlants;
+    public GameObject grRate;
+    public GameObject trhold;
+
     //PARAMETERS OF SIMULATION
     private int NUMBER_OF_SIMULATIONS = 1;
     private int ITERATIONS_PER_SIMULATION = 200;
 
-    private double INITIAL_PLANTS = 1200;
-    private double GROWTH_RATE = 1.7;
-    private double THRESHOLD = 200;
     //Reproduction probability, maximum speed, visionRadius, GroupSize
     private GroupParameters _preyParameters;
     private GroupParameters _predatorParameters;
@@ -80,7 +85,11 @@ public class Controller : MonoBehaviour
         this.maxSpeedPrey = 0.55;
         this.visionRadiusPrey = 8;
         this.initialPopulationPrey = 500;
-    }
+
+        this.initialPlants = 1200;
+        this.growthRate = 1.7;
+        this.threshold = 200;
+}
     // Update is called once per frame
     void Update()
     {
@@ -94,7 +103,9 @@ public class Controller : MonoBehaviour
                 this._predatorParameters = new GroupParameters(this.reproductionPredator, this.maxSpeedPredator, this.visionRadiusPredator, this.initialPopulationPredator);
                 this._preyParameters = new GroupParameters(this.reproductionPrey, this.maxSpeedPrey, this.visionRadiusPrey, this.initialPopulationPrey);
                 //Initialize the ecosystem
-                Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
+                Resource plants = new Resource(initialPlants, growthRate, threshold);
+                Debug.Log(initialPlants);
+                Debug.Log(threshold);
                 this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
 
                 //Initialize the view
@@ -137,7 +148,7 @@ public class Controller : MonoBehaviour
                 Debug.Log("Simulación " + this._simulationCounter);
 
                 //Initialize the ecosystem
-                Resource plants = new Resource(INITIAL_PLANTS, GROWTH_RATE, THRESHOLD);
+                Resource plants = new Resource(initialPlants, growthRate, threshold);
                 this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
                 //Reset the view
                 this.ResetView();
@@ -198,8 +209,8 @@ public class Controller : MonoBehaviour
             sr.WriteLine(this.ITERATIONS_PER_SIMULATION
                         + "|" + this._preyParameters.toString()
                         + "|" + this._predatorParameters.toString()
-                        + "|" + INITIAL_PLANTS
-                        + "|" + GROWTH_RATE
+                        + "|" + initialPlants
+                        + "|" + growthRate
                         );
 
             sr.WriteLine("Iteracion|InicialPresas|InicialPredadores|SupervivientesPresas|SupervivientesPredadores|Plantas|PlantasSupervivientes");
@@ -289,7 +300,24 @@ public class Controller : MonoBehaviour
             this.initialPopulationPrey = Convert.ToInt32(strInitPrey);
         }
 
+        //Plants parameter
+        string strInitPlants = initPlants.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strInitPlants))
+        {
+            this.initialPlants = Convert.ToDouble(strInitPlants);
+        }
+        string strGrowth = grRate.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strGrowth))
+        {
+            this.growthRate = Convert.ToDouble(strGrowth);
+        }
+        string strThres = trhold.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strThres))
+        {
+            this.threshold = Convert.ToDouble(strThres);
+        }
 
+        //Strategy
         Destroy(menu);
     }
 }

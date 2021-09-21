@@ -166,6 +166,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: InitPrey
       objectReference: {fileID: 0}
+    - target: {fileID: 1819000987345515435, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: InitPlants
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819000987529134805, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: ThresholdPlants
+      objectReference: {fileID: 0}
     - target: {fileID: 1819000987604699947, guid: 9be69d7278b611041bf4a75e19c11b48,
         type: 3}
       propertyPath: m_Text
@@ -285,6 +295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819000987974743631, guid: 9be69d7278b611041bf4a75e19c11b48,
+        type: 3}
+      propertyPath: m_Name
+      value: GrowthPlants
       objectReference: {fileID: 0}
     - target: {fileID: 1819000988066163790, guid: 9be69d7278b611041bf4a75e19c11b48,
         type: 3}
@@ -431,6 +446,21 @@ PrefabInstance:
       propertyPath: visionPrey
       value: 
       objectReference: {fileID: 291874709}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: initPlants
+      value: 
+      objectReference: {fileID: 1299433470}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: grRate
+      value: 
+      objectReference: {fileID: 1538479227}
+    - target: {fileID: 5670853230243482470, guid: 67007c2f051f6fe4bb036819c2e190f5,
+        type: 3}
+      propertyPath: trhold
+      value: 
+      objectReference: {fileID: 1871423386}
     - target: {fileID: 8465234516850191603, guid: 67007c2f051f6fe4bb036819c2e190f5,
         type: 3}
       propertyPath: m_Name
@@ -631,6 +661,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 604660364}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1299433470 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000987345515435, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1322893671 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1819000988094728381, guid: 9be69d7278b611041bf4a75e19c11b48,
@@ -703,6 +739,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1538479227 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000987974743631, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1594537471 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1819000988623928421, guid: 9be69d7278b611041bf4a75e19c11b48,
@@ -712,6 +754,12 @@ GameObject:
 --- !u!1 &1641573912 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1819000987137233691, guid: 9be69d7278b611041bf4a75e19c11b48,
+    type: 3}
+  m_PrefabInstance: {fileID: 604660364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1871423386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1819000987529134805, guid: 9be69d7278b611041bf4a75e19c11b48,
     type: 3}
   m_PrefabInstance: {fileID: 604660364}
   m_PrefabAsset: {fileID: 0}
