@@ -39,6 +39,14 @@ public class Controller : MonoBehaviour
     public GameObject grRate;
     public GameObject trhold;
 
+        //Strategy
+    private int strategy;
+    private int iterations;
+    private int agents;
+    public GameObject stratMenu;
+    public GameObject itMenu;
+    public GameObject agentsMenu;
+
     //PARAMETERS OF SIMULATION
     private int NUMBER_OF_SIMULATIONS = 1;
     private int ITERATIONS_PER_SIMULATION = 200;
@@ -75,21 +83,26 @@ public class Controller : MonoBehaviour
     {
         this.ready = false;
         this.firstTime = true;
-
+        //Predators
         this.reproductionPredator = 0.3;
         this.maxSpeedPredator = 0.6;
-        this.visionRadiusPredator = 15;
-        this.initialPopulationPredator = 12;
-
+        this.visionRadiusPredator = 30;
+        this.initialPopulationPredator = 8;
+        //Preys
         this.reproductionPrey = 0.9;
         this.maxSpeedPrey = 0.55;
         this.visionRadiusPrey = 8;
-        this.initialPopulationPrey = 500;
-
+        this.initialPopulationPrey = 200;
+        //Plants
         this.initialPlants = 1200;
         this.growthRate = 1.7;
         this.threshold = 200;
-}
+        //Strategy
+        this.strategy = 0;
+        this.iterations = 200;
+        this.agents = 4;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -106,7 +119,7 @@ public class Controller : MonoBehaviour
                 Resource plants = new Resource(initialPlants, growthRate, threshold);
                 Debug.Log(initialPlants);
                 Debug.Log(threshold);
-                this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
+                this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants, iterations, agents, strategy);
 
                 //Initialize the view
                 this._myView = Instantiate(MyView);
@@ -149,7 +162,7 @@ public class Controller : MonoBehaviour
 
                 //Initialize the ecosystem
                 Resource plants = new Resource(initialPlants, growthRate, threshold);
-                this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants);
+                this._ecosystem = new Ecosystem(this._preyParameters, this._predatorParameters, plants, iterations, agents, strategy);
                 //Reset the view
                 this.ResetView();
                 //Create a new file to save the data of the simulation
@@ -318,6 +331,39 @@ public class Controller : MonoBehaviour
         }
 
         //Strategy
+        string strStrategy = stratMenu.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strStrategy))
+        {
+            switch (strStrategy)
+            {
+                case "Estrategia simple":
+                    this.strategy = 0;
+                    break;
+                case "Particle Swarm Optimization":
+                    this.strategy = 1;
+                    break;
+                case "Grey Wolf Optimizer":
+                    this.strategy = 2;
+                    break;
+                case "Whale Optimization Algorithm":
+                    this.strategy = 3;
+                    break;
+                default:
+                    this.strategy = 0;
+                    break;
+            }
+        }
+        string strIterations = itMenu.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strIterations))
+        {
+            this.iterations = Convert.ToInt32(strIterations);
+        }
+        string strAgents = agentsMenu.GetComponent<Text>().text;
+        if (!string.IsNullOrEmpty(strAgents))
+        {
+            this.agents = Convert.ToInt32(strAgents);
+        }
+
         Destroy(menu);
     }
 }

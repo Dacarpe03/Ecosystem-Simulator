@@ -4,13 +4,13 @@ using System;
 
 public class PredatorBuilder : AnimalBuilder
 {
-    private double X_UPPER = 100;
+    private double X_UPPER = 20;
     private double X_LOWER = 0;
 
     private double Y_UPPER = 0;
     private double Y_LOWER = 0;
 
-    private double Z_UPPER = 100;
+    private double Z_UPPER = 50;
     private double Z_LOWER = 0;
 
     private int iterations;
